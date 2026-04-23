@@ -55,24 +55,45 @@ def update_global_instructions(master):
         f.write(content)
 
 def transform_for_opencode(mcp_servers):
-    return {
-        name: {
-            "type": "local",
-            "command": [config["command"]] + config.get("args", []),
-            "enabled": True
-        }
-        for name, config in mcp_servers.items()
-    }
+    result = {}
+    for name, config in mcp_servers.items():
+        if config.get("type") == "http":
+            # OpenCode supports remote MCP via url
+            result[name] = {
+                "type": "remote",
+                "url": config["url"],
+                "enabled": True
+            }
+        else:
+            result[name] = {
+                "type": "local",
+                "command": [config["command"]] + config.get("args", []),
+                "enabled": True
+            }
+    return result
 
 def transform_for_antigravity(mcp_servers):
     transformed = {}
     for name, config in mcp_servers.items():
-        cmd = config["command"]
+        if config.get("type") == "http":
+            # Skip HTTP servers — Antigravity may not support them natively
+            # TODO: add support when/if Antigravity adds HTTP MCP
+            continue
+        cmd = config.get("command", "")
         args = config.get("args", [])
-        cmd_path = f"{NODE_BIN}/npx" if cmd == "npx" else (f"{UV_BIN}/uvx" if cmd == "uvx" else cmd)
+        disabled = config.get("disabled", False)
+        if cmd == "npx":
+            cmd_path = f"{NODE_BIN}/npx"
+        elif cmd == "uvx":
+            cmd_path = f"{UV_BIN}/uvx"
+        else:
+            cmd_path = cmd
         args_escaped = " ".join([f"'{a}'" for a in args])
         wrapper_cmd = f"export PATH='{FULL_PATH}':$PATH; exec '{cmd_path}' {args_escaped}"
-        transformed[name] = {"command": "sh", "args": ["-c", wrapper_cmd], "timeout": 60}
+        entry = {"command": "sh", "args": ["-c", wrapper_cmd], "timeout": 60}
+        if disabled:
+            entry["disabled"] = True
+        transformed[name] = entry
     return transformed
 
 def sync_all():
