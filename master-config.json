@@ -1,0 +1,12 @@
+{
+  "default_model": "anthropic/claude-4-5-sonnet",
+  "persona": "caveman-lite",
+  "auto_rtk": true,
+  "skills_enabled": [
+    "memory",
+    "sequential-thinking",
+    "fetch",
+    "duckduckgo-search"
+  ],
+  "effort": "high"
+}
