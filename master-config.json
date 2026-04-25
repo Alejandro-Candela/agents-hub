@@ -6,7 +6,8 @@
     "memory",
     "sequential-thinking",
     "fetch",
-    "duckduckgo-search"
+    "duckduckgo-search",
+    "peon-ping"
   ],
   "effort": "high"
 }
