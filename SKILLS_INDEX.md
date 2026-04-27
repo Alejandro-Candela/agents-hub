@@ -39,6 +39,7 @@ This index allows agents to discover capabilities without pre-loading full skill
 | **presidio-dlp** | PII detection and data redaction. |
 | **pydantic-ai-expert** | Type-safe agents with structured output. |
 | **qdrant-expert** | Vector storage, HNSW indexing, and search. |
+| **slack** | Human-to-human communication style for Slack. |
 | **vllm-expert** | High-perf local LLM serving and optimization. |
 | **web-design-guidelines** | UI/UX and accessibility compliance audit. |
 | **webapp-testing** | Playwright toolkit for browser automation. |

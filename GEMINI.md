@@ -1,0 +1,1 @@
+/Users/ALEX/.gemini/GEMINI.md
