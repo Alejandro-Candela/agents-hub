@@ -170,6 +170,33 @@ Create and manage complex automation workflows with dependency management, sched
 }
 ```
 
+### 5. **AFK Agent Parallelization (Ralph Loop / Sand Castle)**
+```json
+{
+  "id": "parallel-agent-implementation",
+  "name": "Delegate vertical slices to AFK agents",
+  "type": "agent_delegation",
+  "strategy": "sand_castle",
+  "tasks": [
+    {
+      "id": "slice-1",
+      "branch": "feature/vertical-slice-1",
+      "agent": "implementer"
+    },
+    {
+      "id": "slice-2",
+      "branch": "feature/vertical-slice-2",
+      "agent": "implementer"
+    }
+  ],
+  "on_success": {
+    "type": "agent_delegation",
+    "agent": "reviewer",
+    "context": "clean"
+  }
+}
+```
+
 ## Workflow Orchestration Engine
 
 ### Core Engine Implementation
