@@ -13,11 +13,11 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 
 ## Git
 
+- **Safety First**: NEVER run irreversible or destructive commands (e.g., `git push --force`, `git reset --hard`, branch deletion) without explicit user permission. If unsure if a command is destructive, ASK first.
 - NEVER add `Co-Authored-By` or any Claude attribution to commit messages
 - Always commit under configured git identity: alex-candela / <alex.candela@outlook.com>
 - Prefer new commits over --amend unless explicitly asked
 - Never use --no-verify or skip hooks
-- **Safety First**: NEVER run irreversible or destructive commands (e.g., `git push --force`, `git reset --hard`, branch deletion) without explicit user permission. If unsure if a command is destructive, ASK first.
 
 ## Tooling Preferences
 
@@ -28,14 +28,14 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 
 ## Code
 
+- **Surgical Changes (HARD RULE)**: Touch ONLY the code absolutely necessary for the task. NO drive-by refactoring or formatting of adjacent code. If you notice unrelated dead code or bugs, MENTION them in the chat but DO NOT fix them unless explicitly asked.
+- **Simplicity First**: Do NOT add features beyond what is explicitly requested. Iterate towards absolute simplicity.
 - Python: PEP 8, mandatory type hints
 - TypeScript: strict mode, no `any` types
 - Prefer editing existing files over creating new ones
 - Don't add docstrings or comments to code that wasn't changed
 - Don't add error handling for impossible scenarios
 - Philosophy: "Make it work, then make it right, then make it fast"
-- **Surgical Changes (HARD RULE)**: Touch ONLY the code absolutely necessary for the task. NO drive-by refactoring or formatting of adjacent code. If you notice unrelated dead code or bugs, MENTION them in the chat but DO NOT fix them unless explicitly asked.
-- **Simplicity First**: Do NOT add features beyond what is explicitly requested. Iterate towards absolute simplicity.
 
 ## Development Methodology
 
