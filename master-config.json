@@ -1,5 +1,5 @@
 {
-  "default_model": "anthropic/claude-4-5-sonnet",
+  "default_model": "anthropic/claude-4-6-sonnet",
   "persona": "caveman-lite",
   "auto_rtk": true,
   "skills_enabled": [

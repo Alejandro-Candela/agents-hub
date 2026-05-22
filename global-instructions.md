@@ -70,10 +70,16 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 - Research tasks: use `/scout` to explore before loading into main context
 - Multi-domain tasks: use `/prep` to dispatch parallel scout agents
 - **Path-Scoped Rules**: For monorepos, look for and respect local `CLAUDE.md`/`GEMINI.md` rule files in sub-directories.
+- **Lean and Layered Context**: Keep root `CLAUDE.md` files lean for the big picture and critical gotchas. Initialize sessions in subdirectories for local conventions.
+- **Codebase Legibility**: 
+  - Scope test and lint commands per subdirectory rather than running them globally.
+  - Use `.ignore` files with `permissions.deny` rules to exclude generated files, build artifacts, and third-party code.
+  - Build codebase maps (e.g., via `/map-codebase`) when directory structure doesn't clearly explain the architecture.
 
 ## Agent Learning & Course Correction
 
 - **Update as you build**: If your implementation is incorrect and the user corrects you, document the mistake and the correct pattern in a local `.clauderc-learnings.md` or global `~/.claude/context/anti-patterns.md` file to avoid repeating it.
+- **Maintain Context Files**: Actively review and prune `CLAUDE.md` files, hooks, and skills as models evolve. Remove outdated workarounds or instructions that were intended for previous model versions.
 
 ## Adviser Strategy (Sonnet executive + Opus adviser)
 
