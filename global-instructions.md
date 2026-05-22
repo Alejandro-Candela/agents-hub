@@ -15,13 +15,12 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 
 - **Safety First**: NEVER run irreversible or destructive commands (e.g., `git push --force`, `git reset --hard`, branch deletion) without explicit user permission. If unsure if a command is destructive, ASK first.
 - NEVER add `Co-Authored-By` or any Claude attribution to commit messages
-- Always commit under configured git identity: alex-candela / <alex.candela@outlook.com>
 - Prefer new commits over --amend unless explicitly asked
 - Never use --no-verify or skip hooks
 
 ## Tooling Preferences
 
-- Python: `uv` for package management. Never use `pip`.
+- Python: `uv` for package management. Avoid use `pip` if possible.
 - Node.js/TS: `bun` preferred. Avoid `npm` when possible.
 - Frontend: Next.js (production) or ChainLit / Streamlit (strictly for POC/rapid prototyping)
 - Always verify library patterns via context7 MCP before writing code that depends on third-party APIs
@@ -72,7 +71,7 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 - Multi-domain tasks: use `/prep` to dispatch parallel scout agents
 - **Path-Scoped Rules**: For monorepos, look for and respect local `CLAUDE.md`/`GEMINI.md` rule files in sub-directories.
 - **Lean and Layered Context**: Keep root `CLAUDE.md` files lean for the big picture and critical gotchas. Initialize sessions in subdirectories for local conventions.
-- **Codebase Legibility**: 
+- **Codebase Legibility**:
   - Scope test and lint commands per subdirectory rather than running them globally.
   - Use `.ignore` files with `permissions.deny` rules to exclude generated files, build artifacts, and third-party code.
   - Build codebase maps (e.g., via `/map-codebase`) when directory structure doesn't clearly explain the architecture.
