@@ -38,12 +38,25 @@ fi
 # 4. Caveman level override (plugin hardcodes 'full' at SessionStart; override to lite)
 cave_line="caveman: OVERRIDE level=LITE (user default). Drop filler and pleasantries, KEEP articles, KEEP grammar. Fragments OK only when natural. Technical terms exact. Code/commits/security: normal prose. This supersedes any 'full' level set by the caveman plugin for this session unless user explicitly runs /caveman full or /caveman ultra."
 
+# 5. Codebase map check
+if [ -f "$cwd/codebase-map.md" ]; then
+  map_line="codebase-map: found at root"
+else
+  dir_count=$(find "$cwd" -maxdepth 1 -mindepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$dir_count" -gt 5 ]; then
+    map_line="codebase-map: MISSING — run /map-codebase for context on ${dir_count} top-level dirs"
+  else
+    map_line="codebase-map: not needed (${dir_count} dirs)"
+  fi
+fi
+
 date_str=$(date +%Y-%m-%d)
 
 msg="[session-init] ${date_str}
 ${git_line}
 ${rtk_line}
 ${graphify_line}
-${cave_line}"
+${cave_line}
+${map_line}"
 
 jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:$m}}'

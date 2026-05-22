@@ -59,6 +59,7 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 - Independent tool calls: always run in parallel
 - Before commits/push: verify no secrets or .env files in staging
 - Read files before editing — never propose blind changes
+- **Subagent Split**: For large exploration tasks, spin up a read-only `/agents explorer` to map the subsystem and write findings to a file, then switch to editing with the full picture. Avoids burning the edit session's context on exploration.
 
 ## Context System (WHISK)
 
@@ -76,10 +77,23 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
   - Use `.ignore` files with `permissions.deny` rules to exclude generated files, build artifacts, and third-party code.
   - Build codebase maps (e.g., via `/map-codebase`) when directory structure doesn't clearly explain the architecture.
 
+## Harness Architecture
+
+Performance depends on the harness more than the model alone. Five extension points — build in this order:
+
+| Component | Loads | Best for | Common trap |
+|-----------|-------|----------|-------------|
+| `CLAUDE.md` files | Every session | Project conventions, codebase knowledge | Putting reusable expertise here instead of in skills |
+| Hooks | On events | Consistent automation, capturing session learnings | Using prompts for things hooks should do deterministically |
+| Skills | On demand | Reusable expertise, domain-specific workflows | Loading everything into CLAUDE.md instead |
+| Plugins | Always (once installed) | Distributing a working setup across projects | Letting good setups stay tribal |
+| MCP servers | Always (once configured) | Internal tools, external APIs, structured data | Building MCP before basics are working |
+
 ## Agent Learning & Course Correction
 
 - **Update as you build**: If your implementation is incorrect and the user corrects you, document the mistake and the correct pattern in a local `.clauderc-learnings.md` or global `~/.claude/context/anti-patterns.md` file to avoid repeating it.
 - **Maintain Context Files**: Actively review and prune `CLAUDE.md` files, hooks, and skills as models evolve. Remove outdated workarounds or instructions that were intended for previous model versions.
+- **Maintenance Cadence**: Review CLAUDE.md files, hooks, and skills every 3–6 months or after major model releases. Instructions written for one model version can work against a newer one — especially rules compensating for reasoning or tooling limitations that no longer exist.
 
 ## Adviser Strategy (Sonnet executive + Opus adviser)
 
@@ -128,7 +142,7 @@ On every session start `~/.claude/hooks/session-orient.sh` emits: git status (re
 - **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
 When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
 
-### Code Intelligence
+## Code Intelligence
 
 Prefer LSP over Grep/Glob/Read for code navigation:
 

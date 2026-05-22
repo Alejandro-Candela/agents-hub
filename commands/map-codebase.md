@@ -9,6 +9,8 @@ description: Generate a codebase map of top-level folders with one-line descript
 Generate a lightweight markdown file at the root of `$ARGUMENTS` (or current directory if not specified) listing each top-level folder with a one-line description.
 
 ## Rules
-1. Do NOT list every file; only list top-level directories or key entry points if necessary.
-2. Provide a one-line description for each top-level folder indicating what lives there.
-3. Save the result as `codebase-map.md` in the target directory so that it serves as a table of contents for subsequent sessions.
+
+1. List only top-level directories (not files) with a one-line description of what lives there.
+2. For complex subdirectories (>5 sub-folders), add a note: "run `/map-codebase <subdir>` for next level."
+3. Exclude: `node_modules/`, `__pycache__/`, `.git/`, `dist/`, `build/`, generated outputs.
+4. Save result as `codebase-map.md` in the target directory — commit it so all sessions start with the same table of contents.

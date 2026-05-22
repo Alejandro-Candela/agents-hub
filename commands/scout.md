@@ -16,7 +16,7 @@ Explore and report back on: $ARGUMENTS
 
 ## Exploration Strategy
 
-- **Directory/codebase path**: Map structure, identify key files, read entry points, trace patterns and conventions
+- **Directory/codebase path**: Prefer LSP tools for code navigation (symbols, references, call hierarchy) when available. Use Grep/Glob only for text patterns, comments, and config values where LSP doesn't apply. Map structure, identify key files, read entry points, trace patterns and conventions.
 - **URL/documentation**: Fetch and extract relevant information, summarize key points
 - **Concept/question**: Search the codebase with Grep/Glob, find relevant code, trace dependencies
 - **API/service**: Find endpoints, schemas, auth patterns, error handling
