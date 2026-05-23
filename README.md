@@ -2,15 +2,11 @@
 
 Welcome to **Agents Hub** — the whip, the chair, and the safety net you need to stop your AI agents (Claude, Gemini, or whatever LLM you're currently abusing) from acting like confused interns on their first day and start coding like *Senior Architects who actually read the docs*.
 
-> **Hot take:** The model you pay for is NOT what makes Claude smart. The harness you build around it is. This repo is that harness.
-
 ---
 
 ## What is this for?
 
-A single git repo that version-controls your entire Claude Code setup: global instructions, subagents, slash commands, hooks, and skills. Symlink it once, and every session starts with the same battle-tested config. No more tribal knowledge. No more "wait, why did Claude do that last week and not today?"
-
-Think of it as your AI's exoskeleton. Without it, it's just a brain in a jar — hallucinating confidently.
+A single git repo that version-controls your entire Claude Code exoskeleton: global instructions, subagents, slash commands, hooks, and skills. Symlink it once, and every session starts with the same battle-tested config.
 
 ---
 
