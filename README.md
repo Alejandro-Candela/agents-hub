@@ -1,4 +1,4 @@
-# 🌶️ Agents Hub: The AI Tamer
+# Agents Hub: The AI Tamer
 
 Welcome to **Agents Hub** — the whip, the chair, and the safety net you need to stop your AI agents (Claude, Gemini, or whatever LLM you're currently abusing) from acting like confused interns on their first day and start coding like *Senior Architects who actually read the docs*.
 
@@ -6,7 +6,7 @@ Welcome to **Agents Hub** — the whip, the chair, and the safety net you need t
 
 ---
 
-## 🤷‍♂️ What is this for?
+## What is this for?
 
 A single git repo that version-controls your entire Claude Code setup: global instructions, subagents, slash commands, hooks, and skills. Symlink it once, and every session starts with the same battle-tested config. No more tribal knowledge. No more "wait, why did Claude do that last week and not today?"
 
@@ -14,7 +14,7 @@ Think of it as your AI's exoskeleton. Without it, it's just a brain in a jar —
 
 ---
 
-## 💊 Headaches Cured (Problems Solved)
+## Headaches Cured (Problems Solved)
 
 - **The Goldfish Syndrome**: Claude will no longer forget your conventions between sessions. Context loads in lean layers — root `CLAUDE.md` for the big picture, subdirectory files for local rules. Only what's relevant gets loaded. No more re-explaining your stack every morning like you're meeting it for the first time.
 
@@ -30,7 +30,7 @@ Think of it as your AI's exoskeleton. Without it, it's just a brain in a jar —
 
 ---
 
-## 🛠️ What's Inside
+## What's Inside
 
 | Directory / File | What lives there |
 |-----------------|-----------------|
@@ -43,14 +43,14 @@ Think of it as your AI's exoskeleton. Without it, it's just a brain in a jar —
 
 ---
 
-## 🔗 The Holy Ritual: Symlinks
+## The Holy Ritual: Symlinks
 
 Here comes the harsh reality: your AI is dumb as a brick and doesn't magically know this wonderful repo exists. You have to shove the files down its throat using symbolic links from its actual config folders.
 
 Open your terminal and make the links. Here are the actual paths to tame your beast (adjust to `.claude` or `.gemini` accordingly on your machine, since both stash their junk in your home directory):
 
 ```bash
-# ⚠️ IMPORTANT: If you break something, it's your own fault.
+# IMPORTANT: If you break something, it's your own fault.
 
 # 0. Back up your existing CLAUDE.md first (it's a real file until you do this)
 cp ~/.claude/CLAUDE.md ~/.claude/CLAUDE.md.bak 2>/dev/null || true
@@ -83,7 +83,7 @@ ls -la ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/commands ~/.claude/hooks ~
 
 ---
 
-## ⏰ Maintenance Cadence
+## Maintenance Cadence
 
 Every 3–6 months (or after a major Claude model release), review:
 
