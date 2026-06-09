@@ -2,3 +2,7 @@ graphify-out
 sync.err
 .log
 .DS_Store
+hooks/peon-ping/.last_update_check
+hooks/peon-ping/.state.json
+hooks/peon-ping/.update_available
+mcp/mcp_config.json
