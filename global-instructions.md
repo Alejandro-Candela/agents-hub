@@ -2,8 +2,7 @@
 
 ## Profile
 
-Freelance Solution Architect & AI Engineer specializing in enterprise AI agents.
-Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
+Freelance Solution Architect & AI Engineer. Deep experience building production AI agent systems and RAG pipelines for enterprise clients.
 
 ## Communication
 
@@ -34,7 +33,6 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 - Prefer editing existing files over creating new ones
 - Don't add docstrings or comments to code that wasn't changed
 - Don't add error handling for impossible scenarios
-- Philosophy: "Make it work, then make it right, then make it fast"
 
 ## Development Methodology
 
@@ -51,16 +49,15 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 - **Strict TDD**: Write failing test first, run it, implement, refactor. Feedback loops limit AI capability.
 - **Goal-Driven Execution**: Before executing a task, define verifiable success criteria. Do not report a task as complete until these criteria pass (e.g., using Playwright MCP for visual UI verification if enabled).
 - **Deep Modules**: Architect for deep modules (narrow interfaces, large interior) to ease testing and AI delegation.
-- **AFK Loops**: Delegate unblocked issues to parallel AFK agents (e.g., via `/ralph-loop`).
+- **AFK Loops**: Delegate unblocked issues to parallel AFK agents via the `ralph-loop` plugin (`/plugin enable ralph-loop` first, it's off by default).
 - **Doc Rot**: Delete or mark closed any temporary PRDs or plans once integrated.
-- **Code Review**: Push coding standards explicitly to a fresh reviewer context (Smart Zone).
+- **Code Review**: Review diffs in a fresh context, not the session that wrote the code — it isn't biased toward code it just produced. Use `/code-review` for correctness, `/simplify` for cleanup.
 - Multi-step tasks: use TaskCreate to track progress
 - Independent tool calls: always run in parallel
 - Before commits/push: verify no secrets or .env files in staging
-- Read files before editing — never propose blind changes
-- **Subagent Split**: For large exploration tasks, spin up a read-only `/agents explorer` to map the subsystem and write findings to a file, then switch to editing with the full picture. Avoids burning the edit session's context on exploration.
+- **Subagent Split**: For large exploration tasks, spin up a read-only explorer subagent to map the subsystem and write findings to a file, then switch to editing with the full picture. Avoids burning the edit session's context on exploration.
 
-## Context System (WHISK)
+## Session & Context Management
 
 - Domain conventions (FastAPI, LangGraph, Docker, n8n, Azure, RAG, testing, Next.js) live in `skills/`, not a separate context directory. They load automatically when relevant.
 - Session start: run `/primer` for project orientation
@@ -99,14 +96,13 @@ When NOT to invoke the adviser:
 
 For complex-enough apps where every step needs deep reasoning: skip the adviser strategy and switch the whole session to a stronger model directly.
 
-## Plugins — installed but disabled by default
+## Plugins
 
-These stay installed (no uninstall); activate per session with `/plugin enable <name>`:
+Enabled: `commit-commands`, `caveman`, `typescript-lsp`, `pyright-lsp`.
 
-- `superpowers`, `ralph-loop`, `skill-creator`, `playwright`, `microsoft-docs`,
-  `claude-md-management`, `typescript-lsp`, `frontend-design`
+Installed but disabled by default — activate per session with `/plugin enable <name>`: `context7`, `github`, `code-review`, `feature-dev`, `superpowers`, `ralph-loop`, `skill-creator`, `playwright`, `microsoft-docs`, `claude-md-management`, `frontend-design`.
 
-Always-on: `context7`, `github`, `slack`, `code-review`, `commit-commands`, `feature-dev`, `caveman`.
+This list drifts from actual state over time — `/plugin` shows what's really enabled right now, trust that over this file if they disagree. Skills are a separate mechanism from plugins and auto-invoke independently; most are manual-only (`/skill-name`) per `skillOverrides` in `~/.claude/settings.json`.
 
 ## Session init (auto via SessionStart hook)
 
