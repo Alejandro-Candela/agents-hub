@@ -1,56 +1,61 @@
 # Agents Hub: The AI Tamer
 
-Welcome to **Agents Hub** — the whip, the chair, and the safety net you need to stop your AI agents (Claude Code, Antigravity, OpenCode, or whatever agentic CLI you're currently abusing) from acting like confused interns on their first day and start coding like *Senior Architects who actually read the docs*.
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Harnesses supported](https://img.shields.io/badge/harnesses-3-orange.svg)](#what-is-this-actually)
+
+Welcome to **Agents Hub**. It is the whip, the chair, and the safety net that stops your AI agents (Claude Code, Antigravity, OpenCode, or whatever agentic CLI you are currently gaslighting into writing your code) from behaving like confused interns on day one, and turns them into *Senior Architects who actually read the docs*.
+
+No, this is not another "10x your productivity with AI" thread. It is config. Boring, versioned, symlinked config. That happens to be the difference between an agent that remembers your conventions and one that reinvents your folder structure every single session.
 
 ---
 
 ## What is this, actually?
 
-This is not a harness. **Claude Code, Antigravity, and OpenCode are the harnesses** — the runtime layer that gives a model tools and manages the context it sees. This repo is **harness configuration**: one git-tracked source of truth (global rules, subagents, slash commands, hooks, and 40+ skills) that gets symlinked into all three.
+This is not a harness. **Claude Code, Antigravity, and OpenCode are the harnesses.** They are the runtime layer that gives a model tools and manages the context it sees. This repo is **harness configuration**: one repository, tracked in git, acting as a single source of truth (global rules, subagents, slash commands, hooks, and 40+ skills) that gets symlinked into all three.
 
-That's the part worth stealing. Most "AI config" repos target exactly one tool. This one drives three separate, mutually incompatible config schemas from a single set of files — edit `global-instructions.md` once, and Claude Code, Antigravity, and OpenCode all pick it up on their next session, with zero re-explaining your stack, your conventions, or your gotchas per tool.
+That is the part worth stealing. Most "AI config" repos target exactly one tool and call it a day. This one drives three separate, mutually incompatible config schemas from a single set of files. Edit `global-instructions.md` once, and Claude Code, Antigravity, and OpenCode all pick it up on their next session. You explain your stack, your conventions, and your gotchas exactly once. Not once per tool, like some kind of animal.
 
-Everything else here (deterministic hooks instead of advisory nagging, on-demand skills instead of a bloated always-loaded CLAUDE.md, subagents for read-only exploration before editing) is just applying what the harnesses themselves already recommend — none of it is exotic, and symlinked dotfiles are a 15-year-old pattern (see `chezmoi`, `yadm`, `GNU stow`). The fan-out across three incompatible harnesses is the actual novelty, not the mechanism.
+Everything else in here (deterministic hooks instead of advisory nagging, skills that load only when needed instead of a `CLAUDE.md` the size of a novel, subagents that explore before they touch anything) is just doing what the harnesses already recommend in their own docs. None of it is exotic. Symlinked dotfiles are older than most junior engineers on your team (see `chezmoi`, `yadm`, `GNU stow`). The actual novelty here is fanning one config out across three incompatible harnesses. Not the mechanism itself.
 
 ---
 
 ## Headaches Cured (Problems Solved)
 
-- **The Goldfish Syndrome**: Claude will no longer forget your conventions between sessions. Context loads in lean layers — root `CLAUDE.md` for the big picture, subdirectory files for local rules. Only what's relevant gets loaded. No more re-explaining your stack every morning like you're meeting it for the first time.
+- **The Goldfish Syndrome**: Claude will no longer forget your conventions between sessions. Context loads in lean layers. Root `CLAUDE.md` covers the big picture, subdirectory files cover local rules. Only what is relevant loads. You never explain your stack to it twice, unlike your actual coworkers.
 
-- **Blind Coding ("Oops, I deleted production")**: The **Subagent Split** pattern forces Claude to explore *first*, edit *second*. The `explorer` subagent maps a subsystem in read-only mode, writes a findings file, then hands off. Shooting first and asking questions later is officially over.
+- **Blind Coding ("Oops, I deleted production")**: The **Subagent Split** pattern forces Claude to explore *first*, edit *second*. The `explorer` subagent maps a subsystem in read only mode, writes a findings file, then hands off. Shooting first and asking questions later is officially over.
 
-- **The Grep Monkey**: No more infinite `grep` searches like a monkey banging cymbals together. Claude is forced to use **LSP** (`goToDefinition`, `findReferences`, `workspaceSymbol`) as the first option. Symbol-level precision. No false matches on identically named functions in different files.
+- **The Grep Monkey**: No more infinite `grep` searches like a monkey banging cymbals together. Claude is forced to use **LSP** (`goToDefinition`, `findReferences`, `workspaceSymbol`) as the first option. Precision at the symbol level, not the string level. No false matches on identically named functions in different files.
 
-- **Session Amnesia at Shutdown**: The `session-reflect.sh` hook interrogates Claude at session end like a good detective: *New conventions discovered? Stale rules rotting in CLAUDE.md? Instructions that only existed to work around a model bug that's been fixed for 6 months?* It asks. You decide. Config stays fresh.
+- **Session Amnesia at Shutdown**: The `session-reflect.sh` hook interrogates Claude at session end like a good detective. New conventions discovered? Stale rules rotting in `CLAUDE.md`? Instructions that only existed to work around a model bug fixed six months ago? It asks. You decide. Config stays fresh.
 
-- **Giant Repo Chaos**: `/map-codebase` generates a layered table of contents so Claude knows where to look before it starts wandering. `/ignore-maintenance` audits your `.ignore` and `permissions.deny` rules so Claude stops burning tokens on `node_modules/` and `__pycache__/` like a tourist reading every street sign.
+- **Giant Repo Chaos**: `/map-codebase` generates a layered table of contents so Claude knows where to look before it starts wandering. `/ignore-maintenance` audits your `.ignore` and `permissions.deny` rules so Claude stops burning tokens reading `node_modules` and `__pycache__` like a tourist photographing every street sign.
 
-- **Config Aging (The Silent Killer)**: Rules written for last year's model can actively fight this year's. The **Maintenance Cadence** principle (baked into the global instructions) tells you to review the whole setup every 3–6 months or after major model releases. Dead weight gets cut. The config stays lean.
+- **Config Aging (The Silent Killer)**: Rules written for last year's model can actively fight this year's. The **Maintenance Cadence** principle, baked into the global instructions, tells you to review the whole setup every three to six months or after major model releases. Dead weight gets cut. The config stays lean, unlike most tech stacks.
 
 ---
 
 ## What's Inside
 
 | Directory / File | What lives there |
-|-----------------|-----------------|
-| `global-instructions.md` | The Ten Commandments — symlinked into Claude Code, Antigravity, and OpenCode alike |
+|---|---|
+| `global-instructions.md` | The Ten Commandments. Symlinked into Claude Code, Antigravity, and OpenCode alike |
 | `agents/` | Subagent definitions (`adviser.md`, `explorer.md`) |
 | `commands/` | Slash commands (`/scout`, `/primer`, `/map-codebase`, `/ralph-loop`, `/ignore-maintenance`, etc.) |
-| `hooks/` | SessionStart / SessionEnd / PostToolUse scripts |
-| `skills/` | 40+ on-demand domain skills (LangGraph, FastAPI, Qdrant, Elasticsearch, n8n, vLLM, and more) |
-| `mcp/` | Canonical MCP server list (gitignored — holds live URLs/keys, synced by hand into each tool's own config) |
+| `hooks/` | SessionStart, SessionEnd, and PostToolUse scripts |
+| `skills/` | 40+ skills loaded on demand (LangGraph, FastAPI, Qdrant, Elasticsearch, n8n, vLLM, and more) |
+| `mcp/` | Canonical MCP server list. Gitignored, because it holds live URLs and keys, synced by hand into each tool's own config |
 
 ---
 
 ## The Holy Ritual: Symlinks
 
-Here comes the harsh reality: your AI is dumb as a brick and doesn't magically know this wonderful repo exists. You have to shove the files down its throat using symbolic links from its actual config folders.
+Here is the part nobody puts in the marketing deck. Your AI has no idea this repository exists until you force feed it. Symbolic links are how you force feed it.
 
-Open your terminal and make the links. Paths below assume you cloned this to `~/agents-hub` — adjust if yours lives elsewhere:
+Open your terminal and make the links. Paths below assume you cloned this to `~/agents-hub`. Adjust if yours lives elsewhere:
 
 ```bash
-# IMPORTANT: If you break something, it's your own fault.
+# IMPORTANT: If you break something, that's on you.
 
 HUB=~/agents-hub
 
@@ -83,7 +88,7 @@ ls -la ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/commands ~/.claude/hooks ~
 
 ### Antigravity / Antigravity IDE
 
-Same repo, same brain — Google's IDE just uses different config paths. Link both apps:
+Same repo, same brain. Google's IDE just uses different config paths. Link both apps:
 
 ```bash
 HUB=~/agents-hub
@@ -106,7 +111,7 @@ ls -la ~/.gemini/GEMINI.md ~/.gemini/antigravity/instructions.md ~/.gemini/antig
 
 ### OpenCode
 
-OpenCode's global config lives at `~/.config/opencode/opencode.json` — not a plain markdown file, so it can't be symlinked whole. Point its `instructions` field at the same source instead:
+OpenCode's global config lives at `~/.config/opencode/opencode.json`. It is JSON, not markdown, so it cannot be symlinked whole. Point its `instructions` field at the same source instead:
 
 ```json
 {
@@ -115,20 +120,22 @@ OpenCode's global config lives at `~/.config/opencode/opencode.json` — not a p
 }
 ```
 
-Global slash commands go in `~/.config/opencode/commands/` (one `.md` file per command — same body content as `commands/` here, but with OpenCode's own `agent:` frontmatter field instead of Claude Code's `allowed-tools`/`argument-hint`). MCP servers go in the same `opencode.json`'s `mcp` key — keep `mcp/mcp_config.json` in this repo as the canonical list and translate into each tool's schema when it changes; the three tools don't share one MCP config format.
+Global slash commands go in `~/.config/opencode/commands/` (one `.md` file per command, same body as `commands/` here, but with OpenCode's own `agent:` frontmatter field instead of Claude Code's `allowed-tools`/`argument-hint`). MCP servers go in that same `opencode.json`'s `mcp` key. Keep `mcp/mcp_config.json` in this repo as the canonical list, and translate it into each tool's own schema by hand when it changes. The three tools do not agree on one MCP config format, because of course they do not.
 
 ---
 
 ## Maintenance Cadence
 
-Every 3–6 months (or after a major model release), review:
+Every three to six months, or after a major model release, review:
 
-- `global-instructions.md` — any rules compensating for model limitations that no longer exist?
-- `hooks/` — any scripts automating behavior the model now does natively?
-- `skills/` — any stale patterns, outdated API usage, or overlap with what the harness now does on its own?
+- `global-instructions.md`: any rules compensating for model limitations that no longer exist?
+- `hooks/`: any scripts automating behavior the model now does natively?
+- `skills/`: any stale patterns, outdated API usage, or overlap with what the harness now does on its own?
 
 Instructions written for last year's model can actively slow down this year's. Cut the dead weight. Keep the config lean.
 
 ---
+
+If this saved you an afternoon of pasting the same instructions into four different YAML dialects, a star costs nothing and feeds the algorithm.
 
 *May your tokens be efficient and your hallucinations few.*
