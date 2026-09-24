@@ -75,18 +75,6 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
   - Use `.ignore` files with `permissions.deny` rules to exclude generated files, build artifacts, and third-party code.
   - Build codebase maps (e.g., via `/map-codebase`) when directory structure doesn't clearly explain the architecture.
 
-## Harness Architecture
-
-Performance depends on the harness more than the model alone. Five extension points — build in this order:
-
-| Component | Loads | Best for | Common trap |
-|-----------|-------|----------|-------------|
-| `CLAUDE.md` files | Every session | Project conventions, codebase knowledge | Putting reusable expertise here instead of in skills |
-| Hooks | On events | Consistent automation, capturing session learnings | Using prompts for things hooks should do deterministically |
-| Skills | On demand | Reusable expertise, domain-specific workflows | Loading everything into CLAUDE.md instead |
-| Plugins | Always (once installed) | Distributing a working setup across projects | Letting good setups stay tribal |
-| MCP servers | Always (once configured) | Internal tools, external APIs, structured data | Building MCP before basics are working |
-
 ## Maintenance Cadence
 
 Review CLAUDE.md files, hooks, and skills every 3–6 months or after major model releases. Instructions written for one model version can work against a newer one, especially rules compensating for reasoning or tooling limitations that no longer exist. Corrections and learned patterns belong in auto memory, not a hand-maintained file — it already persists this automatically.
@@ -111,15 +99,6 @@ When NOT to invoke the adviser:
 
 For complex-enough apps where every step needs deep reasoning: skip the adviser strategy and run `/model opus` directly.
 
-## Token Discipline (quality-neutral)
-
-These only trim redundancy; they don't cap reasoning or compute:
-
-- `/clear` between unrelated task phases (planning → impl → testing) to free context
-- `/compact` when summary retention matters more than full history
-- `/by-the-way` (`/btw`) for side questions — answered in a separate context window
-- `/rewind` or double-ESC to undo wrong direction instead of re-prompting over a bad turn
-
 ## Plugins — installed but disabled by default
 
 These stay installed (no uninstall); activate per session with `/plugin enable <name>`:
@@ -134,11 +113,6 @@ Always-on: `context7`, `github`, `slack`, `code-review`, `commit-commands`, `fea
 On every session start `~/.claude/hooks/session-orient.sh` emits: git status (read-only, never auto-init), rtk version, and graphify presence. If any tool is missing, the hook shows the install command.
 
 Caveman default mode is **lite**, set via `~/.config/caveman/config.json` (`defaultMode: "lite"`) — the plugin's own config mechanism, not a hook override. Running `/caveman full` or `/caveman ultra` switches level for the rest of that session.
-
-# graphify
-
-- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
-When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
 
 ## Code Intelligence
 
