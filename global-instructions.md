@@ -79,25 +79,25 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 
 Review CLAUDE.md files, hooks, and skills every 3–6 months or after major model releases. Instructions written for one model version can work against a newer one, especially rules compensating for reasoning or tooling limitations that no longer exist. Corrections and learned patterns belong in auto memory, not a hand-maintained file — it already persists this automatically.
 
-## Adviser Strategy (Sonnet executive + Opus adviser)
+## Adviser Strategy
 
-Default model is **Sonnet** (executive). An adviser agent at `~/.claude/agents/adviser.md` runs on **Opus 4.6** and provides strategic guidance only — it never writes code or uses tools.
+The executive session handles implementation. An adviser agent at `~/.claude/agents/adviser.md` provides strategic guidance only — it never writes code or uses tools.
 
 When to invoke the adviser (`/agents adviser`):
 
-- Debugging fails after 2+ Sonnet attempts on the same issue
+- Debugging fails after 2+ attempts on the same issue
 - Architectural decisions with downstream consequences
 - Complex multi-file refactors where ordering matters
 - Dependency conflicts or version resolution
-- Any task where Sonnet is going in circles
+- Any task where the executive session is going in circles
 
 When NOT to invoke the adviser:
 
 - Routine implementation, simple bug fixes, file edits
-- Tasks Sonnet handles confidently on first pass
-- Anything where `/model opus` for the full session would be faster (highly complex apps with many connected dependencies)
+- Tasks handled confidently on first pass
+- Anything where switching the full session to a stronger model would be faster (highly complex apps with many connected dependencies)
 
-For complex-enough apps where every step needs deep reasoning: skip the adviser strategy and run `/model opus` directly.
+For complex-enough apps where every step needs deep reasoning: skip the adviser strategy and switch the whole session to a stronger model directly.
 
 ## Plugins — installed but disabled by default
 
