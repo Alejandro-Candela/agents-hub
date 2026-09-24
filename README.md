@@ -41,7 +41,7 @@ Everything else in here (deterministic hooks instead of advisory nagging, skills
 |---|---|
 | `global-instructions.md` | The Ten Commandments. Symlinked into Claude Code, Antigravity, and OpenCode alike |
 | `agents/` | Subagent definitions (`adviser.md`, `explorer.md`) |
-| `commands/` | Slash commands (`/scout`, `/primer`, `/map-codebase`, `/ralph-loop`, `/ignore-maintenance`, etc.) |
+| `commands/` | Slash commands (`/scout`, `/primer`, `/map-codebase`, `/ignore-maintenance`, etc.) |
 | `hooks/` | SessionStart, SessionEnd, and PostToolUse scripts |
 | `skills/` | 40+ skills loaded on demand (LangGraph, FastAPI, Qdrant, Elasticsearch, n8n, vLLM, and more) |
 | `mcp/` | Canonical MCP server list. Gitignored, because it holds live URLs and keys, synced by hand into each tool's own config |

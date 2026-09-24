@@ -62,8 +62,7 @@ Core stack: LangGraph, n8n, FastAPI, Azure AI Foundry, RAG pipelines, vLLM.
 
 ## Context System (WHISK)
 
-- On-demand context: `~/.claude/context/` -- load with `@context/<name>.md` only when relevant
-  - Available: fastapi, langgraph, n8n, azure, rag, docker, frontend, testing
+- Domain conventions (FastAPI, LangGraph, Docker, n8n, Azure, RAG, testing, Next.js) live in `skills/`, not a separate context directory. They load automatically when relevant.
 - Session start: run `/primer` for project orientation
 - Session end: run `/handoff` to preserve state for next session
 - Long sessions (>200k tokens): run `/smart-compact` with focus area
@@ -88,11 +87,9 @@ Performance depends on the harness more than the model alone. Five extension poi
 | Plugins | Always (once installed) | Distributing a working setup across projects | Letting good setups stay tribal |
 | MCP servers | Always (once configured) | Internal tools, external APIs, structured data | Building MCP before basics are working |
 
-## Agent Learning & Course Correction
+## Maintenance Cadence
 
-- **Update as you build**: If your implementation is incorrect and the user corrects you, document the mistake and the correct pattern in a local `.clauderc-learnings.md` or global `~/.claude/context/anti-patterns.md` file to avoid repeating it.
-- **Maintain Context Files**: Actively review and prune `CLAUDE.md` files, hooks, and skills as models evolve. Remove outdated workarounds or instructions that were intended for previous model versions.
-- **Maintenance Cadence**: Review CLAUDE.md files, hooks, and skills every 3–6 months or after major model releases. Instructions written for one model version can work against a newer one — especially rules compensating for reasoning or tooling limitations that no longer exist.
+Review CLAUDE.md files, hooks, and skills every 3–6 months or after major model releases. Instructions written for one model version can work against a newer one, especially rules compensating for reasoning or tooling limitations that no longer exist. Corrections and learned patterns belong in auto memory, not a hand-maintained file — it already persists this automatically.
 
 ## Adviser Strategy (Sonnet executive + Opus adviser)
 
