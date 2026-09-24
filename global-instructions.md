@@ -90,11 +90,15 @@ Every turn re-sends the whole conversation; the API bills only what changed, by 
 
 Review CLAUDE.md files, hooks, and skills every 3–6 months or after a major model release. Instructions written for one model version can actively fight a newer one — especially rules that compensate for reasoning or tooling limits that no longer exist. Corrections and learned patterns belong in auto memory, which persists them automatically; don't hand-maintain them here.
 
-## Never Pin Versions
+## Prefer Aliases Over Version Strings
 
-Pinning is how this config rots. A version written down today is a version nobody remembers to update, and it keeps being served long after something better shipped. Choose at the point of use instead, and let the default be whatever is current.
+Model choice is a pin either way — `"opus"` and `"claude-opus-5-5"` both override the account default. The difference is rot: an alias updates when Anthropic ships the next Opus; a version string keeps serving the retired one silently until an audit catches it. Always the alias.
 
-Omit the version field in agent, subagent, and skill frontmatter and inherit from the session. If a component genuinely needs a different tier, name the family, never a dated snapshot — a snapshot breaks the component silently the day it retires, and this bit twice before an audit caught it. A component running off the session default also makes that turn a switch with a full uncached re-read: worth it for real reasoning work, not for a formatting pass.
+- Top-level `model` in `settings/claude-settings.json`: use `opus`, `sonnet`, `haiku`, `fable`, `best`. Add `[1m]` for the 1M-context variants.
+- Omit the key entirely only if the account default is what you want. On Anthropic-API accounts the picker's `Default (recommended)` can lag the `opus` alias by a major version, so an empty setting drops you a tier below `"model": "opus"`.
+- Agent, subagent, and skill frontmatter: same rule, or omit `model:` to inherit from the session. A component running off the session default costs one full uncached re-read that turn — worth it for real reasoning work, not for a formatting pass.
+- Never a dated snapshot (`claude-opus-5-5`, `claude-opus-4-6`, …) anywhere. Two frontmatter files hit that trap before an audit caught them.
+- Never `ANTHROPIC_MODEL` / `ANTHROPIC_DEFAULT_*_MODEL` env vars. They outrank every settings layer, don't surface in `/model`, and become invisible stale pins. This cost a debugging session here.
 
 ## Adviser Strategy
 

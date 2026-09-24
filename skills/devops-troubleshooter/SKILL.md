@@ -6,8 +6,6 @@ description: Expert DevOps troubleshooter specializing in rapid incident
   cause analysis. Handles production outages, system reliability, and preventive
   monitoring. Use PROACTIVELY for debugging, incident response, or system
   troubleshooting.
-metadata:
-  model: sonnet
 disable-model-invocation: true
 ---
 
