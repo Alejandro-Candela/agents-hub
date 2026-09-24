@@ -3,9 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Harnesses supported](https://img.shields.io/badge/harnesses-3-orange.svg)](#what-is-this-actually)
 
-Welcome to **Agents Hub**. It is the whip, the chair, and the safety net that stops your AI agents (Claude Code, Antigravity, OpenCode, or whatever agentic CLI you are currently gaslighting into writing your code) from behaving like confused interns on day one, and turns them into *Senior Architects who actually read the docs*.
+Welcome to **Agents Hub**. It is a way to stop your AI agents (Claude Code, Antigravity, OpenCode, or whatever agentic CLI you have lying around) from acting like a brand new intern every single session, forgetting your conventions overnight and reinventing your folder structure out of nowhere. Not because it turns them into Senior Architects. Senior Architects do not read the docs either. Nobody does. This just gives the agent fewer excuses.
 
-No, this is not another "10x your productivity with AI" thread. It is config. Boring, versioned, symlinked config. That happens to be the difference between an agent that remembers your conventions and one that reinvents your folder structure every single session.
+No, this is not another "10x your productivity with AI" thread. It is config. Boring, versioned, symlinked config. That happens to be the difference between an agent that remembers what you told it yesterday and one that starts from zero every morning.
 
 ---
 
