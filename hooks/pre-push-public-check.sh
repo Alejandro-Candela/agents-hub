@@ -41,11 +41,26 @@ if ! echo "$remote_url" | grep -qE 'github\.com'; then
 fi
 
 # Diff of what's actually about to be pushed: everything reachable from HEAD
-# that the remote doesn't have yet. Falls back to the last commit if there's
-# no tracking info (e.g. first push of a branch).
-diff_content=$(git diff "${remote_name}/HEAD..HEAD" 2>/dev/null || true)
-[ -z "$diff_content" ] && diff_content=$(git diff "@{u}..HEAD" 2>/dev/null || true)
-[ -z "$diff_content" ] && diff_content=$(git show HEAD 2>/dev/null || true)
+# that the remote doesn't have yet. If there's genuinely nothing new (already
+# up to date, or push will just fail/no-op), there's nothing to scan — allow
+# immediately rather than falling back to "last commit" and flagging content
+# that isn't actually part of this push.
+ahead_count=$(git rev-list --count "${remote_name}/HEAD..HEAD" 2>/dev/null || git rev-list --count "@{u}..HEAD" 2>/dev/null || echo "")
+
+if [ "$ahead_count" = "0" ]; then
+  echo '{"decision":"allow"}'
+  exit 0
+fi
+
+if [ -n "$ahead_count" ]; then
+  diff_content=$(git diff "${remote_name}/HEAD..HEAD" 2>/dev/null || git diff "@{u}..HEAD" 2>/dev/null || true)
+else
+  # No upstream tracking at all (first push of a new branch) — scan the
+  # commit(s) not yet on the remote's default branch, falling back to just
+  # the latest commit if that range can't be determined either.
+  diff_content=$(git diff "${remote_name}/HEAD..HEAD" 2>/dev/null || true)
+  [ -z "$diff_content" ] && diff_content=$(git show HEAD 2>/dev/null || true)
+fi
 
 # Hard secrets — never acceptable on any remote, public or private.
 # POSIX ERE + -i, not PCRE: BSD grep (stock macOS) has no -P support.
