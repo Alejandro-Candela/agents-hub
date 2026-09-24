@@ -16,6 +16,12 @@ Freelance Solution Architect & AI Engineer. Deep experience building production 
 - NEVER add `Co-Authored-By` or any Claude attribution to commit messages
 - Prefer new commits over --amend unless explicitly asked
 - Never use --no-verify or skip hooks
+- Before pushing to a repo that might be public, or publishing/sharing anything externally, check for secrets, internal hostnames, and company-confidential content — don't wait to be asked. `pre-push-public-check.sh` catches the obvious cases automatically, but review the diff yourself too.
+
+## Infra Safety
+
+- Before running a command against a specific environment (`kubectl`, `terraform apply`, a direct database connection, a deploy script), state which environment you're targeting and confirm before proceeding if it isn't obviously local or dev.
+- Never assume "prod" from context — if the target isn't explicit in the command itself, ask.
 
 ## Tooling Preferences
 
@@ -79,6 +85,8 @@ Review CLAUDE.md files, hooks, and skills every 3–6 months or after major mode
 ## Adviser Strategy
 
 The executive session handles implementation. An adviser agent at `~/.claude/agents/adviser.md` provides strategic guidance only — it never writes code or uses tools.
+
+Any `model:` field in agent or subagent frontmatter uses a family alias (`opus`/`sonnet`/`haiku`) only, never a dated snapshot — a pinned snapshot goes stale and silently breaks the agent once that model is retired. This bit twice already (`explorer.md` pinned to a 2024 Sonnet snapshot until an audit caught it).
 
 When to invoke the adviser (`/agents adviser`):
 
