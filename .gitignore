@@ -6,3 +6,7 @@ hooks/peon-ping/.last_update_check
 hooks/peon-ping/.state.json
 hooks/peon-ping/.update_available
 mcp/mcp_config.json
+
+# REDACTED-branded material — internal/company-specific, not for repo tracking
+*applied*
+**/*applied*/**
