@@ -3,7 +3,12 @@
 #   1. git status + repo-missing advisory
 #   2. rtk presence + version
 #   3. graphify presence
-#   4. caveman override → LITE (plugin defaults to full)
+#
+# Caveman default mode is set via ~/.config/caveman/config.json (defaultMode: "lite"),
+# the plugin's own supported mechanism — not overridden here. A prior version of this
+# hook tried to override the level via injected advisory text, but the plugin's
+# SessionStart/UserPromptSubmit hooks re-assert their config-resolved mode every turn,
+# so the advisory text was silently losing that race.
 
 set -euo pipefail
 
@@ -35,10 +40,7 @@ else
   graphify_line="graphify: NOT INSTALLED — run: pip install graphifyy && graphify install"
 fi
 
-# 4. Caveman level override (plugin hardcodes 'full' at SessionStart; override to lite)
-cave_line="caveman: OVERRIDE level=LITE (user default). Drop filler and pleasantries, KEEP articles, KEEP grammar. Fragments OK only when natural. Technical terms exact. Code/commits/security: normal prose. This supersedes any 'full' level set by the caveman plugin for this session unless user explicitly runs /caveman full or /caveman ultra."
-
-# 5. Codebase map check
+# 4. Codebase map check
 if [ -f "$cwd/codebase-map.md" ]; then
   map_line="codebase-map: found at root"
 else
@@ -56,7 +58,6 @@ msg="[session-init] ${date_str}
 ${git_line}
 ${rtk_line}
 ${graphify_line}
-${cave_line}
 ${map_line}"
 
 jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:$m}}'

@@ -34,7 +34,7 @@ A single git repo that version-controls your entire Claude Code exoskeleton: glo
 | `agents/` | Subagent definitions (`adviser.md`, `explorer.md`) |
 | `commands/` | Slash commands (`/scout`, `/primer`, `/map-codebase`, `/ralph-loop`, `/ignore-maintenance`, etc.) |
 | `hooks/` | SessionStart / SessionEnd / PostToolUse scripts |
-| `skills/` | 48 on-demand domain skills (LangGraph, FastAPI, Qdrant, Elasticsearch, n8n, vLLM, and more) |
+| `skills/` | 44 on-demand domain skills (LangGraph, FastAPI, Qdrant, Elasticsearch, n8n, vLLM, and more) |
 | `mcp/` | MCP server configs (reserved for future tentacles) |
 
 ---
@@ -64,7 +64,7 @@ ln -sf /Users/ALEX/agents-hub/commands ~/.claude/commands
 # 4. Linking Hooks (So it starts up and shuts down like a proper setup)
 ln -sf /Users/ALEX/agents-hub/hooks ~/.claude/hooks
 
-# 5. Linking Skills (48 on-demand domain experts — don't forget this one)
+# 5. Linking Skills (44 on-demand domain experts — don't forget this one)
 ln -sf /Users/ALEX/agents-hub/skills ~/.claude/skills
 ```
 
@@ -75,7 +75,26 @@ ls -la ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/commands ~/.claude/hooks ~
 # Every line should show -> /Users/ALEX/agents-hub/...
 ```
 
-*If you are using the Gemini IDE environment, paths are usually around `~/.gemini/config/...` or `~/.gemini/antigravity-ide/`. Use your engineer's common sense to point to the correct folder on your machine.*
+### Antigravity / Antigravity IDE
+
+Same repo, same brain — Google's IDE just uses different config paths. Link both apps:
+
+```bash
+# Antigravity (reads via ~/.gemini/config/skills, one hop further)
+ln -sf /Users/ALEX/agents-hub/global-instructions.md ~/.gemini/GEMINI.md
+ln -sf /Users/ALEX/agents-hub/global-instructions.md ~/.gemini/antigravity/instructions.md
+ln -sf /Users/ALEX/agents-hub/skills ~/.gemini/config/skills
+
+# Antigravity IDE
+ln -sf /Users/ALEX/agents-hub/global-instructions.md ~/.gemini/antigravity-ide/instructions.md
+ln -sf /Users/ALEX/agents-hub/skills ~/.gemini/antigravity-ide/skills
+```
+
+Verify:
+
+```bash
+ls -la ~/.gemini/GEMINI.md ~/.gemini/antigravity/instructions.md ~/.gemini/antigravity-ide/instructions.md ~/.gemini/config/skills ~/.gemini/antigravity-ide/skills
+```
 
 ---
 

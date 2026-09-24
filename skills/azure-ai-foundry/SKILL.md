@@ -130,3 +130,12 @@ llm = AzureChatOpenAI(
 - Set TPM (tokens per minute) quota based on expected peak load
 - Enable prompt flow tracing with Application Insights for debugging
 - For evaluations: use Azure AI Evaluation SDK with built-in metrics (groundedness, relevance, fluency)
+
+## Cross-Cutting Azure Conventions
+
+These apply beyond AI Foundry to any Azure resource in the project:
+
+- Naming: `{project}-{env}-{resource}-{region}` (e.g. `myapp-prod-func-westeu`); resource groups `rg-{project}-{env}`; lowercase, hyphens only, under 24 chars for storage accounts
+- dev/staging/prod each get their own resource group; Azure Developer CLI (`azd`) for provisioning; Bicep for IaC (preferred over Terraform unless AVM required)
+- Key Vault: one per environment, all secrets/connection strings/API keys go there, referenced via `@Microsoft.KeyVault()` — never connection strings in code, always managed identity
+- Deployment: staging slot for zero-downtime, swap after health check passes, never deploy directly to production

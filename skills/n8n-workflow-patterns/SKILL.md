@@ -409,3 +409,11 @@ Use `search_templates` and `get_template` from n8n-mcp tools to find examples!
 - n8n Expression Syntax - Write expressions correctly
 - n8n Validation Expert - Validate and fix errors
 - n8n Node Configuration - Configure specific operations
+
+## Project Conventions
+
+- One workflow per business process (avoid monolith workflows); name as `[Domain] - [Action]` (e.g. "Leads - Qualify and Route")
+- Error workflow set on every production workflow; Error Trigger catches failures and alerts (Slack/email); always log workflow name, execution ID, error message, input data
+- Credentials in n8n's credential manager only, never hardcoded; separate credential sets per environment
+- AI Agent workflows: Window Buffer memory for short context, Vector Store for long; keep system prompts in workflow parameters for easy editing
+- Batch operations, limit data passed between nodes to only what's needed, paginate large data sets

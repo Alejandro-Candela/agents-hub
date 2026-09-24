@@ -134,7 +134,9 @@ Always-on: `context7`, `github`, `slack`, `code-review`, `commit-commands`, `fea
 
 ## Session init (auto via SessionStart hook)
 
-On every session start `~/.claude/hooks/session-orient.sh` emits: git status (read-only, never auto-init), rtk version, graphify presence, and overrides caveman level to **lite**. If any tool is missing, the hook shows the install command. Running `/caveman full` or `/caveman ultra` overrides the lite default for the rest of that session.
+On every session start `~/.claude/hooks/session-orient.sh` emits: git status (read-only, never auto-init), rtk version, and graphify presence. If any tool is missing, the hook shows the install command.
+
+Caveman default mode is **lite**, set via `~/.config/caveman/config.json` (`defaultMode: "lite"`) — the plugin's own config mechanism, not a hook override. Running `/caveman full` or `/caveman ultra` switches level for the rest of that session.
 
 # graphify
 

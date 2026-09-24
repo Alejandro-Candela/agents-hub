@@ -126,3 +126,14 @@ results = client.search(
 - Use gRPC (port 6334) for production — faster than REST
 - Set `score_threshold` to avoid returning irrelevant results
 - For production: set `QDRANT__STORAGE__WAL__WAL_CAPACITY_MB=64`
+
+## RAG Pipeline Conventions (cross-cutting)
+
+Architecture: Documents → Ingestion → Chunking → Embedding → Vector Store, then Query → Retrieval → Reranking → Generation.
+
+- Chunking: 512 tokens / 64 overlap default; semantic chunking for unstructured text; never chunk across document boundaries; preserve source/page/section/timestamp metadata
+- Embeddings: Azure OpenAI `text-embedding-3-large` (3072 dims, reduce to 1536 if storage-constrained) for production; `nomic-embed-text` via Ollama for local dev; always normalize for cosine similarity
+- Vector store choice: Qdrant (default, self-hosted), Azure AI Search (already on Azure, hybrid + semantic ranker), Elasticsearch (when full-text search also needed)
+- Retrieval: hybrid vector + BM25 with RRF fusion; top-k 10 candidates reranked to 3-5 for context; always filter by source/tenant before similarity search (prevents cross-tenant leaks)
+- Generation: cite sources, temperature 0-0.3 for factual answers, always instruct "if you don't know, say so"
+- Eval: faithfulness, relevance, context precision, answer correctness — track retrieval hit rate separately from generation quality

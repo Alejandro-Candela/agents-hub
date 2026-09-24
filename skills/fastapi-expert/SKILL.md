@@ -119,3 +119,27 @@ async def readiness(db=Depends(get_db)):
 - Set `response_model` on endpoints for automatic filtering of extra fields
 - Use `Annotated[Type, Depends(...)]` syntax (modern pattern)
 - For production: `uvicorn app:app --workers 4 --host 0.0.0.0 --port 8080`
+
+## Project Conventions
+
+Default project structure:
+```
+src/
+  app/
+    main.py              # FastAPI app, lifespan, CORS
+    config.py            # Settings via pydantic-settings
+    dependencies.py      # Shared Depends() factories
+    routers/             # One file per domain (users.py, items.py)
+    models/              # SQLAlchemy / SQLModel ORM models
+    schemas/             # Pydantic request/response models
+    services/            # Business logic (no HTTP concerns)
+    middleware/           # Custom middleware
+tests/
+  conftest.py            # Fixtures: async client, test DB
+  test_routers/
+  test_services/
+```
+
+Middleware chain order (outermost first): CORS → Request ID injection → Logging/OpenTelemetry → Auth (if global) → Rate limiting.
+
+Testing: `httpx.AsyncClient` with `ASGITransport` for async tests; override dependencies with `app.dependency_overrides`; `pytest-asyncio` with `asyncio_mode = "auto"`.

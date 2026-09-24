@@ -149,3 +149,13 @@ services:
 - Use `profiles` for optional services (observability, debugging tools)
 - For GPU: always use `deploy.resources.reservations.devices` (not deprecated `runtime: nvidia`)
 - Pin image tags in production (not `:latest`)
+
+## Project Conventions
+
+Naming: service names lowercase/hyphenated; volumes `{project}-{service}-data`; networks `{project}-{tier}` (e.g. `myapp-backend`).
+
+Dockerfile: multi-stage (`builder` + slim `runtime`), non-root `appuser`, `.dockerignore` excludes `.git`, `node_modules`, `.venv`, `__pycache__`, `.env`.
+
+Environment: `.env` for local (never commit), `.env.example` with placeholders (commit this), secrets via Docker secrets / vault in production.
+
+Never expose database ports to host in production compose files.

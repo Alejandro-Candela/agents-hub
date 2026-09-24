@@ -572,5 +572,25 @@ Clear separation of concerns.
 
 Works well with: `crewai`, `autonomous-agents`, `langfuse`, `structured-output`
 
+## Project Conventions
+
+Default structure:
+```
+src/
+  agent/
+    graph.py             # StateGraph definition, compile()
+    state.py             # TypedDict state schema
+    nodes/               # One file per node function
+    edges/                # Conditional edge functions
+    tools/                # Tool definitions (@tool decorated)
+    prompts/              # System prompts as strings or templates
+    checkpointer.py      # Persistence config (PostgresSaver, MemorySaver)
+```
+
+- Nodes are pure functions returning only the keys they update; never mutate state directly
+- Supervisor pattern for multi-agent: one graph orchestrates compiled sub-graphs as nodes, sharing the parent state schema; `Send()` for fan-out
+- Always set `thread_id` for conversation persistence; `PostgresSaver` in production, `MemorySaver` for dev/tests; `checkpoint_ns` for sub-graph isolation
+- Common pitfall: forgetting the `add_messages` reducer causes messages to be overwritten instead of appended
+
 
 
