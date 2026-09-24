@@ -348,7 +348,7 @@ services:
       options: { max-size: "50m", max-file: "5" }
     labels:
       autoheal: "true"
-      ai.REDACTED.compliance: "eu-ai-act-high-risk"
+      compliance.tag: "eu-ai-act-high-risk"
 ```
 
 Compose is fine for single-node, single-tenant work and edge deployments. **Do not** scale Compose to multi-node — it is not built for it.
@@ -616,4 +616,4 @@ When this skill is invoked end-to-end, generate these alongside the architecture
 6. `model-cards/<model>.md` — EU AI Act-compliant template.
 7. `eval/` — Promptfoo + lm-eval-harness configs.
 
-The companion `REDACTED-pptx` skill should be used when the deliverable includes a stakeholder-facing architecture review.
+Use a slide-deck-generation skill when the deliverable includes a stakeholder-facing architecture review.
