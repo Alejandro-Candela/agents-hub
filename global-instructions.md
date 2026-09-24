@@ -2,138 +2,116 @@
 
 ## Profile
 
-Freelance Solution Architect & AI Engineer. Deep experience building production AI agent systems and RAG pipelines for enterprise clients.
+Freelance Solution Architect & AI Engineer. Production AI agent systems and RAG pipelines for enterprise clients. Assume senior level: skip the basics, don't explain standard tooling.
 
 ## Communication
 
-- Always respond in English
-- Concise and direct — no trailing summaries, no filler
-- No emojis unless explicitly requested
+- Always respond in English, even when I write in Spanish.
+- No emojis unless explicitly requested.
+- State uncertainty explicitly. "I haven't verified this" beats a confident guess.
+- Never invent file paths, CLI flags, API signatures, config keys, or version numbers. Read the file, run `--help`, or check context7 first. When you assert something about a codebase, anchor it to a `file:line` you actually read this session.
+- Don't claim something works because the code looks right — either you ran it and can paste the output, or you say you didn't. Same for a step you skipped or a check you never ran: say so plainly.
 
 ## Git
 
-- **Safety First**: NEVER run irreversible or destructive commands (e.g., `git push --force`, `git reset --hard`, branch deletion) without explicit user permission. If unsure if a command is destructive, ASK first.
-- NEVER add `Co-Authored-By` or any Claude attribution to commit messages
-- Prefer new commits over --amend unless explicitly asked
-- Never use --no-verify or skip hooks
-- Before pushing to a repo that might be public, or publishing/sharing anything externally, check for secrets, internal hostnames, and company-confidential content — don't wait to be asked. `pre-push-public-check.sh` catches the obvious cases automatically, but review the diff yourself too.
+Work in small, reversible steps. Branch before the first commit when you're on `main`, commit one logical change at a time with a message explaining *why* rather than restating the diff, and push only when asked. History is a debugging tool: a commit that mixes a refactor with a bug fix costs someone an afternoon with `git bisect` six months from now. When something goes wrong, prefer the additive fix — a new commit, a `revert` — over rewriting published history.
+
+- **Safety First**: NEVER run irreversible commands (`push --force`, `reset --hard`, branch/tag deletion, `clean -fd`) without explicit permission. If unsure whether a command is destructive, ASK.
+- NEVER add `Co-Authored-By` or any Claude attribution to commit messages.
+- Prefer new commits over `--amend` unless explicitly asked.
+- Never use `--no-verify` or otherwise skip hooks.
+- Inspect what you stage. Before any commit or push, check the diff for secrets, `.env` files, internal hostnames, and client-confidential content — don't wait to be asked. `pre-push-public-check.sh` catches the obvious cases; it is a backstop, not the review.
 
 ## Infra Safety
 
-- Before running a command against a specific environment (`kubectl`, `terraform apply`, a direct database connection, a deploy script), state which environment you're targeting and confirm before proceeding if it isn't obviously local or dev.
-- Never assume "prod" from context — if the target isn't explicit in the command itself, ask.
+- Before running a command against a specific environment (`kubectl`, `terraform apply`, a direct DB connection, a deploy script), state which environment you're targeting and confirm before proceeding if it isn't obviously local or dev.
+- Never infer "prod" from context. If the target isn't explicit in the command itself, ask.
 
 ## Tooling Preferences
 
-- Python: `uv` for package management. Avoid use `pip` if possible.
-- Node.js/TS: `bun` preferred. Avoid `npm` when possible.
-- Frontend: Next.js (production) or ChainLit / Streamlit (strictly for POC/rapid prototyping)
-- Always verify library patterns via context7 MCP before writing code that depends on third-party APIs
+- Python: `uv`. Avoid `pip`.
+- Node.js/TS: `bun`. Avoid `npm`.
+- Frontend: Next.js for production; ChainLit / Streamlit strictly for POC and rapid prototyping.
+- Verify library patterns via context7 MCP before writing code against a third-party API. Training data goes stale; this is the single cheapest hallucination guard available.
 
 ## Code
 
-- **Surgical Changes (HARD RULE)**: Touch ONLY the code absolutely necessary for the task. NO drive-by refactoring or formatting of adjacent code. If you notice unrelated dead code or bugs, MENTION them in the chat but DO NOT fix them unless explicitly asked.
-- **Simplicity First**: Do NOT add features beyond what is explicitly requested. Iterate towards absolute simplicity.
-- Python: PEP 8, mandatory type hints
-- TypeScript: strict mode, no `any` types
-- Prefer editing existing files over creating new ones
-- Don't add docstrings or comments to code that wasn't changed
-- Don't add error handling for impossible scenarios
+- **Surgical Changes (HARD RULE)**: Touch ONLY the code the task requires. NO drive-by refactoring or reformatting of adjacent code. Unrelated dead code or bugs you notice get MENTIONED in chat, not fixed.
+- **Simplicity First**: No features beyond what was requested. Iterate toward the simplest thing that works.
+- Python: PEP 8, mandatory type hints. TypeScript: strict mode, no `any`.
+- Don't add error handling for scenarios that cannot occur, or docstrings to code you didn't change.
+
+## Verification & Definition of Done
+
+- **Success criteria first**: before executing, state what "done" looks like in verifiable terms.
+- **TDD is the default for every behavior change** — new feature, bug fix, changed logic. Write the failing test, *run it and watch it fail*, implement, refactor. A test that was never seen failing proves nothing. A bug fix starts with a test that reproduces the bug.
+- Exempt: config, docs, formatting, dependency bumps, throwaway exploration. Don't invent a test for a README edit. When it's borderline, say out loud which bucket you put it in before starting.
+- **Nothing is complete until its tests run green in front of you.** Not "should pass", not "looks correct" — the command was run and you can paste the output. If they fail, the task is unfinished and you say so.
+- UI work: verify visually via Playwright MCP when enabled, not by reasoning about the JSX.
 
 ## Development Methodology
 
-- Default to SCRUM with 2-week sprints for project planning
-- Feature work: start with a simple, testable MVP before iterating on robustness
-- Reporting convention: `/reporting/weekly-reporting/week-X.md` and `/reporting/monthly-reporting/month-X.md`
-- Atomic commits: each commit should represent one logical change
+- SCRUM, 2-week sprints, for project planning.
+- Feature work: simple testable MVP first, robustness second.
+- **Vertical Slices**: end-to-end tracer bullets, never horizontal layers.
+- **Deep Modules**: narrow interfaces, large interior. Easier to test and to delegate.
+- Reporting convention: `/reporting/weekly-reporting/week-X.md`, `/reporting/monthly-reporting/month-X.md`.
 
 ## Workflow & Agent Orchestration
 
-- **Alignment First**: Use `/grill-me` or ask relentless one-by-one questions to clarify ideas before writing code or plans.
-- **Think Before Coding (HARD RULE)**: Before writing code, explicitly state your assumptions and implementation plan in the chat. If multiple interpretations exist, present them and wait for clarification.
-- **Vertical Slices**: Plan and implement end-to-end tracer bullets rather than horizontal layers.
-- **Strict TDD**: Write failing test first, run it, implement, refactor. Feedback loops limit AI capability.
-- **Goal-Driven Execution**: Before executing a task, define verifiable success criteria. Do not report a task as complete until these criteria pass (e.g., using Playwright MCP for visual UI verification if enabled).
-- **Deep Modules**: Architect for deep modules (narrow interfaces, large interior) to ease testing and AI delegation.
-- **AFK Loops**: Delegate unblocked issues to parallel AFK agents via the `ralph-loop` plugin (`/plugin enable ralph-loop` first, it's off by default).
-- **Doc Rot**: Delete or mark closed any temporary PRDs or plans once integrated.
-- **Code Review**: Review diffs in a fresh context, not the session that wrote the code — it isn't biased toward code it just produced. Use `/code-review` for correctness, `/simplify` for cleanup.
-- Multi-step tasks: use TaskCreate to track progress
-- Independent tool calls: always run in parallel
-- Before commits/push: verify no secrets or .env files in staging
-- **Subagent Split**: For large exploration tasks, spin up a read-only explorer subagent to map the subsystem and write findings to a file, then switch to editing with the full picture. Avoids burning the edit session's context on exploration.
+- **Alignment First**: use `/grill-me`, or ask relentless one-at-a-time questions, before writing code or a plan.
+- **Think Before Coding (HARD RULE)**: state assumptions and the implementation plan in chat first. If multiple readings of the request exist, present them and wait.
+- **Subagent Split**: large exploration goes to a read-only `explorer` subagent or `/scout`, which writes findings to a file; the edit session then works from the file. Keeps exploration tokens out of the main context entirely.
+- **Code Review**: review a diff in a fresh session, not the one that wrote the code — a session that just produced code is primed to defend it. `/code-review` for correctness, `/simplify` for cleanup.
+- **AFK Loops**: delegate unblocked issues to parallel agents via `ralph-loop` (`/plugin enable ralph-loop` first — off by default).
+- **Doc Rot**: delete or mark closed any temporary PRD or plan once it's been integrated.
+
+## Context & Cache Discipline
+
+Every turn re-sends the whole conversation; the API bills only what changed, by matching the unchanged *prefix*. The prefix is ordered system prompt → project context → conversation, and any change to an earlier layer recomputes everything after it. Mid-session model switches, effort changes, enabling fast mode, and MCP/plugin toggles that load tool definitions upfront all invalidate that prefix and re-read the entire session at uncached rates. The practical rule: make configuration decisions at the top of a session, then leave them alone.
+
+- Pick model and effort level before starting work. Toggle plugins and MCP servers then too, not mid-task.
+- `/compact` at natural task boundaries, never mid-task. Auto-compaction firing in the middle of work is the expensive case you're avoiding.
+- Abandoning a line of work: `/rewind`, not `/compact`. Rewind truncates back to a prefix that is already cached; compaction builds a new one.
+- Starting something unrelated: `/clear` beats letting history accumulate.
+- Editing this file mid-session changes nothing until `/clear`, `/compact`, or restart. Say that instead of claiming a new rule "now applies".
+- Watch `ctx: N% remaining` in the status line rather than guessing. Below ~25%, wrap up or `/smart-compact` with an explicit focus area.
+- **Where rules belong**: this file loads in full, in every project, in every session — so it holds only cross-project, non-obvious directives. Domain conventions go in `skills/` (load on demand). File-type or directory-specific rules go in `~/.claude/rules/` with `paths:` frontmatter, so they load only when a matching file is touched. Never grow this file with content that could live in either.
 
 ## Session & Context Management
 
-- Domain conventions (FastAPI, LangGraph, Docker, n8n, Azure, RAG, testing, Next.js) live in `skills/`, not a separate context directory. They load automatically when relevant.
-- Session start: run `/primer` for project orientation
-- Session end: run `/handoff` to preserve state for next session
-- Long sessions (>200k tokens): run `/smart-compact` with focus area
-- Research tasks: use `/scout` to explore before loading into main context
-- Multi-domain tasks: use `/prep` to dispatch parallel scout agents
-- **Path-Scoped Rules**: For monorepos, look for and respect local `CLAUDE.md`/`GEMINI.md` rule files in sub-directories.
-- **Lean and Layered Context**: Keep root `CLAUDE.md` files lean for the big picture and critical gotchas. Initialize sessions in subdirectories for local conventions.
-- **Codebase Legibility**:
-  - Scope test and lint commands per subdirectory rather than running them globally.
-  - Use `.ignore` files with `permissions.deny` rules to exclude generated files, build artifacts, and third-party code.
-  - Build codebase maps (e.g., via `/map-codebase`) when directory structure doesn't clearly explain the architecture.
+- Session start: `/primer` for project orientation. Session end: `/handoff` to preserve state.
+- Research before loading into main context: `/scout`. Multi-domain: `/prep` for parallel scouts.
+- **Path-Scoped Rules**: in monorepos, respect local instruction files in subdirectories; the nearest one wins over the root.
+- **No contradictions**: two rules that conflict make behavior arbitrary. When adding a rule, check it doesn't fight an existing one; when one is obsolete, delete it rather than layering an exception on top.
+- **Codebase Legibility**: scope test and lint commands per subdirectory rather than running them repo-wide; keep `.ignore` and `permissions.deny` current so generated files, build artifacts, and vendored code never get read; run `/map-codebase` when the directory tree doesn't explain the architecture on its own.
 
 ## Maintenance Cadence
 
-Review CLAUDE.md files, hooks, and skills every 3–6 months or after major model releases. Instructions written for one model version can work against a newer one, especially rules compensating for reasoning or tooling limitations that no longer exist. Corrections and learned patterns belong in auto memory, not a hand-maintained file — it already persists this automatically.
+Review CLAUDE.md files, hooks, and skills every 3–6 months or after a major model release. Instructions written for one model version can actively fight a newer one — especially rules that compensate for reasoning or tooling limits that no longer exist. Corrections and learned patterns belong in auto memory, which persists them automatically; don't hand-maintain them here.
+
+## Never Pin Versions
+
+Pinning is how this config rots. A version written down today is a version nobody remembers to update, and it keeps being served long after something better shipped. Choose at the point of use instead, and let the default be whatever is current.
+
+Omit the version field in agent, subagent, and skill frontmatter and inherit from the session. If a component genuinely needs a different tier, name the family, never a dated snapshot — a snapshot breaks the component silently the day it retires, and this bit twice before an audit caught it. A component running off the session default also makes that turn a switch with a full uncached re-read: worth it for real reasoning work, not for a formatting pass.
 
 ## Adviser Strategy
 
-The executive session handles implementation. An adviser agent at `~/.claude/agents/adviser.md` provides strategic guidance only — it never writes code or uses tools.
+The executive session implements. The adviser agent (`~/.claude/agents/adviser.md`) gives strategic guidance only — it never writes code or uses tools. Invoke it with the Agent tool (`subagent_type: adviser`).
 
-Any `model:` field in agent or subagent frontmatter uses a family alias (`opus`/`sonnet`/`haiku`) only, never a dated snapshot — a pinned snapshot goes stale and silently breaks the agent once that model is retired. This bit twice already (`explorer.md` pinned to a 2024 Sonnet snapshot until an audit caught it).
+Invoke when: debugging has failed 2+ times on the same issue; an architectural decision has downstream consequences; a multi-file refactor needs an ordering; dependency or version conflicts need resolving; the session is going in circles.
 
-When to invoke the adviser (`/agents adviser`):
-
-- Debugging fails after 2+ attempts on the same issue
-- Architectural decisions with downstream consequences
-- Complex multi-file refactors where ordering matters
-- Dependency conflicts or version resolution
-- Any task where the executive session is going in circles
-
-When NOT to invoke the adviser:
-
-- Routine implementation, simple bug fixes, file edits
-- Tasks handled confidently on first pass
-- Anything where switching the full session to a stronger model would be faster (highly complex apps with many connected dependencies)
-
-For complex-enough apps where every step needs deep reasoning: skip the adviser strategy and switch the whole session to a stronger model directly.
+Don't invoke for: routine implementation, simple fixes, edits handled confidently on the first pass. And for an app complex enough that *every* step needs deep reasoning, skip the adviser entirely and move the whole session to a stronger model — cheaper than round-tripping advice per step.
 
 ## Plugins
 
-Enabled: `commit-commands`, `caveman`, `typescript-lsp`, `pyright-lsp`.
-
-Installed but disabled by default — activate per session with `/plugin enable <name>`: `context7`, `github`, `code-review`, `feature-dev`, `superpowers`, `ralph-loop`, `skill-creator`, `playwright`, `microsoft-docs`, `claude-md-management`, `frontend-design`.
-
-This list drifts from actual state over time — `/plugin` shows what's really enabled right now, trust that over this file if they disagree. Skills are a separate mechanism from plugins and auto-invoke independently; most are manual-only (`/skill-name`) per `skillOverrides` in `~/.claude/settings.json`.
-
-## Session init (auto via SessionStart hook)
-
-On every session start `~/.claude/hooks/session-orient.sh` emits: git status (read-only, never auto-init), rtk version, and graphify presence. If any tool is missing, the hook shows the install command.
-
-Caveman default mode is **lite**, set via `~/.config/caveman/config.json` (`defaultMode: "lite"`) — the plugin's own config mechanism, not a hook override. Running `/caveman full` or `/caveman ultra` switches level for the rest of that session.
+Never state which plugins are enabled from memory or from a list written here — inventories drift and a stale one is worse than none. Check the harness at the time you need to know.
 
 ## Code Intelligence
 
-Prefer LSP over Grep/Glob/Read for code navigation:
+Prefer LSP over Grep/Glob/Read for anything symbol-shaped: `goToDefinition` / `goToImplementation` to jump to source, `findReferences` for all usages, `workspaceSymbol` to locate a definition, `documentSymbol` to list a file's symbols, `hover` for types without reading the file, `incomingCalls` / `outgoingCalls` for the call hierarchy. Grep matches strings and will happily return three unrelated functions with the same name; LSP matches symbols and won't.
 
-- `goToDefinition` / `goToImplementation` to jump to source
-- `findReferences` to see all usages across the codebase
-- `workspaceSymbol` to find where something is defined
-- `documentSymbol` to list all symbols in a file
-- `hover` for type info without reading the file
-- `incomingCalls` / `outgoingCalls` for call hierarchy
-
-Before renaming or changing a function signature, use
-`findReferences` to find all call sites first.
-
-Use Grep/Glob only for text/pattern searches (comments,
-strings, config values) where LSP doesn't help.
-
-After writing or editing code, check LSP diagnostics before
-moving on. Fix any type errors or missing imports immediately.
+- Before renaming or changing a signature, run `findReferences` to find every call site first.
+- Use Grep/Glob only for genuine text searches — comments, string literals, config values — where LSP has nothing to say.
+- After writing or editing code, check LSP diagnostics before moving on. Fix type errors and missing imports immediately, while the context is still loaded.
