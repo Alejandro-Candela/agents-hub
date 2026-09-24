@@ -1,11 +1,11 @@
 ---
 name: enterprise-model-serving
-description: Enterprise-grade Model Serving & AIOps skill for REDACTED. Use whenever someone is architecting, deploying, optimizing, hardening, or troubleshooting on-premise / sovereign-cloud LLM inference infrastructure at scale. Triggers on "deploy a 70B model", "set up vLLM / SGLang / TensorRT-LLM", "LiteLLM router / proxy", "private LLM", "self-hosted LLM", "GPU inference stack", "tokens per second / TTFT / TPOT", "speculative decoding", "prefix caching", "disaggregated serving", "tensor / pipeline / expert parallelism", "FP8 / AWQ / GPTQ / INT4 quantization","EU AI Act compliant inference", "ISO 42001", "model SLO", "GPU FinOps", "DCGM / vLLM hang / OOM / NCCL". Covers governance (EU AI Act, ISO 42001, NIST AI RMF, GDPR), supply-chain security (model signing, SBOM, prompt-injection defense), FinOps, SRE patterns (SLO, canary, chaos), multi-tenancy, and disaggregated KV-cache architectures for regulated EU sectors.
+description: Enterprise-grade Model Serving & AIOps skill. Use whenever someone is architecting, deploying, optimizing, hardening, or troubleshooting on-premise / sovereign-cloud LLM inference infrastructure at scale. Triggers on "deploy a 70B model", "set up vLLM / SGLang / TensorRT-LLM", "LiteLLM router / proxy", "private LLM", "self-hosted LLM", "GPU inference stack", "tokens per second / TTFT / TPOT", "speculative decoding", "prefix caching", "disaggregated serving", "tensor / pipeline / expert parallelism", "FP8 / AWQ / GPTQ / INT4 quantization","EU AI Act compliant inference", "ISO 42001", "model SLO", "GPU FinOps", "DCGM / vLLM hang / OOM / NCCL". Covers governance (EU AI Act, ISO 42001, NIST AI RMF, GDPR), supply-chain security (model signing, SBOM, prompt-injection defense), FinOps, SRE patterns (SLO, canary, chaos), multi-tenancy, and disaggregated KV-cache architectures for regulated EU sectors.
 ---
 
-# Enterprise Model Serving & AIOps (REDACTED, 2026)
+# Enterprise Model Serving & AIOps (2026)
 
-> **Audience.** Staff/Principal engineers, ML platform teams, and AI architects at REDACTED delivering on-premise or sovereign-cloud LLM inference for regulated clients (healthcare, defense, finance, public sector).
+> **Audience.** Staff/Principal engineers, ML platform teams, and AI architects delivering on-premise or sovereign-cloud LLM inference for regulated clients (healthcare, defense, finance, public sector).
 >
 > **Default stack (2026).** vLLM 0.7+ (or SGLang 0.4+) behind LiteLLM 1.50+, on Kubernetes with GitOps; OpenTelemetry-first observability into the LGTM stack + Langfuse; KV-cache offload via LMCache; signed models from a private OCI registry; runtime policy enforced by Kyverno/OPA.
 
@@ -77,7 +77,7 @@ If the request is *only* about training, fine-tuning, or RAG retrieval logic, th
 For every deployed model, record in a **Model Card + Technical Documentation Pack** stored in Git alongside the manifest:
 
 - **Risk classification.** Prohibited / High-risk / Limited-risk / Minimal. Healthcare and defense use cases are typically high-risk → Articles 9–15 obligations apply.
-- **Provider vs. deployer role.** REDACTED is usually the **deployer** when integrating third-party open-weights models. Document obligations under Article 26.
+- **Provider vs. deployer role.** Your organization is usually the **deployer** when integrating third-party open-weights models. Document obligations under Article 26.
 - **GPAI thresholds.** Track whether the model qualifies as GPAI with systemic risk (training compute > 10^25 FLOPs). Llama 3.1 405B and DeepSeek-V3 are at the threshold; document accordingly.
 - **Training data summary.** Reference the upstream provider's published summary; never strip it.
 - **Capability evaluations.** Store eval results (lm-eval-harness, MMLU, MT-Bench, internal regulated-sector benches) per release.
@@ -600,7 +600,6 @@ Sanity-check with a `vllm bench` or `genai-perf` (NVIDIA) load test against the 
 - **NVIDIA DCGM, GPU Operator, NeMo Guardrails** docs.
 - **vLLM** (`docs.vllm.ai`), **SGLang** (`docs.sglang.ai`), **LiteLLM** (`docs.litellm.ai`), **Langfuse** (`langfuse.com/docs`), **LMCache** (`lmcache.ai`).
 - **Sigstore cosign**, **Kyverno**, **CycloneDX**.
-- Internal: REDACTED security review framework, brand guidelines, internalAI ingestion standard.
 
 ---
 

@@ -7,7 +7,7 @@ hooks/peon-ping/.state.json
 hooks/peon-ping/.update_available
 mcp/mcp_config.json
 
-# REDACTED-branded material — internal/company-specific, not for repo tracking
+# Company-branded material — internal/proprietary, not for repo tracking
 # (actual content lives outside this repo, symlinked in below — see README)
 *applied*
 **/*applied*/**
