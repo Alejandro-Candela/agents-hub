@@ -1,6 +1,7 @@
 ---
 name: langgraph-architecture
 description: Guides architectural decisions for LangGraph applications. Use when deciding between LangGraph vs alternatives, choosing state management strategies, designing multi-agent systems, or selecting persistence and streaming approaches.
+disable-model-invocation: true
 ---
 
 # LangGraph Architecture Decisions

@@ -1,6 +1,7 @@
 ---
 name: opentelemetry-expert
 description: Expert in OpenTelemetry instrumentation, OTel Collector configuration, exporters, Grafana/Prometheus/Tempo integration, and distributed tracing. Use when working with OTel, traces, metrics, spans, collectors, or observability pipelines. Use PROACTIVELY when code touches logging, tracing, or monitoring.
+disable-model-invocation: true
 ---
 
 # OpenTelemetry Expert

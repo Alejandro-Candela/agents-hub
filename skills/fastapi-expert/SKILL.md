@@ -1,6 +1,7 @@
 ---
 name: fastapi-expert
 description: Expert in FastAPI development including async endpoints, dependency injection, Pydantic models, middleware, lifespan events, WebSocket, streaming responses, and production deployment. Use when building APIs, adding endpoints, configuring middleware, or debugging FastAPI applications.
+disable-model-invocation: true
 ---
 
 # FastAPI Expert

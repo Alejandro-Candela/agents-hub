@@ -1,6 +1,7 @@
 ---
 name: elasticsearch-expert
 description: Expert in Elasticsearch 8.x including index management, hybrid search (BM25 + kNN + ELSER), mappings, analyzers, aggregations, and production tuning. Use when configuring Elasticsearch indices, implementing hybrid/semantic search, setting up ELSER sparse vectors, or debugging search relevance.
+disable-model-invocation: true
 ---
 
 # Elasticsearch Expert

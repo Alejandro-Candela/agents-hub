@@ -1,6 +1,7 @@
 ---
 name: enterprise-model-serving
 description: Enterprise-grade Model Serving & AIOps skill. Use whenever someone is architecting, deploying, optimizing, hardening, or troubleshooting on-premise / sovereign-cloud LLM inference infrastructure at scale. Triggers on "deploy a 70B model", "set up vLLM / SGLang / TensorRT-LLM", "LiteLLM router / proxy", "private LLM", "self-hosted LLM", "GPU inference stack", "tokens per second / TTFT / TPOT", "speculative decoding", "prefix caching", "disaggregated serving", "tensor / pipeline / expert parallelism", "FP8 / AWQ / GPTQ / INT4 quantization","EU AI Act compliant inference", "ISO 42001", "model SLO", "GPU FinOps", "DCGM / vLLM hang / OOM / NCCL". Covers governance (EU AI Act, ISO 42001, NIST AI RMF, GDPR), supply-chain security (model signing, SBOM, prompt-injection defense), FinOps, SRE patterns (SLO, canary, chaos), multi-tenancy, and disaggregated KV-cache architectures for regulated EU sectors.
+disable-model-invocation: true
 ---
 
 # Enterprise Model Serving & AIOps (2026)

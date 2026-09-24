@@ -1,6 +1,7 @@
 ---
 name: azure-ai-search
 description: Expert in Azure AI Search (formerly Cognitive Search) including index creation, hybrid search with semantic ranker, vectorizers, skillsets, integrated vectorization, and RBAC. Use when configuring search indices, implementing hybrid/semantic search on Azure, or building RAG pipelines with Azure AI Search.
+disable-model-invocation: true
 ---
 
 # Azure AI Search Expert

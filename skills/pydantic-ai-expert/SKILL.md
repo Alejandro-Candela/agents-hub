@@ -1,6 +1,7 @@
 ---
 name: pydantic-ai-expert
 description: Expert in PydanticAI framework for building type-safe AI agents with structured output, tool definitions, dependency injection, and multi-model support. Use when building agents with PydanticAI, defining tools, structured responses, or integrating with LangGraph worker nodes.
+disable-model-invocation: true
 ---
 
 # PydanticAI Expert

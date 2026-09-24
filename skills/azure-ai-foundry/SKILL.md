@@ -1,6 +1,7 @@
 ---
 name: azure-ai-foundry
 description: Expert in Azure AI Foundry (formerly Azure AI Studio) including model deployments (GPT-4o, o3-mini, Phi-4), prompt flow, content safety, evaluations, and managed endpoints. Use when deploying models on Azure, configuring content safety, building prompt flows, or managing AI projects on Azure.
+disable-model-invocation: true
 ---
 
 # Azure AI Foundry Expert

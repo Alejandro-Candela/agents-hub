@@ -1,6 +1,7 @@
 ---
 name: vllm-expert
 description: Expert in vLLM inference server including model serving, tensor parallelism, quantization (AWQ/GPTQ), LoRA adapters, OpenAI-compatible API, and GPU optimization. Use when deploying local LLM inference, configuring vLLM, optimizing GPU memory, or troubleshooting model loading.
+disable-model-invocation: true
 ---
 
 # vLLM Expert

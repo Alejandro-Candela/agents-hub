@@ -1,6 +1,7 @@
 ---
 name: langgraph-docs
 description: Use this skill for requests related to LangGraph in order to fetch relevant documentation to provide accurate, up-to-date guidance.
+disable-model-invocation: true
 ---
 
 # langgraph-docs

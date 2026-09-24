@@ -1,6 +1,7 @@
 ---
 name: langgraph-code-review
 description: Reviews LangGraph code for bugs, anti-patterns, and improvements. Use when reviewing code that uses StateGraph, nodes, edges, checkpointing, or other LangGraph features. Catches common mistakes in state management, graph structure, and async patterns.
+disable-model-invocation: true
 ---
 
 # LangGraph Code Review

@@ -1,6 +1,7 @@
 ---
 name: langfuse-expert
 description: Expert in Langfuse observability platform for LLM tracing, cost tracking, prompt management, scoring, datasets, and self-hosted deployment. Use when setting up Langfuse tracing, analyzing LLM costs, managing prompts, or configuring self-hosted Langfuse with Docker.
+disable-model-invocation: true
 ---
 
 # Langfuse Expert

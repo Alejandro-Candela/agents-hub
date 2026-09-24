@@ -1,6 +1,7 @@
 ---
 name: presidio-dlp
 description: Expert in Microsoft Presidio for PII detection and redaction including custom recognizers, anonymizers, and integration with NLP pipelines. Use when implementing DLP, PII filtering, data anonymization, GDPR compliance, or privacy controls in agent pipelines.
+disable-model-invocation: true
 ---
 
 # Presidio DLP Expert

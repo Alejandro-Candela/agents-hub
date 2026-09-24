@@ -1,6 +1,7 @@
 ---
 name: azure-verified-modules
 description: Azure Verified Modules (AVM) requirements and best practices for developing certified Azure Terraform modules. Use when creating or reviewing Azure modules that need AVM certification.
+disable-model-invocation: true
 ---
 
 # Azure Verified Modules (AVM) Requirements

@@ -1,6 +1,7 @@
 ---
 name: azure-devops-cli
 description: Manage Azure DevOps resources via CLI including projects, repos, pipelines, builds, pull requests, work items, artifacts, and service endpoints. Use when working with Azure DevOps, az commands, devops automation, CI/CD, or when user mentions Azure DevOps CLI.
+disable-model-invocation: true
 ---
 
 # Azure DevOps CLI

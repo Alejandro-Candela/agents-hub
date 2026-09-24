@@ -1,6 +1,7 @@
 ---
 name: ollama-expert
 description: Expert in Ollama local LLM inference including model management, Modelfile customization, embedding endpoints, API usage, and Docker deployment. Use when running local models with Ollama, pulling models, creating custom Modelfiles, or integrating Ollama with n8n or LangChain.
+disable-model-invocation: true
 ---
 
 # Ollama Expert

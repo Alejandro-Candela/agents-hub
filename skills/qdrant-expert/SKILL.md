@@ -1,6 +1,7 @@
 ---
 name: qdrant-expert
 description: Expert in Qdrant vector database including collection management, HNSW indexing, payload filtering, multi-tenancy, quantization, and hybrid search. Use when configuring Qdrant, creating collections, optimizing search, or implementing vector storage for RAG pipelines.
+disable-model-invocation: true
 ---
 
 # Qdrant Expert

@@ -5,6 +5,7 @@ license: MIT
 metadata: 
   authors: "Astro Team"
   version: "0.0.1"
+disable-model-invocation: true
 ---
 
 # Astro Usage Guide
