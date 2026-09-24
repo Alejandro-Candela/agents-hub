@@ -7,6 +7,10 @@ hooks/peon-ping/.state.json
 hooks/peon-ping/.update_available
 mcp/mcp_config.json
 
+# Live Claude Code settings — API keys, deploy token, machine paths.
+# Edit it here, sync with settings/sync-settings.sh. Never tracked.
+settings/claude-settings.json*
+
 # Company-branded material — internal/proprietary, not for repo tracking
 # (actual content lives outside this repo, symlinked in below — see README)
 *applied*
