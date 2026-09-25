@@ -20,4 +20,4 @@ msg="[session-reflect] Session ending. Before closing, scan this session for:
 Files to update: local CLAUDE.md, ~/agents-hub/global-instructions.md, ~/.claude/context/anti-patterns.md
 Do NOT create new files for this — edit existing ones surgically."
 
-jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"SessionEnd",additionalContext:$m}}'
+jq -n --arg m "$msg" '{systemMessage:$m}'
