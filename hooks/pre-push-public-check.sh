@@ -17,15 +17,15 @@ input=$(cat)
 cmd=$(echo "$input" | jq -r '.tool_input.command // ""')
 
 if ! echo "$cmd" | grep -qE '(^|[;&|[:space:]])git[[:space:]]+push([[:space:]]|$)'; then
-  echo '{"decision":"allow"}'
+  echo '{}'
   exit 0
 fi
 
 cwd="${CLAUDE_PROJECT_DIR:-$PWD}"
-cd "$cwd" 2>/dev/null || { echo '{"decision":"allow"}'; exit 0; }
+cd "$cwd" 2>/dev/null || { echo '{}'; exit 0; }
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo '{"decision":"allow"}'
+  echo '{}'
   exit 0
 fi
 
@@ -33,10 +33,10 @@ remote_name=$(echo "$cmd" | grep -oE 'push[[:space:]]+--force[[:space:]]+[a-zA-Z
 remote_name="${remote_name:-origin}"
 remote_url=$(git remote get-url "$remote_name" 2>/dev/null || echo "")
 
-[ -z "$remote_url" ] && { echo '{"decision":"allow"}'; exit 0; }
+[ -z "$remote_url" ] && { echo '{}'; exit 0; }
 
 if ! echo "$remote_url" | grep -qE 'github\.com'; then
-  echo '{"decision":"allow"}'
+  echo '{}'
   exit 0
 fi
 
@@ -48,7 +48,7 @@ fi
 ahead_count=$(git rev-list --count "${remote_name}/HEAD..HEAD" 2>/dev/null || git rev-list --count "@{u}..HEAD" 2>/dev/null || echo "")
 
 if [ "$ahead_count" = "0" ]; then
-  echo '{"decision":"allow"}'
+  echo '{}'
   exit 0
 fi
 
@@ -69,7 +69,7 @@ secret_hit=$(echo "$diff_content" | grep -ioE "$secret_pattern" 2>/dev/null | so
 
 if [ -n "$secret_hit" ]; then
   msg="BLOCKED: 'git push' diff contains what looks like a credential ($(echo "$secret_hit" | tr '\n' ', ')). Review before pushing. If this is a false positive, push manually outside this hook."
-  jq -n --arg m "$msg" '{decision:"block",reason:$m}'
+  jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$m}}'
   exit 0
 fi
 
@@ -92,9 +92,9 @@ if [ "$visibility" != "private" ]; then
   domain_hit=$(echo "$diff_content" | grep -ioE "$domain_pattern" 2>/dev/null | sort -u | head -5 || true)
   if [ -n "$domain_hit" ]; then
     msg="BLOCKED: pushing to $remote_url (visibility: ${visibility:-unknown, treated as public}) and the diff mentions internal-only content ($(echo "$domain_hit" | tr '\n' ', ')). Review before pushing, or push manually if this is intentional."
-    jq -n --arg m "$msg" '{decision:"block",reason:$m}'
+    jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$m}}'
     exit 0
   fi
 fi
 
-echo '{"decision":"allow"}'
+echo '{}'
