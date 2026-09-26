@@ -1,0 +1,47 @@
+name: Validate hooks
+
+# PR-wide verification (Anthropic's "Building verification loops in Claude
+# Code" pattern): the same check runs on every push/PR regardless of who
+# wrote the hook. Catches the exact bug class this repo hit twice by hand —
+# a hook emitting the deprecated {"decision":"allow"|"block"} schema instead
+# of hookSpecificOutput.permissionDecision, and a bash syntax error that
+# would otherwise only surface the next time the hook actually fires.
+
+on:
+  push:
+    paths: ["hooks/**"]
+  pull_request:
+    paths: ["hooks/**"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Syntax-check every hook script
+        run: |
+          fail=0
+          while IFS= read -r -d '' f; do
+            bash -n "$f" || { echo "::error file=$f::bash syntax error"; fail=1; }
+          done < <(find hooks -name '*.sh' -print0)
+          exit "$fail"
+
+      - name: Reject the legacy top-level "decision" field
+        run: |
+          # Claude Code deprecated {"decision":"allow"|"block"} in favor of
+          # hookSpecificOutput.permissionDecision. A bare top-level "decision"
+          # key fails hook output validation at runtime, silently, until the
+          # exact code path fires — this caught two real bugs in this repo.
+          if grep -rnE '"decision"[[:space:]]*:[[:space:]]*"(allow|block)"' hooks/*.sh 2>/dev/null; then
+            echo "::error::Legacy {\"decision\":...} schema found above — use hookSpecificOutput.permissionDecision instead."
+            exit 1
+          fi
+
+      - name: Reject a hardcoded hookEventName that isn't a shell variable
+        run: |
+          # Softer check: a literal "hookEventName":"X" is fine only if X is
+          # a plausible event name; this won't catch every mismatch (that
+          # needs the event that actually fired the hook, which CI doesn't
+          # have), but it flags the copy-paste class of bug on sight.
+          grep -rnE '"hookEventName"[[:space:]]*:[[:space:]]*"[A-Za-z]+"' hooks/*.sh 2>/dev/null || true

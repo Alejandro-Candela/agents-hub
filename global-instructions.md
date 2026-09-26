@@ -62,7 +62,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 - **Alignment First**: use `/grill-me`, or ask relentless one-at-a-time questions, before writing code or a plan.
 - **Think Before Coding (HARD RULE)**: state assumptions and the implementation plan in chat first. If multiple readings of the request exist, present them and wait.
 - **Subagent Split**: large exploration goes to a read-only `explorer` subagent or `/scout`, which writes findings to a file; the edit session then works from the file. Keeps exploration tokens out of the main context entirely.
-- **Code Review**: review a diff in a fresh session, not the one that wrote the code — a session that just produced code is primed to defend it. `/code-review` for correctness, `/simplify` for cleanup.
+- **Verification chain**: after implementation, run `/code-review` (correctness) → `/simplify` (cleanup) → the project's actual test/lint command, in that order, not as three independent options to pick from. Review a diff in a fresh session, not the one that wrote the code — a session that just produced code is primed to defend it. A manual check you keep enforcing by hand on every task (a lint rule no linter catches, a project-specific invariant) qualifies for capture as a hook or a skill instead of a rule you re-apply from memory each time.
 - **AFK Loops**: delegate unblocked issues to parallel agents via `ralph-loop` (`/plugin enable ralph-loop` first — off by default).
 - **Doc Rot**: delete or mark closed any temporary PRD or plan once it's been integrated.
 
