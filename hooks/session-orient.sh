@@ -33,9 +33,15 @@ else
   rtk_line="rtk: NOT INSTALLED — run: brew install rtk && rtk init -g"
 fi
 
-# 3. graphify
+# 3. graphify — only worth suggesting once there's something to graph.
+# An empty or fresh-init repo has nothing for it to extract a graph from.
 if command -v graphify >/dev/null 2>&1; then
-  graphify_line="graphify: installed (trigger with /graphify .)"
+  file_count=$(git -C "$cwd" ls-files 2>/dev/null | wc -l | tr -d ' ' || true)
+  if [ "$file_count" -gt 20 ]; then
+    graphify_line="graphify: installed (trigger with /graphify .)"
+  else
+    graphify_line="graphify: installed, not suggested yet (${file_count} tracked files)"
+  fi
 else
   graphify_line="graphify: NOT INSTALLED — run: pip install graphifyy && graphify install"
 fi
