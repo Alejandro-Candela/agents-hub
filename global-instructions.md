@@ -31,7 +31,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 
 - Python: `uv`. Avoid `pip`.
 - Node.js/TS: `bun`. Avoid `npm`.
-- Frontend: Next.js for production; ChainLit / Streamlit strictly for POC and rapid prototyping.
+- Frontend: Next.js + Vercel AI SDK by default, POC included — clone a reusable starter (chat UI, streaming, file-upload/RAG pattern, auth stub) rather than rebuilding scaffolding per client. Same codebase scales to production with no rewrite. Streamlit only for genuinely throwaway, never-client-facing internal exploration. Never Chainlit — its founding team stepped back in 2025, it's community-maintained now, and it has a real CVE history; not worth the reputational risk for a client deliverable.
 - Verify library patterns via context7 MCP before writing code against a third-party API. Training data goes stale; this is the single cheapest hallucination guard available.
 - **Before any client-facing AI/agent delivery** — POC or production, any client size — run the `ai-compliance-audit` skill's checklist: EU AI Act risk classification, GDPR/AEPD, model and dependency licensing, vendor ToS. It is not legal advice; it is the thing that catches a missed gate before a client's security review does. Model-serving decisions (managed API vs. self-hosted vs. enterprise cluster) are `model-serving-strategy`, a separate skill — don't conflate the two.
 
