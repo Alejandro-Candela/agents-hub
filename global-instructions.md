@@ -14,7 +14,7 @@ Freelance Solution Architect & AI Engineer. Production AI agent systems and RAG 
 
 ## Git
 
-Work in small, reversible steps. Branch before the first commit when you're on `main`, commit one logical change at a time with a message explaining *why* rather than restating the diff, and push only when asked. History is a debugging tool: a commit that mixes a refactor with a bug fix costs someone an afternoon with `git bisect` six months from now. When something goes wrong, prefer the additive fix — a new commit, a `revert` — over rewriting published history.
+Work in small, reversible steps. Branch before the first commit when you're on `main`, commit one logical change at a time with a message explaining _why_ rather than restating the diff, and push only when asked. History is a debugging tool: a commit that mixes a refactor with a bug fix costs someone an afternoon with `git bisect` six months from now. When something goes wrong, prefer the additive fix — a new commit, a `revert` — over rewriting published history.
 
 - **Safety First**: NEVER run irreversible commands (`push --force`, `reset --hard`, branch/tag deletion, `clean -fd`) without explicit permission. If unsure whether a command is destructive, ASK.
 - NEVER add `Co-Authored-By` or any Claude attribution to commit messages.
@@ -31,7 +31,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 
 - Python: `uv`. Avoid `pip`.
 - Node.js/TS: `bun`. Avoid `npm`.
-- Frontend: Next.js + Vercel AI SDK by default, POC included — clone a reusable starter (chat UI, streaming, file-upload/RAG pattern, auth stub) rather than rebuilding scaffolding per client. Same codebase scales to production with no rewrite. Streamlit only for genuinely throwaway, never-client-facing internal exploration. Never Chainlit — its founding team stepped back in 2025, it's community-maintained now, and it has a real CVE history; not worth the reputational risk for a client deliverable.
+- Frontend: Next.js + Vercel AI SDK by default, POC included — clone a reusable starter (chat UI, streaming, file-upload/RAG pattern, auth stub) rather than rebuilding scaffolding per client. Same codebase scales to production with no rewrite.
 - Verify library patterns via context7 MCP before writing code against a third-party API. Training data goes stale; this is the single cheapest hallucination guard available.
 - **Before any client-facing AI/agent delivery** — POC or production, any client size — run the `ai-compliance-audit` skill's checklist: EU AI Act risk classification, GDPR/AEPD, model and dependency licensing, vendor ToS. It is not legal advice; it is the thing that catches a missed gate before a client's security review does. Model-serving decisions (managed API vs. self-hosted vs. enterprise cluster) are `model-serving-strategy`, a separate skill — don't conflate the two.
 
@@ -45,7 +45,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 ## Verification & Definition of Done
 
 - **Success criteria first**: before executing, state what "done" looks like in verifiable terms.
-- **TDD is the default for every behavior change** — new feature, bug fix, changed logic. Write the failing test, *run it and watch it fail*, implement, refactor. A test that was never seen failing proves nothing. A bug fix starts with a test that reproduces the bug.
+- **TDD is the default for every behavior change** — new feature, bug fix, changed logic. Write the failing test, _run it and watch it fail_, implement, refactor. A test that was never seen failing proves nothing. A bug fix starts with a test that reproduces the bug.
 - Exempt: config, docs, formatting, dependency bumps, throwaway exploration. Don't invent a test for a README edit. When it's borderline, say out loud which bucket you put it in before starting.
 - **Nothing is complete until its tests run green in front of you.** Not "should pass", not "looks correct" — the command was run and you can paste the output. If they fail, the task is unfinished and you say so.
 - UI work: verify visually via Playwright MCP when enabled, not by reasoning about the JSX.
@@ -69,7 +69,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 
 ## Context & Cache Discipline
 
-Every turn re-sends the whole conversation; the API bills only what changed, by matching the unchanged *prefix*. The prefix is ordered system prompt → project context → conversation, and any change to an earlier layer recomputes everything after it. Mid-session model switches, effort changes, enabling fast mode, and MCP/plugin toggles that load tool definitions upfront all invalidate that prefix and re-read the entire session at uncached rates. The practical rule: make configuration decisions at the top of a session, then leave them alone.
+Every turn re-sends the whole conversation; the API bills only what changed, by matching the unchanged _prefix_. The prefix is ordered system prompt → project context → conversation, and any change to an earlier layer recomputes everything after it. Mid-session model switches, effort changes, enabling fast mode, and MCP/plugin toggles that load tool definitions upfront all invalidate that prefix and re-read the entire session at uncached rates. The practical rule: make configuration decisions at the top of a session, then leave them alone.
 
 - Pick model and effort level before starting work. Toggle plugins and MCP servers then too, not mid-task.
 - `/compact` at natural task boundaries, never mid-task. Auto-compaction firing in the middle of work is the expensive case you're avoiding.
@@ -107,7 +107,7 @@ The executive session implements. The adviser agent (`~/.claude/agents/adviser.m
 
 Invoke when: debugging has failed 2+ times on the same issue; an architectural decision has downstream consequences; a multi-file refactor needs an ordering; dependency or version conflicts need resolving; the session is going in circles.
 
-Don't invoke for: routine implementation, simple fixes, edits handled confidently on the first pass. And for an app complex enough that *every* step needs deep reasoning, skip the adviser entirely and move the whole session to a stronger model — cheaper than round-tripping advice per step.
+Don't invoke for: routine implementation, simple fixes, edits handled confidently on the first pass. And for an app complex enough that _every_ step needs deep reasoning, skip the adviser entirely and move the whole session to a stronger model — cheaper than round-tripping advice per step.
 
 ## Plugins
 
