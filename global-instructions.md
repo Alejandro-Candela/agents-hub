@@ -33,6 +33,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 - Node.js/TS: `bun`. Avoid `npm`.
 - Frontend: Next.js for production; ChainLit / Streamlit strictly for POC and rapid prototyping.
 - Verify library patterns via context7 MCP before writing code against a third-party API. Training data goes stale; this is the single cheapest hallucination guard available.
+- **Before any client-facing AI/agent delivery** — POC or production, any client size — run the `ai-compliance-audit` skill's checklist: EU AI Act risk classification, GDPR/AEPD, model and dependency licensing, vendor ToS. It is not legal advice; it is the thing that catches a missed gate before a client's security review does. Model-serving decisions (managed API vs. self-hosted vs. enterprise cluster) are `model-serving-strategy`, a separate skill — don't conflate the two.
 
 ## Code
 
