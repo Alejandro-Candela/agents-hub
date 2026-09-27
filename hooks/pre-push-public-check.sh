@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook — before `git push` to GitHub, scan what's about to go up
-# for secrets and known-internal domains. Enforcement, not a CLAUDE.md
-# request: the appliedAI brand kit and an internal MCP hostname both reached
-# a public GitHub repo this way before anything caught it.
+# for secrets and known-internal domains.
 #
 # Does not depend on `gh auth` — that's not reliably available (confirmed
 # unauthenticated in this environment), so visibility is checked via the
