@@ -61,6 +61,12 @@ If a draft reads like a Slack message with "Dear" pasted on top, it's wrong for 
 - Over-apologizing for response time, scope changes, or asks — one clean acknowledgment beats three qualifiers.
 - A wall of text with no paragraph breaks — if it's more than 3 short paragraphs, consider whether a call would actually serve the reader better, and say so.
 
+## Hard rules
+
+- **Draft only. Never send.** This skill produces text for the user to review and send themselves — it never claims or implies the email was sent, and never invokes an actual send action (an email API, a mail client automation) even if a tool for that exists in the session.
+- **Answer exactly what was asked, nothing more.** Give the precise information requested — don't volunteer additional context, caveats, or details nobody asked for. Unrequested information in a client-facing draft is a future liability: something said that didn't need saying is a mistake that can't be unsent. When genuinely unsure whether something belongs in the email, leave it out and flag it to the user separately instead of including it "just in case."
+- **Brief.** A shorter email that answers the actual question beats a longer one that's more thorough than asked for. Length should track what the reader needs, not what's known about the topic.
+
 ## How to use
 
 When asked to draft an email, first establish: language (Spanish/English), relationship stage (first contact / established client / internal), and purpose (proposal, follow-up, status update, difficult message). Match greeting/register/humor-tolerance to that, then apply the structure above. If the ask is closer to a quick internal check-in than a considered email, say so — that might actually be better as a `slack`-style message instead.
