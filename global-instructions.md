@@ -48,7 +48,8 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 - **TDD is the default for every behavior change** — new feature, bug fix, changed logic. Write the failing test, _run it and watch it fail_, implement, refactor. A test that was never seen failing proves nothing. A bug fix starts with a test that reproduces the bug.
 - Exempt: config, docs, formatting, dependency bumps, throwaway exploration. Don't invent a test for a README edit. When it's borderline, say out loud which bucket you put it in before starting.
 - **Nothing is complete until its tests run green in front of you.** Not "should pass", not "looks correct" — the command was run and you can paste the output. If they fail, the task is unfinished and you say so.
-- UI work: verify visually via Playwright MCP when enabled, not by reasoning about the JSX.
+- **Autonomous Verification Loop**: Prior to declaring any behavior change done, run the verification loop (`verify` skill, project test suite, or build runner) autonomously. Sense stack, execute check, analyze failures, apply surgical fixes, and re-test until green.
+- UI work: verify visually via Playwright MCP or Chrome DevTools MCP when enabled, not by reasoning about the JSX.
 
 ## Development Methodology
 
@@ -65,7 +66,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 - Both are deliberately slow, friction-inducing tools — that's the point, and it's also the tension with Auto Mode's bias toward moving. When genuinely unsure whether a decision clears the bar above, that uncertainty is itself the signal to use one of them rather than defaulting to speed.
 - **Think Before Coding (HARD RULE)**: state assumptions and the implementation plan in chat first. If multiple readings of the request exist, present them and wait.
 - **Subagent Split**: large exploration goes to a read-only `explorer` subagent or `/scout`, which writes findings to a file; the edit session then works from the file. Keeps exploration tokens out of the main context entirely.
-- **Verification chain**: after implementation, run `/code-review` (correctness) → `/simplify` (cleanup) → the project's actual test/lint command, in that order, not as three independent options to pick from. Review a diff in a fresh session, not the one that wrote the code — a session that just produced code is primed to defend it. A manual check you keep enforcing by hand on every task (a lint rule no linter catches, a project-specific invariant) qualifies for capture as a hook or a skill instead of a rule you re-apply from memory each time.
+- **Verification chain**: after implementation, run `/code-review` (correctness) → `/simplify` (cleanup) → the project's actual test/lint command, in that order, not as three independent options to pick from. Review a diff in a fresh session, not the one that wrote the code — a session that just produced code is primed to defend it. A manual check you keep enforcing by hand on every task (a lint rule no linter catches, a project-specific invariant) qualifies for capture as a hook or a skill (via `/skill-creator`) instead of a rule you re-apply from memory each time.
 - **AFK Loops**: delegate unblocked issues to parallel agents via `ralph-loop` (`/plugin enable ralph-loop` first — off by default).
 - **Doc Rot**: delete or mark closed any temporary PRD or plan once it's been integrated.
 
