@@ -1,7 +1,6 @@
 ---
 name: code-review-excellence
 description: Master effective code review practices to provide constructive feedback, catch bugs early, and foster knowledge sharing while maintaining team morale. Use when reviewing pull requests, establishing review standards, or mentoring developers.
-disable-model-invocation: true
 ---
 
 # Code Review Excellence
@@ -207,7 +206,7 @@ the performance impact with 100k users?"
 
 ### Technique 3: Suggest, Don't Command
 
-````markdown
+```markdown
 ## Use Collaborative Language
 
 ❌ "You must change this to use async/await"
@@ -223,7 +222,7 @@ What do you think?"
 ❌ "Extract this into a function"
 ✅ "This logic appears in 3 places. Would it make sense to
 extract it into a shared utility function?"
-````
+```
 
 ### Technique 4: Differentiate Severity
 

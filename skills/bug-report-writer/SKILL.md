@@ -19,7 +19,6 @@ metadata:
   version: "1.0"
   category: operations
   updated: "2026-08"
-disable-model-invocation: true
 ---
 
 # Bug Report Writer
@@ -57,7 +56,7 @@ thing that unblocks the developer:
 
 - **The exact error text.** Verbatim, including any error code or ID. "An
   error appeared" is nearly useless; `Failed to execute 'removeChild' on
-  'Node'` points straight at a line of code. Ask them to copy it or screenshot
+'Node'` points straight at a line of code. Ask them to copy it or screenshot
   it.
 - **Environment.** Browser and version, operating system, device, and whether
   they were on VPN. A bug that only appears in one browser looks like a broken

@@ -1,7 +1,6 @@
 ---
 name: ai-compliance-audit
 description: Audits an AI/agent system or codebase against EU AI Act obligations, Spain's national implementation (AESIA, Ley Orgánica de IA), GDPR/AEPD, model and dependency licensing, and vendor terms of service. Use whenever someone asks "are we compliant", "can we ship this", "check the licenses", "what's our EU AI Act risk classification", "is this agent high-risk", "review this vendor's ToS", or before any client delivery / production go-live involving an AI system in or targeting the EU or Spain. Triggers on "EU AI Act", "AESIA", "AI compliance", "GDPR AI", "model license", "open weight license", "terms of service review", "provider vs deployer", "high-risk AI system", "conformity assessment", "AI regulation Spain/España".
-disable-model-invocation: true
 ---
 
 # AI Compliance & Licensing Audit (2026)
@@ -43,17 +42,17 @@ If the request is about **inference infrastructure sizing or serving architectur
 
 The original schedule pushed all high-risk obligations to apply from August 2026. **That changed.** The Commission's Digital Omnibus on AI (proposed Nov 19, 2025; political agreement May 7, 2026; **Regulation (EU) 2026/1744**, in force **July 27, 2026**) revised the milestones:
 
-| Date | What actually applies |
-|---|---|
-| Aug 1, 2024 | Act enters into force |
-| Feb 2, 2025 | Prohibited practices (Art. 5) + AI literacy obligations |
-| Aug 2, 2025 | GPAI provider obligations begin |
+| Date            | What actually applies                                                                                                                                                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Aug 1, 2024     | Act enters into force                                                                                                                                                                                                                             |
+| Feb 2, 2025     | Prohibited practices (Art. 5) + AI literacy obligations                                                                                                                                                                                           |
+| Aug 2, 2025     | GPAI provider obligations begin                                                                                                                                                                                                                   |
 | **Aug 2, 2026** | **Article 50 transparency obligations** (disclosure that content is AI-generated/AI-interacted) + full Commission/AI Office enforcement tooling for GPAI. **NOT** full high-risk enforcement — that was the pre-Omnibus expectation and it moved. |
-| Dec 2, 2026 | Art. 50(2) transition period ends for generative systems already on the market pre-Aug-2026; new Art. 5 prohibitions (non-consensual intimate imagery, CSAM) apply |
-| **Dec 2, 2027** | **High-risk obligations for Annex III systems** (the common case: employment, credit/insurance scoring, law enforcement-adjacent, etc.) |
-| **Aug 2, 2028** | **High-risk obligations for Annex I systems** (AI as a safety component of a regulated product) |
+| Dec 2, 2026     | Art. 50(2) transition period ends for generative systems already on the market pre-Aug-2026; new Art. 5 prohibitions (non-consensual intimate imagery, CSAM) apply                                                                                |
+| **Dec 2, 2027** | **High-risk obligations for Annex III systems** (the common case: employment, credit/insurance scoring, law enforcement-adjacent, etc.)                                                                                                           |
+| **Aug 2, 2028** | **High-risk obligations for Annex I systems** (AI as a safety component of a regulated product)                                                                                                                                                   |
 
-**Practical read for a POC/delivery today:** you are not yet under full high-risk enforcement even for a genuinely high-risk use case — but the *documentation and architecture* obligations (audit trails, risk management, human oversight) are exactly what a client's own procurement/security review will ask about long before the legal deadline bites, and building them in from the POC stage is far cheaper than retrofitting before Dec 2027. Treat the deadline table as a compliance floor, not a target.
+**Practical read for a POC/delivery today:** you are not yet under full high-risk enforcement even for a genuinely high-risk use case — but the _documentation and architecture_ obligations (audit trails, risk management, human oversight) are exactly what a client's own procurement/security review will ask about long before the legal deadline bites, and building them in from the POC stage is far cheaper than retrofitting before Dec 2027. Treat the deadline table as a compliance floor, not a target.
 
 ### 3.2 Risk classification — do this first, every engagement
 
@@ -125,13 +124,13 @@ Autonomous agents (plan → act → observe loops, tool-calling, multi-step deci
 
 Spain's national law adapting the AI Act into Spanish legal order, defining authorities, sanctions, claims processes, sandboxes, and public-sector obligations. **Competent-authority split** (as currently drafted):
 
-| Domain | Authority |
-|---|---|
-| Annex III systems generally (notifying authority) | Dirección General de Inteligencia Artificial |
-| Biometrics, data, borders | AEPD (retains a decisive role) |
-| Justice-sector systems | CGPJ |
-| Financial / insurance sector | Existing sectoral supervisors (Banco de España, DGSFP) keep their competencies |
-| Single point of contact for supervision coordination | AESIA |
+| Domain                                               | Authority                                                                      |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Annex III systems generally (notifying authority)    | Dirección General de Inteligencia Artificial                                   |
+| Biometrics, data, borders                            | AEPD (retains a decisive role)                                                 |
+| Justice-sector systems                               | CGPJ                                                                           |
+| Financial / insurance sector                         | Existing sectoral supervisors (Banco de España, DGSFP) keep their competencies |
+| Single point of contact for supervision coordination | AESIA                                                                          |
 
 **Practical implication**: for a use case touching personal data (basically anything RAG/agent-based that isn't pure internal document search), **AEPD** involvement is likely regardless of which sector-specific authority also applies — GDPR and the AI Act layer on top of each other, they don't replace each other.
 
@@ -151,18 +150,18 @@ The AI Act does not replace GDPR. For any system processing personal data (which
 
 Many models marketed as "open" release only the weights, not the training data, and attach commercial-use restrictions. **Check the license text itself, never the vendor's marketing label.**
 
-| License family | Commercial use | Gotcha |
-|---|---|---|
-| **Apache 2.0** | Unrestricted | ~38% of new Hugging Face releases in 2026 use this. Genuinely permissive — but check the patent clause against your own IP if you're building something patent-sensitive. |
-| **MIT** | Unrestricted | Simplest, attribution only. |
-| **Llama Community License** (Meta) | Free below a **700M MAU cap** (as of mid-2025 figure — re-verify, these caps move) | Not a standard OSS license. Crossing the MAU threshold requires a separate commercial agreement with Meta. |
-| **Qwen / Tongyi Qianwen** | Free below a MAU/revenue threshold | Similar scale-gated pattern to Llama; check the current published number, not a cached figure. |
-| **Kimi K2/K3, MiniMax-M2** | Free below a revenue threshold (Kimi K3: ~$20M aggregate 12-month revenue trigger, per Moonshot's published terms) | Also imposes a **branding/naming requirement** ("Built with X", displaying the model name in-product) — a compliance obligation, not just a courtesy. |
-| **Gemma Terms of Use** | Custom, has use-restrictions | Read the specific prohibited-use list; it's not Apache-equivalent despite Google's framing. |
-| **OpenRAIL-M** | Use-case restricted | Explicitly bars certain use cases (varies by model) — check against your actual application, especially anything touching decisions about people. |
-| **CC-BY-NC** | **Research only** | Not commercially usable at all. Seen occasionally on smaller research releases — verify before any client-facing use. |
+| License family                     | Commercial use                                                                                                     | Gotcha                                                                                                                                                                    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Apache 2.0**                     | Unrestricted                                                                                                       | ~38% of new Hugging Face releases in 2026 use this. Genuinely permissive — but check the patent clause against your own IP if you're building something patent-sensitive. |
+| **MIT**                            | Unrestricted                                                                                                       | Simplest, attribution only.                                                                                                                                               |
+| **Llama Community License** (Meta) | Free below a **700M MAU cap** (as of mid-2025 figure — re-verify, these caps move)                                 | Not a standard OSS license. Crossing the MAU threshold requires a separate commercial agreement with Meta.                                                                |
+| **Qwen / Tongyi Qianwen**          | Free below a MAU/revenue threshold                                                                                 | Similar scale-gated pattern to Llama; check the current published number, not a cached figure.                                                                            |
+| **Kimi K2/K3, MiniMax-M2**         | Free below a revenue threshold (Kimi K3: ~$20M aggregate 12-month revenue trigger, per Moonshot's published terms) | Also imposes a **branding/naming requirement** ("Built with X", displaying the model name in-product) — a compliance obligation, not just a courtesy.                     |
+| **Gemma Terms of Use**             | Custom, has use-restrictions                                                                                       | Read the specific prohibited-use list; it's not Apache-equivalent despite Google's framing.                                                                               |
+| **OpenRAIL-M**                     | Use-case restricted                                                                                                | Explicitly bars certain use cases (varies by model) — check against your actual application, especially anything touching decisions about people.                         |
+| **CC-BY-NC**                       | **Research only**                                                                                                  | Not commercially usable at all. Seen occasionally on smaller research releases — verify before any client-facing use.                                                     |
 
-**Real failure modes already documented in 2026**: a developer accidentally distributed a Llama 2 fine-tune under MIT instead of the required custom license and received a cease-and-desist from Meta. Another spent three weeks resolving an Apache 2.0 patent-clause conflict with their own IP portfolio *after* shipping. Check licenses before you build on a model, not after a client asks.
+**Real failure modes already documented in 2026**: a developer accidentally distributed a Llama 2 fine-tune under MIT instead of the required custom license and received a cease-and-desist from Meta. Another spent three weeks resolving an Apache 2.0 patent-clause conflict with their own IP portfolio _after_ shipping. Check licenses before you build on a model, not after a client asks.
 
 ### 5.2 Dependency / OSS license audit (the codebase itself, not just the model)
 
