@@ -48,7 +48,7 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 - **TDD is the default for every behavior change** — new feature, bug fix, changed logic. Write the failing test, _run it and watch it fail_, implement, refactor. A test that was never seen failing proves nothing. A bug fix starts with a test that reproduces the bug.
 - Exempt: config, docs, formatting, dependency bumps, throwaway exploration. Don't invent a test for a README edit. When it's borderline, say out loud which bucket you put it in before starting.
 - **Nothing is complete until its tests run green in front of you.** Not "should pass", not "looks correct" — the command was run and you can paste the output. If they fail, the task is unfinished and you say so.
-- **Autonomous Verification Loop**: Prior to declaring any behavior change done, run the verification loop (`verify` skill, project test suite, or build runner) autonomously. Sense stack, execute check, analyze failures, apply surgical fixes, and re-test until green.
+- **Autonomous Verification Loop**: Prior to declaring any behavior change done, run the project test suite or build runner autonomously: execute the check, analyze failures, apply surgical fixes, and re-test until green.
 - UI work: verify visually via Playwright MCP or Chrome DevTools MCP when enabled, not by reasoning about the JSX.
 
 ## Development Methodology
