@@ -11,7 +11,7 @@ Target: $ARGUMENTS
 
 ## Instructions
 
-1. Identify the verification mechanism for this repository (test suite, type check, build script, or visual check).
-2. Execute the verification check.
+1. Identify the local verification mechanism for this repository (unit test suite, type check, build script, or local browser check). Never run deployment commands or touch remote environments.
+2. Execute the verification check locally.
 3. If failures occur, analyze the error output, apply surgical fixes, and re-run until all checks pass.
 4. Report the command executed and the verified passing output.

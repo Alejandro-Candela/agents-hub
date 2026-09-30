@@ -15,6 +15,13 @@ Do not declare victory based on reasoning over code diffs. Ground-truth runtime 
 Sense Stack ──> Execute Check ──> Analyze Failures ──> Surgical Fix ──> Iterate until Green
 ```
 
+## Safety & Isolation Boundaries (HARD RULES)
+
+- **TDD & Unit Tests First**: Local unit tests (`pytest`, `bun test`, `vitest`, `jest`) are the primary, fastest, and safest verification tier.
+- **NEVER trigger deploys**: Verification must NEVER run deployment commands (`vercel`, `fly deploy`, `serverless`, `kubectl`, `terraform apply`, `aws`, deploy scripts).
+- **NEVER touch production or remote infrastructure**: All verification executes strictly locally in isolated sandboxes (`localhost`, mock databases, local fixtures).
+- **NEVER push git commits or tags**: Verification happens before committing or pushing, never as a trigger for remote deployment.
+
 ## 1. Stack Detection & Execution Hierarchy
 
 Identify the project stack and choose the highest-fidelity verification mechanism available:
