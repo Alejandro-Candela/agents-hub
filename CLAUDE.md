@@ -43,7 +43,7 @@ ls -la ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/commands ~/.claude/hooks ~
 
 **Model aliases only, never a version string.** `settings/claude-settings.json`'s top-level `"model"` and any agent/skill frontmatter `model:` field use family aliases (`opus`, `sonnet`, `haiku`, `fable`) — never a dated snapshot like `claude-opus-5-5`. Aliases roll forward automatically when Anthropic ships the next model; snapshots go stale silently and this has broken things twice already. Also never set `ANTHROPIC_MODEL`/`ANTHROPIC_DEFAULT_*_MODEL` as shell env vars — they outrank every settings file and don't show up in `/model`, so a stale one is invisible until something breaks.
 
-**Skills auto-invoke by default; domain skills in this repo are manual, while `verify` is autonomous.** A `SKILL.md` with `disable-model-invocation: true` in frontmatter can only be reached via its explicit `/name` command (keeping descriptions out of context until needed). `skills/verify` omits this flag so Claude can autonomously trigger verification before declaring work done. Check a skill's frontmatter before assuming the model will pick it up on its own.
+**Skills auto-invoke by default; most in this repo don't.** A `SKILL.md` with `disable-model-invocation: true` in frontmatter can only be reached via its explicit `/name` command — currently true for the majority of `skills/`. Check a skill's frontmatter before assuming the model will pick it up on its own.
 
 **Hook output schema is strict and event-specific — this has broken twice already:**
 - The legacy `{"decision":"allow"|"block"}` shape is deprecated. Use `{}` (or omit output) to allow, and `{"hookSpecificOutput":{"hookEventName":"<Event>","permissionDecision":"deny","permissionDecisionReason":"..."}}` to deny.
