@@ -48,3 +48,5 @@ Rules:
 - Be specific with file paths and commit hashes
 - No filler, no explanations of the format
 - If nothing is in progress, say "None"
+- Redact secrets, tokens, internal hostnames, client names and personal data; write `<REDACTED>`
+- Don't copy content that already lives in specs, plans, commits or diffs; reference it by path or hash
