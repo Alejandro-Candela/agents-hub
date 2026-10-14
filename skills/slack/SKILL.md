@@ -57,12 +57,27 @@ Slack isn't one register. Check who's actually reading before drafting:
 - Never just redirect and disappear. Either stay in the thread or explicitly hand off.
 
 ### 6. Tone Anchors
-- No generic filler ("Hope this helps" / "Let me know if you need anything else" / "Happy to jump on a call") — say the specific version of that thought instead, or nothing. A genuine, specific offer of help ("Happy to walk through the dashboard with you Thursday if useful") is not filler; the generic version is.
+- No generic filler ("Hope this helps" / "Let me know if you need anything else" / "Happy to jump on a call") — say the specific version of that thought instead, or nothing. A genuine, specific offer of help ("If anything in the dashboard is unclear, drop it here and I'll answer in the thread") is not filler; the generic version is.
 - No excessive exclamation marks.
 - Address people by name when they're in the thread.
 - Peer/internal: sound like you're already three hours into a working session, not starting one. Client-facing: sound like someone glad to be working with them, not just efficient at the task.
 
-### 7. What to Avoid
+### 7. Punctuation that sounds human
+Messages should read like someone typing in Slack, not like an edited document. **These rules apply to every language (English, Spanish, German...),** not just Spanish.
+- **Spanish: never use the opening marks `¿` or `¡`.** Only the closing `?` or `!`. ("Has probado tu demo ahí?", not "¿Has probado tu demo ahí?")
+- **No semicolons (`;`).** Split into two sentences or use a comma.
+- **No dashes as punctuation** (`—`, `–`, or a spaced ` - `). Use a comma, a full stop, parentheses, or "...". Hyphens inside words (client-facing, read-only) are fine.
+- **Use "..." now and then** to connect thoughts or trail off, the way people type. Once per message at most, not as a tic.
+- Casual touches are fine where the register allows it (Spanish "jajaj", lowercase starts in quick replies). Don't force them.
+- Reference (good, English):
+  > Great, thanks. Noted on the LLM... "without Celonis" then means no Celonis dependency, with the model configurable between meinGPT and a local LLM. I'll put that in the definition of done.
+- Reference (good, Spanish, in Alejandro's own voice):
+  > Justo lo iba a preguntar yo jajaj Lo meto en mi mensaje del grupo junto con la slide del delta, así va todo junto.
+  > Lo de renombrar lo pongo como hecho (lo confirmó Peter) y pregunto solo por el título y la pantalla de "process today".
+  >
+  > Otra cosa: Siggi dijo en la reunión que tiene que funcionar en Windows 11 (puede que los tres presentadores estén en Windows)...Has probado tu demo ahí? Lo digo por el python3 y el .command
+
+### 8. What to Avoid
 - "I suppose it" → sounds insecure. Replace with "my read is" or "I'd guess" or nothing.
 - Bullet lists of questions — pick the one that actually matters and ask that.
 - Restating the other person's message before responding to it.
@@ -78,19 +93,20 @@ Slack isn't one register. Check who's actually reading before drafting:
 "Makes sense. Updating Nginx to the new domain. Is the proxy already forwarding Host + X-Forwarded-Proto?"
 
 #### Good (limited context, cross-team):
-"Fair points — all I got from Siggi was 'share this with Nicole, publish next week', so I'm working with the same limited context you are. My read: probably the internal AI channel, showing the team the servers are delivering value and nudging devs to use the models more since we're underutilizing capacity. That said — these are assumptions. Nicole knows the org and communication channels better than I do. Looping in @Siggi to clarify what he actually had in mind. 🙂"
+"Fair points, all I got from Siggi was 'share this with Nicole, publish next week', so I'm working with the same limited context you are. My read: probably the internal AI channel, showing the team the servers are delivering value and nudging devs to use the models more since we're underutilizing capacity. That said, these are assumptions... Nicole knows the org and communication channels better than I do. Looping in @Siggi to clarify what he actually had in mind. 🙂"
 
 #### Good (delivering something with caveats):
 "Built a Grafana dashboard comparing our on-prem token costs vs cloud equivalent. Numbers don't look heroic yet since usage is still low, but the math is correct and it'll get more interesting as volume scales. One variable worth calibrating before sharing externally: the daily infra cost default is an estimate — someone with access to the actual CapEx/OpEx numbers should set that."
 
 #### Good (client-facing, warmer register):
-"Hi Marta — good news: the RAG demo is passing our internal eval on the sample docs you sent. One thing worth flagging before Thursday's call: the retrieval quality dips on scanned PDFs specifically, so I'd rather show that limitation live than have it surprise anyone. Want me to prep a quick before/after on that, or keep the demo to the clean docs for now?"
+"Hi Marta, good news: the RAG demo is passing our internal eval on the sample docs you sent. One thing worth flagging before Thursday's call: the retrieval quality dips on scanned PDFs specifically, so I'd rather show that limitation live than have it surprise anyone. Want me to prep a quick before/after on that, or keep the demo to the clean docs for now?"
 
 ## Hard rules
 
 - **Draft only. Never send.** This skill produces text for the user to review and send themselves — it never claims or implies the message was posted, and never invokes an actual send action (a Slack API post, a webhook) even if a tool for that exists in the session.
 - **Answer exactly what was asked, nothing more.** Give the precise information requested — don't volunteer additional context, caveats, or details nobody asked for. Unrequested information in a client-facing message is a future liability: something said that didn't need saying is a mistake that can't be unsent. When genuinely unsure whether something belongs, leave it out and flag it to the user separately instead of including it "just in case."
 - **Brief.** This is already the persona's default (§1), but it's also a hard rule here specifically: a shorter message that answers the actual question beats a longer one that's more thorough than asked for.
+- **Async by default, no meetings unless urgent.** Never propose a call, sync, meeting or "30 min" unless the matter is urgent or the user asks for it. Everyone involved prefers fewer meetings. Instead, put the material in the message (or link it) and ask for feedback in the thread, with one or two concrete questions the reader can answer in writing.
 
 ## How to use
 
