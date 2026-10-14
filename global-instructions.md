@@ -37,15 +37,15 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 
 ## Code
 
-- **Surgical Changes (HARD RULE)**: Touch ONLY the code the task requires. NO drive-by refactoring or reformatting of adjacent code. Unrelated dead code or bugs you notice get MENTIONED in chat, not fixed.
-- **Simplicity First**: No features beyond what was requested. Iterate toward the simplest thing that works.
-- Python: PEP 8, mandatory type hints. TypeScript: strict mode, no `any`.
+- **Surgical Changes (HARD RULE)**: Touch ONLY the code the task requires. NO drive-by refactoring or reformatting of adjacent code. Unrelated dead code or bugs you notice get MENTIONED in chat, not fixed. Do remove imports, variables, and functions that your own change orphaned. Match the surrounding style.
+- **Simplicity First**: No features beyond what was requested. Iterate toward the simplest thing that works. No abstractions for single-use code, no configurability nobody asked for. If a simpler approach than the one requested exists, say so before building.
+- Python: PEP 8, type hints mandatory on code you write (don't retrofit untouched code). TypeScript: strict mode, no `any`.
 - Don't add error handling for scenarios that cannot occur, or docstrings to code you didn't change.
 
 ## Verification & Definition of Done
 
 - **Success criteria first**: before executing, state what "done" looks like in verifiable terms.
-- **TDD is the default for every behavior change** — new feature, bug fix, changed logic. Write the failing test, _run it and watch it fail_, implement, refactor. A test that was never seen failing proves nothing. A bug fix starts with a test that reproduces the bug.
+- **TDD is the default for every behavior change** — new feature, bug fix, changed logic. Write the failing test, _run it and watch it fail_, implement, refactor. A test that was never seen failing proves nothing. A bug fix starts with a test that reproduces the bug; if the test was written after the fix, revert the fix and watch it fail. A refactor keeps the same tests green before and after.
 - Exempt: config, docs, formatting, dependency bumps, throwaway exploration. Don't invent a test for a README edit. When it's borderline, say out loud which bucket you put it in before starting.
 - **Nothing is complete until its tests run green in front of you.** Not "should pass", not "looks correct" — the command was run and you can paste the output. If they fail, the task is unfinished and you say so.
 - **Autonomous Verification Loop**: Prior to declaring any behavior change done, run the project test suite or build runner autonomously: execute the check, analyze failures, apply surgical fixes, and re-test until green.
