@@ -37,7 +37,7 @@ ls -la ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/commands ~/.claude/hooks ~
 **The three harnesses are not symmetric — don't assume a slash command exists everywhere:**
 - Claude Code gets everything: `agents/`, `commands/`, `hooks/`, `skills/`, plus (once created) `~/.claude/rules/` for a second, `paths:`-scoped instructions file.
 - Antigravity gets `commands/` (via `~/.gemini/config/global_workflows`) and `skills/`, but has no `agents/` symlink — the adviser/explorer subagents are unreachable there.
-- OpenCode only has 5 commands hand-ported into `~/.config/opencode/commands/` (`grill-me`, `ralph-loop`, `ralph-loop-afk`, `tdd-vertical-slice`, `deep-module-design`) and no `skills/` symlink at all. Most of `commands/` referenced in `global-instructions.md` (`/scout`, `/primer`, `/handoff`, `/prep`, `/map-codebase`, `/smart-compact`) don't exist there.
+- OpenCode only has 5 commands hand-ported into `~/.config/opencode/commands/` (`grill-me`, `ralph-loop`, `ralph-loop-afk`, `tdd-vertical-slice`, `deep-module-design`) and no `skills/` symlink of its own, but it discovers skills natively from `~/.claude/skills` and `~/.agents/skills` (both symlinks to this repo's `skills/`; verify with `opencode debug skill`), so skills do reach it. Agents don't. Most of `commands/` referenced in `global-instructions.md` (`/scout`, `/primer`, `/handoff`, `/prep`, `/map-codebase`, `/smart-compact`) don't exist there.
 
 **`hooks/peon-ping/` is not this repo's content.** `peon.sh` and most of that subdirectory are symlinks into a Homebrew-installed package (`/opt/homebrew/opt/peon-ping/libexec/`). Never edit those files — `brew upgrade peon-ping` overwrites them. Only the wiring (which events call it, with what matcher) lives in `settings/claude-settings.json`.
 
