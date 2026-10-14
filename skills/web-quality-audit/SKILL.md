@@ -1,6 +1,6 @@
 ---
 name: web-quality-audit
-description: Run an evidence-led web quality audit covering performance, accessibility, SEO, best practices, and agentic browsing. Use when asked to "audit my site", "review web quality", "run lighthouse audit", "check page quality", or "optimize my website".
+description: Run an evidence-led web quality audit of a rendered page (Lighthouse, traces) covering performance, accessibility, SEO, best practices, and agentic browsing. Use when asked to "audit my site", "run lighthouse audit", "check page quality", or "measure web quality" on a URL. Not for exploratory bug hunting (use dogfood) or static review of UI source files (use web-design-guidelines).
 license: MIT
 metadata:
   author: web-quality-skills

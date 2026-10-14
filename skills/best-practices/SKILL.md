@@ -1,6 +1,6 @@
 ---
 name: best-practices
-description: Apply modern web development best practices for security, compatibility, and code quality. Use when asked to "apply best practices", "security audit", "modernize code", "code quality review", or "check for vulnerabilities".
+description: Apply Lighthouse Best Practices for web frontends — HTTPS, CSP and security headers, browser compatibility, deprecated APIs, console errors. Use when asked to "apply web best practices", "fix Lighthouse best practices", "modernize frontend code", or "check security headers". Not for vulnerability audits of code or systems (use vulnerability-scanner) or general code review (use code-review-excellence).
 license: MIT
 metadata:
   author: web-quality-skills
