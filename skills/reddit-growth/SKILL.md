@@ -22,7 +22,14 @@ Ask before you plan. Use the harness's structured question tool if it has one (C
 
 If the user won't answer, proceed with an explicit **Assumptions** list at the top of the output.
 
-## Step 2 — Map the territory
+## Step 2 — Market and competitor research
+
+Run the `market-research` skill (via the `Skill` tool when available; otherwise follow `skills/market-research/SKILL.md`), reusing the intake answers above instead of re-asking. Skip only if the user explicitly says they already have a current competitor analysis — then ask for it and use that. Use the output for:
+- **Where competitors are active:** the subreddits where competitors post, get mentioned or get recommended become candidate subs for Step 3.
+- **Complaints to answer honestly:** recurring frustrations with competitors that the user's product genuinely solves — answered with disclosure, never by attacking the competitor (see Hard lines).
+- **"Alternative to X" threads:** existing threads asking for alternatives to each competitor, plus monitoring keywords for new ones.
+
+## Step 3 — Map the territory
 
 For each candidate subreddit record: members and activity (posts/day, comments per post), the **self-promotion rules from the sidebar and wiki** (read them live; they vary wildly and change), whether mods allow links, flair requirements, and recurring threads ("Showoff Saturday", weekly self-promo threads). Tier them:
 - **Tier 1 — buyers:** people describing the problem the product solves.
@@ -31,7 +38,7 @@ For each candidate subreddit record: members and activity (posts/day, comments p
 
 Use Reddit search and Google `site:reddit.com "<problem phrase>"` to find threads that already rank — those are the highest-leverage places to leave a great answer.
 
-## Step 3 — Playbook
+## Step 4 — Playbook
 
 **Warm-up (weeks 1–2):** comment only. Answer questions in Tier 1–2 subs with specific, expert, unlinked help. Rough rule of thumb (not an official rule): the large majority of activity should be non-promotional.
 
