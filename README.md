@@ -123,7 +123,15 @@ OpenCode's global config lives at `~/.config/opencode/opencode.json`. It is JSON
 }
 ```
 
-Global slash commands go in `~/.config/opencode/commands/` (one `.md` file per command, same body as `commands/` here, but with OpenCode's own `agent:` frontmatter field instead of Claude Code's `allowed-tools`/`argument-hint`). MCP servers go in that same `opencode.json`'s `mcp` key. Keep `mcp/mcp_config.json` in this repo as the canonical list, and translate it into each tool's own schema by hand when it changes. The three tools do not agree on one MCP config format, because of course they do not.
+Agents, commands and hooks are fanned out by one script:
+
+```bash
+./opencode/sync-opencode.sh
+```
+
+It symlinks every `commands/*.md` into `~/.config/opencode/commands/` (OpenCode ignores Claude Code's `allowed-tools`/`argument-hint` and understands `$ARGUMENTS`), symlinks `opencode/plugins/*.ts` into `~/.config/opencode/plugins/`, and **generates** `~/.config/opencode/agents/*.md` from `agents/*.md`. Agents can't be symlinked: Claude Code's `tools: Read, Grep` string is invalid in OpenCode, and one invalid agent file makes OpenCode reject its whole config. The generated copies get `mode: subagent` and `permission` entries mapped from `tools:`. Re-run the script after adding or editing an agent. Skills need nothing: OpenCode reads `~/.claude/skills` natively.
+
+The only hook ported so far is `pre-push-public-check`: `opencode/plugins/pre-push-public-check.ts` calls the same bash script Claude Code runs and turns its deny into a thrown error. MCP servers go in that same `opencode.json`'s `mcp` key. Keep `mcp/mcp_config.json` in this repo as the canonical list, and translate it into each tool's own schema by hand when it changes. The three tools do not agree on one MCP config format, because of course they do not.
 
 ---
 
