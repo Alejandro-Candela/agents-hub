@@ -22,7 +22,11 @@ Ask before you plan. Use the harness's structured question tool if it has one (C
 
 If the user won't answer, proceed with an explicit **Assumptions** list at the top of the output.
 
-## Step 2 — Pick the channel by model
+## Step 2 — Market and competitor research
+
+Run the `market-research` skill (via the `Skill` tool when available; otherwise follow `skills/market-research/SKILL.md`), reusing the intake answers above instead of re-asking. Skip only if the user explicitly says they already have a current competitor analysis — then ask for it and use that. Use the output for: **which creators, newsletters and podcasts competitors sponsor** (proven audience fit, and a read on what those creators charge and how often they take sponsors), which platforms the category under-uses, and the positioning gaps a creator brief should lead with. Feed the sponsor list into Step 4 as starting candidates, still vetted like any other.
+
+## Step 3 — Pick the channel by model
 
 | Model | Usually works best | Typical deal |
 |---|---|---|
@@ -32,21 +36,21 @@ If the user won't answer, proceed with an explicit **Assumptions** list at the t
 
 Prefer **micro and niche creators** (roughly 5k–100k followers) with high engagement and an audience that matches the buyer over large generic accounts.
 
-## Step 3 — Find and vet
+## Step 4 — Find and vet
 
 Find: search each platform for the problem keywords, look at who the target audience follows and who competitors sponsor, newsletter directories, podcast guest lists. Vet each candidate on: audience match (comments from real buyers?), engagement rate vs follower count, posting consistency, past sponsorships (too many = fatigued audience), brand safety (scan recent content), and fake-follower signals (sudden follower spikes, generic comments). Record everything in a sheet; never fabricate follower or engagement numbers — mark unknowns.
 
-## Step 4 — Outreach
+## Step 5 — Outreach
 
 Short, personal, specific: reference one piece of their content and why their audience fits, what is offered (be concrete about money or terms), and an easy next step. No mass templates; send in small batches and follow up once after ~5 business days. Run drafts through `deslopify` and match register with the `email` skill for email outreach.
 
-## Step 5 — Brief and contract
+## Step 6 — Brief and contract
 
 Brief: goal, key message (one), what the product does for their audience, must-say facts and must-not-say claims, CTA with tracked link or code, deliverables and dates, review process (light — creators know their audience better than the brand does), and usage rights if the brand wants to reuse the content as ads.
 
 Contract essentials: deliverables, payment and timing, exclusivity window (if any), usage rights and duration, disclosure obligation, approval and correction process.
 
-## Step 6 — Disclosure (non-negotiable)
+## Step 7 — Disclosure (non-negotiable)
 
 Every paid or gifted promotion must be clearly disclosed by the creator, on the platform's native paid-partnership label where one exists, plus plain wording ("ad", "sponsored", "#publicidad"). Relevant frameworks — verify the current text before advising, do not quote from memory:
 - **EU:** Unfair Commercial Practices Directive (hidden advertising is a banned practice).

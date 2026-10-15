@@ -26,13 +26,19 @@ Ask before you plan. Use the harness's structured question tool if it has one (C
 
 If the user declines to answer ("just give me something"), proceed but open the output with an explicit **Assumptions** list and mark every recommendation that depends on one.
 
-## Step 2 — Diagnose with data, not intuition
+## Step 2 — Market and competitor research
+
+Run the `market-research` skill (via the `Skill` tool when available; otherwise follow `skills/market-research/SKILL.md`), reusing the intake answers above instead of re-asking. Skip only if the user explicitly says they already have a current competitor analysis — then ask for it and use that. Use the output for:
+- **Competitor keyword and content gaps:** the comparison, alternatives and problem pages competitors publish (or don't), feeding the gap analysis in Step 3.
+- **Winnable SERPs:** queries where the ranking competitors are weak (thin pages, complaints the user's product answers, no "X alternative" page) versus SERPs owned by entrenched players the user cannot outrank soon.
+
+## Step 3 — Diagnose with data, not intuition
 
 - Existing site: pull Search Console first (queries with impressions but position 8–30 are the cheapest wins; pages losing clicks year-on-year are the cheapest fixes). Use Ahrefs/Semrush/similar only if the user has access — never fabricate volumes or difficulty scores. If no data source is available, say so and rank opportunities qualitatively.
 - Inspect the live SERP for each candidate keyword: what format ranks (guide, list, tool, product page, forum thread, video)? If Reddit/forums dominate, a polished article may lose; flag the `reddit-growth` skill.
 - Gap analysis: queries competitors rank for that map to the user's offer.
 
-## Step 3 — Map intent to the funnel
+## Step 4 — Map intent to the funnel
 
 | Intent | Example | Content type | Conversion role |
 |---|---|---|---|
@@ -42,19 +48,19 @@ If the user declines to answer ("just give me something"), proceed but open the 
 
 Prioritise by **business value × ranking feasibility × effort**, not by search volume. A 50-search/month "X alternative" keyword usually beats a 5,000-search "what is X".
 
-## Step 4 — Topic clusters
+## Step 5 — Topic clusters
 
 One pillar page per core problem, 5–15 supporting pages, each answering one intent; every supporting page links to the pillar and to 2–3 siblings with descriptive anchors. One primary keyword per URL — two pages targeting the same intent cannibalise each other.
 
-## Step 5 — Content briefs
+## Step 6 — Content briefs
 
 Each brief contains: primary keyword + intent, target reader and the job they are doing, what the current top 3 results miss (the angle), required original element (data, screenshot, worked example, expert quote — something an LLM can't produce from the same SERP), outline, internal links in/out, CTA matched to intent, and success metric. Run drafts through `deslopify`; generic AI prose is what Google's helpful-content systems and readers both discount.
 
-## Step 6 — Authority and link earning
+## Step 7 — Authority and link earning
 
 Earn links with assets people cite: original research/data, free tools, templates, strong opinions with evidence. Distribution channels: digital PR to journalists, guest appearances (podcasts beat guest posts), partner and integration pages, community presence (`reddit-growth`), creators (`creator-outreach`). **Do not recommend** buying links, PBNs, or link exchanges at scale — Google's spam policies penalise them and the penalty lands on the user's domain.
 
-## Step 7 — AI answer engines
+## Step 8 — AI answer engines
 
 LLM-powered search (Google AI Overviews, ChatGPT search, Perplexity) cites pages that state facts plainly, answer the question in the first paragraph, carry original data, and are mentioned on third-party sites (Reddit, reviews, comparison articles). Same fundamentals; weight brand mentions and quotable, self-contained answers higher. Crawler access and `llms.txt` belong to the `seo` skill.
 
