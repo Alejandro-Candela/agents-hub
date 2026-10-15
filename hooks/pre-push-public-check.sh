@@ -75,7 +75,7 @@ fi
 owner_repo=$(echo "$remote_url" | sed -E 's#.*github\.com[:/]##; s#\.git$##')
 visibility=""
 if [ -n "$owner_repo" ]; then
-  api_response=$(timeout 5 curl -s "https://api.github.com/repos/${owner_repo}" 2>/dev/null || echo "")
+  api_response=$(curl -s --max-time 5 "https://api.github.com/repos/${owner_repo}" 2>/dev/null || echo "")
   if echo "$api_response" | jq -e '.private == false' >/dev/null 2>&1; then
     visibility="public"
   elif echo "$api_response" | jq -e '.private == true' >/dev/null 2>&1; then
