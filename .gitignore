@@ -16,3 +16,6 @@ settings/claude-settings.json*
 *applied*
 **/*applied*/**
 skills/knowledge-base
+
+# Playwright MCP output (page snapshots, screenshots of reviewed sites)
+.playwright-mcp/

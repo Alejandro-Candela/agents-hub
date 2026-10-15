@@ -77,6 +77,9 @@ ln -sf "$HUB/hooks" ~/.claude/hooks
 
 # 5. Linking Skills (40+ on-demand domain experts — don't forget this one)
 ln -sf "$HUB/skills" ~/.claude/skills
+
+# 6. Linking Rules (path-scoped: load only when a matching file is touched)
+ln -sf "$HUB/rules" ~/.claude/rules
 ```
 
 Verify everything landed correctly:
