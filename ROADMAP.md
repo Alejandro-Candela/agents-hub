@@ -4,8 +4,6 @@ Harness-config work only. Session-level state lives in `handoff.md`; history liv
 
 ## Now
 
-- [ ] Delete merged branch `feat/v2-1-286-harness-upgrade` (local + remote). Blocked for agents by the auto-mode classifier; run by hand: `git branch -d feat/v2-1-286-harness-upgrade && git push origin --delete feat/v2-1-286-harness-upgrade`
-
 - [ ] Remove leftover agent worktree `.claude/worktrees/agent-add2fe7ab63c15ffe` and its local branch once confirmed clean (`git worktree remove`).
 
 ## Next
@@ -25,6 +23,7 @@ Harness-config work only. Session-level state lives in `handoff.md`; history liv
 
 ## Done
 
+- 2026-10-16 — Merged branch `feat/v2-1-286-harness-upgrade` deleted (local + remote)
 - 2026-10-15 — OpenCode parity for agents and commands via `opencode/sync-opencode.sh`; pre-push plugin verified end-to-end in a live OpenCode session (`4bc8a42`)
 - 2026-10-16 — `market-research` skill (web deep research on competitors and similar products), wired into the three marketing skills as Step 2 (PR #3, `f03f0f3`); trigger test 10/10
 - 2026-10-16 — Trigger evals for the marketing skills: 45/48 at first run; `reddit-growth` and `creator-outreach` descriptions extended for the misses, retests pass

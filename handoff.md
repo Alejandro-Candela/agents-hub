@@ -10,18 +10,17 @@
 - Hook fix `b7e750b` (`curl --max-time` instead of missing macOS `timeout`); rule "Ask, Don't Assume" `a8959c0` (`global-instructions.md:68`).
 - `linkedin.md` gitignored; `ROADMAP.md` created.
 - Outside repo: `~/.config/opencode/opencode.json` `ralph-loop-agent-mode` path fixed (backup `opencode.json.bak-ralphpath-*`); OpenCode stubs `tdd-vertical-slice`, `deep-module-design` deleted.
-- PRs #1, #2, #3 merged to main; `feat/frontend-design-skills`, `feat/opencode-parity` deleted.
+- PRs #1, #2, #3 merged to main; `feat/frontend-design-skills`, `feat/opencode-parity`, `feat/v2-1-286-harness-upgrade` deleted.
 
 ## In Progress
 - None
 
 ## Blockers / Open Questions
-- `feat/v2-1-286-harness-upgrade` (merged, 0 ahead) not deleted: auto-mode classifier denies branch deletion. Run by hand: `git branch -d feat/v2-1-286-harness-upgrade && git push origin --delete feat/v2-1-286-harness-upgrade`
 - Leftover agent worktree `.claude/worktrees/agent-add2fe7ab63c15ffe` + branch `worktree-agent-add2fe7ab63c15ffe`; not checked (classifier gave no verdict). Remove with `git worktree remove` once confirmed clean.
 - Pre-push hook cannot detect private repos (unauthenticated API 404) -> scanned as public. Fail-safe.
 
 ## Next Steps
-1. Delete the merged branch and the agent worktree (commands above)
+1. Remove the agent worktree (command above) after checking it is clean
 2. Pick the next item from `ROADMAP.md` "Next" (OpenCode hook parity for safety hooks first)
 
 ## Key Context
