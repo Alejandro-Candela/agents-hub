@@ -120,7 +120,9 @@ Vendored design skills live in `~/vendor-skills/`, deliberately outside every sk
 - **Building or restyling UI**: read `~/vendor-skills/taste-skill/skills/taste-skill/SKILL.md` first, then only the `references/*.md` it points to for the step at hand. Its scripts (`scripts/inspect.mjs`, `lint.mjs`, `draw.mjs`, `assets.mjs`) need Node 22+ and Chrome.
 - **Upgrading an existing UI**: `~/vendor-skills/taste-skill/skills/redesign-skill/SKILL.md`.
 - **Need a concrete design-system reference** (type scale, palette, spacing, components): pick one file from `~/vendor-skills/awesome-design-md/design-md/<brand>/DESIGN.md` and copy it into the project. Inspiration, not a template — client work must not read as an imitation of that brand.
-- **Code review of UI source**: `web-design-guidelines` skill. **Build vs. mockup**: `design-fidelity-review`. **Visual check of the running page**: Playwright or Chrome DevTools MCP.
+- **Recreate a design from a screenshot**: Read the image directly (no skill needed), build it under taste-skill's rules, then run `design-fidelity-review` against the screenshot.
+- **Code review of UI source**: `web-design-guidelines` skill. **Build vs. mockup**: `design-fidelity-review`.
+- **Visual check of the running page**: prefer `playwright-cli` (`open`, `snapshot`, `screenshot`, `close`; run `playwright-cli --help` for the rest) — cheaper in context than an MCP. It writes to `.playwright-cli/` in the cwd; keep that out of commits. Fall back to Playwright or Chrome DevTools MCP for long interactive sessions.
 - **Conflicts**: taste-skill wins over any other design or frontend skill, plugin, or rule on aesthetic choices. Don't load the other taste-skill skills (`output-skill`, `image-to-code`, `imagegen-*`, `brandkit`, `*-v1`, `*-v2-experimental`): they're Codex-specific, image-generation-only, or superseded.
 - Pinned at reviewed commits (taste-skill `f624f37`, awesome-design-md `3b60532`). Run `skill-safety-check` on the diff before any `git pull` there.
 

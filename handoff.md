@@ -3,36 +3,32 @@
 **Branch**: main
 
 ## What Was Done
-- OpenCode parity: agents/commands via `opencode/sync-opencode.sh` (`4bc8a42`); hooks via `opencode/plugins/`: `pre-push-public-check.ts`, `sensitive-file-guard.ts` (block), `claude-hooks-bridge.ts` (format-after-edit, package-manager-nudge, pre-tool-git-check appended to tool output; precompact-state into compaction). 12 bun tests; guard, nudge and pre-push verified in live OpenCode sessions.
-- Antigravity subagents: `antigravity/sync-antigravity.sh` generates `~/.gemini/config/agents/*.md` (9 agents, tool names mapped to Antigravity's documented names).
-- Hooks: `hooks/sensitive-file-guard.sh`, `hooks/package-manager-nudge.sh` extracted from inline settings; `settings/claude-settings.json` rewired and pushed live (in sync). Pre-push: macOS `timeout` fix (`b7e750b`) and private-repo detection via `gh api`.
-- Skills: `seo-content-strategy`, `reddit-growth`, `creator-outreach` (`e9e7fc0`), `market-research` (PR #3, `f03f0f3`); trigger evals 45/48 then description fixes; `market-research` 10/10. Tool: `scripts/skill-trigger-eval.py`.
-- `global-instructions.md:68` "Ask, Don't Assume" (`a8959c0`); `codebase-map.md`; `ROADMAP.md`; `linkedin.md` gitignored.
-- Outside repo: `opencode.json` `ralph-loop-agent-mode` path fixed; OpenCode stubs deleted; merged branches and agent worktree removed.
+- Design tooling from the "5 Herramientas" video (revolutia), mapped to repos: Leonxlnx/taste-skill (Taste Skill + Image to Code), vercel-labs/agent-skills `web-design-guidelines` (already in `skills/`), VoltAgent/awesome-design-md, microsoft/playwright-cli.
+- `skill-safety-check` on taste-skill (FLAGGED, minor: oversized and Codex-only sub-skills, `full-output-enforcement` too broad, writes `~/.taste-skill/history.json`) and awesome-design-md (plain markdown, no skill manifest, clean).
+- Vendored outside every skills dir: `~/vendor-skills/taste-skill` (`f624f37`), `~/vendor-skills/awesome-design-md` (`3b60532`). Never auto-loaded.
+- `global-instructions.md` "Design & Frontend" section: when to Read which file, screenshot-to-code flow, `playwright-cli` preferred over MCP for visual checks, taste-skill wins aesthetic conflicts, excluded sub-skills listed.
+- `frontend-design` plugin disabled in `settings/claude-settings.json`, pushed live (in sync).
+- `@playwright/cli@0.1.22` installed globally with bun (skills-less mode; `install --skills` deliberately not run).
 
 ## In Progress
 - None
 
 ## Blockers / Open Questions
-- None. Accepted limits: Antigravity agents not load-tested (no Antigravity CLI on this machine); pre-push treats a repo as public when `gh` is not authenticated.
+- Upstream `taste-skill/tests/skill_test.sh` fails 5/5 on macOS bash 3.2 (`skill.sh` uses `declare -A`). `skill.sh` is unused by the routing; not patched.
+- Should accessibility (WCAG) be exempt from "taste-skill wins conflicts"? Not decided.
 
 ## Next Steps
-1. Restart Claude Code so the rewired PreToolUse hooks (`sensitive-file-guard.sh`, `package-manager-nudge.sh`) load.
-2. Nothing else queued; `ROADMAP.md` has only the recurring maintenance review.
+1. Restart Claude Code: `frontend-design` disable and the new `global-instructions.md` section apply only after restart.
+2. Try the routing on a real UI task; check Claude reads taste-skill only then.
+3. Before any `git pull` in `~/vendor-skills/*`, run `skill-safety-check` on the diff.
 
 ## Key Context
-- Never symlink agents into OpenCode or Antigravity: both need generated files (OpenCode rejects Claude's `tools:` string and then the whole config; Antigravity can hang on unknown tool names). Re-run both sync scripts after editing `agents/`.
-- OpenCode loads every `.ts` in `plugins/`, so shared helpers can't live there; each plugin is self-contained and shells out to `~/.claude/hooks/*.sh`.
-- Claude advisory hooks (`additionalContext`) have no OpenCode equivalent; the bridge appends them to `output.output` in `tool.execute.after`.
-- skill-creator `run_eval.py` reports 0% for installed skills; use `scripts/skill-trigger-eval.py`.
-- Claude Code's skill listing cut a description at `#`; avoid `#` in descriptions.
-- rtk PreToolUse hook truncates long piped output and rewrites `git`/`grep`; write output to a file first.
+- Tested this session: taste-skill `lint.mjs` (3 FAIL on fixture), `draw.mjs --sector restaurant`, `inspect.mjs` (headless Chrome, 1440/390 renders), `assets.mjs` (Openverse search); `playwright-cli` open/snapshot/screenshot/close on a local fixture. Node v24.14.1, Chrome at `/Applications`.
+- Port 8765 is taken by another local app (stemflow); pick a free port for test servers.
+- `draw.mjs` writes `~/.taste-skill/history.json` unless `TASTE_SKILL_HISTORY` is set.
+- Earlier-session context still valid: never symlink agents into OpenCode/Antigravity (generate them); use `scripts/skill-trigger-eval.py` for installed-skill trigger evals; rtk hook truncates long piped output.
 
 ## Files to Review First
+- `global-instructions.md` ("Design & Frontend")
 - `ROADMAP.md`
-- `codebase-map.md`
-- `opencode/plugins/claude-hooks-bridge.ts`
-- `opencode/sync-opencode.sh`, `antigravity/sync-antigravity.sh`
-- `hooks/pre-push-public-check.sh`, `hooks/sensitive-file-guard.sh`
-- `skills/market-research/SKILL.md`
-- `CLAUDE.md` (Architecture: harness bullets)
+- `~/vendor-skills/taste-skill/skills/taste-skill/SKILL.md`
