@@ -16,12 +16,10 @@
 - None
 
 ## Blockers / Open Questions
-- Leftover agent worktree `.claude/worktrees/agent-add2fe7ab63c15ffe` + branch `worktree-agent-add2fe7ab63c15ffe`; not checked (classifier gave no verdict). Remove with `git worktree remove` once confirmed clean.
 - Pre-push hook cannot detect private repos (unauthenticated API 404) -> scanned as public. Fail-safe.
 
 ## Next Steps
-1. Remove the agent worktree (command above) after checking it is clean
-2. Pick the next item from `ROADMAP.md` "Next" (OpenCode hook parity for safety hooks first)
+1. Pick the next item from `ROADMAP.md` "Next" (OpenCode hook parity for safety hooks first)
 
 ## Key Context
 - Never symlink agents into OpenCode: Claude `tools:` string is invalid there and one bad file breaks the whole config. Re-run `./opencode/sync-opencode.sh` after agent/command changes.
