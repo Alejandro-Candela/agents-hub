@@ -1,6 +1,7 @@
 ---
 name: creator-outreach
-description: Plan and run partnerships with content creators and influencers: finding and vetting creators (fake followers, engagement, audience fit), outreach messages, briefs, deal structures, ad-disclosure rules for paid posts, and measuring results. Interviews the user about product, audience, goals and budget before proposing a plan. Use for "influencer marketing", "work with creators", YouTubers, TikTokers, LinkedIn creators, sponsoring a newsletter or podcast, UGC, creator affiliate programs, or "find influencers for X". Also use when asked what a paid or gifted influencer post must disclose legally (Spain, EU, US) or how to vet a creator before paying.
+description: >-
+  Plan and run partnerships with content creators and influencers: finding and vetting creators (fake followers, engagement, audience fit), outreach messages, briefs, deal structures, ad-disclosure rules for paid posts, and measuring results. Interviews the user about product, audience, goals and budget before proposing a plan. Use for "influencer marketing", "work with creators", YouTubers, TikTokers, LinkedIn creators, sponsoring a newsletter or podcast, UGC, creator affiliate programs, or "find influencers for X". Also use when asked what a paid or gifted influencer post must disclose legally (Spain, EU, US) or how to vet a creator before paying.
 ---
 
 # Creator Outreach

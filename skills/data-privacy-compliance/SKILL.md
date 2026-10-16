@@ -1,8 +1,9 @@
 ---
 name: data-privacy-compliance
-description: "Data privacy and compliance **specialist** — use whenever someone asks about GDPR, CCPA, HIPAA, privacy policies, data subject rights, consent management, DPIAs, or data protection. Also trigger when building or reviewing any system that stores personal data, chat logs, user profiles, or AI conversation history — especially on a Supabase/RAG stack. Must run when someone says 'is this GDPR compliant', 'can we store this', 'what are our obligations', 'do we need a DPIA', 'right to deletion', or 'privacy review'. Covers AI-specific obligations: conversation log retention, embeddings as PII, right-to-deletion in RAG systems, LLM provider DPAs, and DPIA requirements for AI applications. Based on 2026 regulatory standards.
+description: |-
+  Data privacy and compliance **specialist** — use whenever someone asks about GDPR, CCPA, HIPAA, privacy policies, data subject rights, consent management, DPIAs, or data protection. Also trigger when building or reviewing any system that stores personal data, chat logs, user profiles, or AI conversation history — especially on a Supabase/RAG stack. Must run when someone says 'is this GDPR compliant', 'can we store this', 'what are our obligations', 'do we need a DPIA', 'right to deletion', or 'privacy review'. Covers AI-specific obligations: conversation log retention, embeddings as PII, right-to-deletion in RAG systems, LLM provider DPAs, and DPIA requirements for AI applications. Based on 2026 regulatory standards.
 
-Does NOT apply to generic security review — for broad code/system audits, defer to `vulnerability-scanner`; for pre-build architecture, defer to `ai-system-build-gate`. This skill is the privacy/compliance deep-dive consulted from those broader reviews."
+  Does NOT apply to generic security review — for broad code/system audits, defer to `vulnerability-scanner`; for pre-build architecture, defer to `ai-system-build-gate`. This skill is the privacy/compliance deep-dive consulted from those broader reviews.
 ---
 
 # Data Privacy Compliance
