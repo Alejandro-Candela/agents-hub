@@ -89,34 +89,33 @@ ls -la ~/.claude/CLAUDE.md ~/.claude/agents ~/.claude/commands ~/.claude/hooks ~
 # Every line should show -> ~/agents-hub/...
 ```
 
-### Antigravity / Antigravity IDE
+### Antigravity (2.0 App, Antigravity IDE, Antigravity CLI `agy`)
 
-Same repo, same brain. Google's IDE just uses different config paths. Link both apps:
+Same repo, same brain. Gemini CLI is gone; Google's platform now spans three surfaces — **Antigravity 2.0** (desktop app), **Antigravity IDE** (VS Code-based IDE), and **Antigravity CLI** (`agy`, configured at `~/.gemini/antigravity-cli/settings.json`). All three share `~/.gemini/GEMINI.md` and `~/.gemini/config/`:
 
 ```bash
 HUB=~/agents-hub
 
-# Antigravity (reads via ~/.gemini/config/skills, one hop further)
+# Global instructions & shared skills discovery root
 ln -sf "$HUB/global-instructions.md" ~/.gemini/GEMINI.md
 ln -sf "$HUB/global-instructions.md" ~/.gemini/antigravity/instructions.md
-ln -sf "$HUB/skills" ~/.gemini/config/skills
-
-# Antigravity IDE
 ln -sf "$HUB/global-instructions.md" ~/.gemini/antigravity-ide/instructions.md
-ln -sf "$HUB/skills" ~/.gemini/antigravity-ide/skills
+ln -sf "$HUB/skills" ~/.gemini/config/skills
 ```
 
 Verify:
 
 ```bash
-ls -la ~/.gemini/GEMINI.md ~/.gemini/antigravity/instructions.md ~/.gemini/antigravity-ide/instructions.md ~/.gemini/config/skills ~/.gemini/antigravity-ide/skills
+ls -la ~/.gemini/GEMINI.md ~/.gemini/antigravity/instructions.md ~/.gemini/antigravity-ide/instructions.md ~/.gemini/config/skills
 ```
 
-Subagents are generated, not linked, because Antigravity uses its own tool names:
+Subagents, path-scoped rules, slash commands, and lifecycle hooks are generated into `~/.gemini/config/` because Antigravity uses its own frontmatter and hook schemas:
 
 ```bash
-./antigravity/sync-antigravity.sh   # agents/*.md -> ~/.gemini/config/agents/*.md
+./antigravity/sync-antigravity.sh
 ```
+
+It generates `~/.gemini/config/agents/*.md` (with `enable_write_tools` and Antigravity tool names), `~/.gemini/config/rules/*.md` (`paths:` converted to `trigger: glob` + `globs:`), `~/.gemini/config/command-skills/*/SKILL.md` + `skills.json` (replacing deprecated `global_workflows` so `commands/*.md` work as `/<name>` slash commands), and `~/.gemini/config/hooks.json` (bridging `PreToolUse` and `PostToolUse` to `hooks/*.sh` via `antigravity/hooks-adapter.sh`). Re-run after adding or editing an agent, rule, or command.
 
 ### OpenCode
 

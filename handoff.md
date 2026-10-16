@@ -1,34 +1,33 @@
 # Session Handoff
 **Date**: 2026-10-16
-**Branch**: main
+**Branch**: feat/antigravity-parity
 
 ## What Was Done
-- Design tooling from the "5 Herramientas" video (revolutia), mapped to repos: Leonxlnx/taste-skill (Taste Skill + Image to Code), vercel-labs/agent-skills `web-design-guidelines` (already in `skills/`), VoltAgent/awesome-design-md, microsoft/playwright-cli.
-- `skill-safety-check` on taste-skill (FLAGGED, minor: oversized and Codex-only sub-skills, `full-output-enforcement` too broad, writes `~/.taste-skill/history.json`) and awesome-design-md (plain markdown, no skill manifest, clean).
-- Vendored outside every skills dir: `~/vendor-skills/taste-skill` (`f624f37`), `~/vendor-skills/awesome-design-md` (`3b60532`). Never auto-loaded.
-- `global-instructions.md` "Design & Frontend" section: when to Read which file, screenshot-to-code flow, `playwright-cli` preferred over MCP for visual checks, taste-skill wins aesthetic conflicts, excluded sub-skills listed.
-- `frontend-design` plugin disabled in `settings/claude-settings.json`, pushed live (in sync).
-- `@playwright/cli@0.1.22` installed globally with bun (skills-less mode; `install --skills` deliberately not run).
+- Audited Antigravity (2.0 App, Antigravity IDE, Antigravity CLI `agy`) customization ingestion against official docs (`agy-customizations`, `antigravity-guide`, `migrate-workflows`) and live session state.
+- Fixed YAML frontmatter syntax errors (unquoted `: ` and unindented multiline quoted strings) in `creator-outreach`, `n8n-code-tool`, `using-n8n-mcp-skills`, `ai-system-build-gate`, `api-security-best-practices`, `data-privacy-compliance`, `sql-injection-testing`, and `vulnerability-scanner` (`creator-outreach` was previously dropped silently by Antigravity's parser).
+- Removed `disable-model-invocation: true` from `model-serving-strategy` and `using-n8n-mcp-skills` so they match `global-instructions.md` and their own descriptions.
+- Added explicit `tools:` frontmatter to `agents/adviser.md` (`Read, Grep, Glob`) and `agents/explorer.md` (`Read, Grep, Glob, Write`) so sync scripts no longer grant them `Bash` or `Edit` by default.
+- Upgraded `antigravity/sync-antigravity.sh` and added `antigravity/hooks-adapter.sh` + `antigravity/sync-antigravity.test.ts` (8 bun tests passing):
+  - Generates `~/.gemini/config/agents/*.md` with `enable_write_tools: true|false` and actual Antigravity tool names (`view_file`, `run_command`, `replace_file_content`, `write_to_file`).
+  - Generates `~/.gemini/config/rules/*.md` converting `paths:` into `trigger: glob` + `globs:`.
+  - Generates `~/.gemini/config/command-skills/<cmd>/SKILL.md` + `~/.gemini/config/skills.json` from `commands/*.md` (with `disable-model-invocation: true`) and removes the deprecated `global_workflows` symlink.
+  - Generates `~/.gemini/config/hooks.json` bridging `PreToolUse` (`pre-push-public-check.sh`, `sensitive-file-guard.sh`, `package-manager-nudge.sh`, `pre-tool-git-check.sh`) and `PostToolUse` (`format-after-edit.sh`).
+- Updated `CLAUDE.md`, `README.md`, `codebase-map.md`, and `ROADMAP.md` for the 3-surface Antigravity architecture (2.0 App, IDE, CLI `agy`).
 
 ## In Progress
 - None
 
 ## Blockers / Open Questions
-- Upstream `taste-skill/tests/skill_test.sh` fails 5/5 on macOS bash 3.2 (`skill.sh` uses `declare -A`). `skill.sh` is unused by the routing; not patched.
-- Should accessibility (WCAG) be exempt from "taste-skill wins conflicts"? Not decided.
+- Built-in Antigravity plugins (`science` alone adds 25 skills, `firebase` adds 10) consume a large share of the skills context budget, causing 6 global skills (`ai-system-build-gate`, `bug-report-writer`, `data-privacy-compliance`, `hf-cli`, `modern-web-guidance`, `vulnerability-scanner`) to be budget-excluded until unused built-in plugins are disabled in the Antigravity Plugins UI.
 
 ## Next Steps
-1. Restart Claude Code: `frontend-design` disable and the new `global-instructions.md` section apply only after restart.
-2. Try the routing on a real UI task; check Claude reads taste-skill only then.
-3. Before any `git pull` in `~/vendor-skills/*`, run `skill-safety-check` on the diff.
-
-## Key Context
-- Tested this session: taste-skill `lint.mjs` (3 FAIL on fixture), `draw.mjs --sector restaurant`, `inspect.mjs` (headless Chrome, 1440/390 renders), `assets.mjs` (Openverse search); `playwright-cli` open/snapshot/screenshot/close on a local fixture. Node v24.14.1, Chrome at `/Applications`.
-- Port 8765 is taken by another local app (stemflow); pick a free port for test servers.
-- `draw.mjs` writes `~/.taste-skill/history.json` unless `TASTE_SKILL_HISTORY` is set.
-- Earlier-session context still valid: never symlink agents into OpenCode/Antigravity (generate them); use `scripts/skill-trigger-eval.py` for installed-skill trigger evals; rtk hook truncates long piped output.
+1. Restart Antigravity (App / IDE / CLI) so the newly generated `agents/`, `rules/`, `command-skills/` (`skills.json`), `hooks.json`, and fixed `creator-outreach` skill load into the session.
+2. Disable unused built-in plugins (e.g. `science`) in Antigravity's Plugins page (`customization://science`) to reclaim the skills context budget.
+3. Run `./opencode/sync-opencode.sh` if not yet run outside the sandbox so OpenCode picks up the tightened `adviser` and `explorer` permissions.
 
 ## Files to Review First
-- `global-instructions.md` ("Design & Frontend")
-- `ROADMAP.md`
-- `~/vendor-skills/taste-skill/skills/taste-skill/SKILL.md`
+- `antigravity/sync-antigravity.sh`
+- `antigravity/hooks-adapter.sh`
+- `antigravity/sync-antigravity.test.ts`
+- `CLAUDE.md`
+- `README.md`
