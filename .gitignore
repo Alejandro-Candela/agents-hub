@@ -19,3 +19,4 @@ skills/knowledge-base
 
 # Playwright MCP output (page snapshots, screenshots of reviewed sites)
 .playwright-mcp/
+linkedin.md
