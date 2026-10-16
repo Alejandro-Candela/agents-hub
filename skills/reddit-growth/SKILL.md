@@ -1,6 +1,6 @@
 ---
 name: reddit-growth
-description: Aggressive but ban-proof Reddit marketing — subreddit selection, value-first posts and comments, founder AMAs, launch threads, monitoring for buying-intent threads, and Reddit Ads. Interviews the user about product, audience, goals and existing accounts before proposing a playbook. Use when asked about "marketing on Reddit", "Reddit strategy", "grow on Reddit", "post our launch on Reddit", "which subreddits", "Reddit ads", "get mentioned on Reddit", or "community-led growth" involving Reddit.
+description: Aggressive but ban-proof Reddit marketing — subreddit selection, value-first posts and comments, founder AMAs, launch threads, monitoring for buying-intent threads, and Reddit Ads. Interviews the user about product, audience, goals and existing accounts before proposing a playbook. Use when asked about "marketing on Reddit", "Reddit strategy", "grow on Reddit", "post our launch on Reddit", "which subreddits", "Reddit ads", "get mentioned on Reddit", or "community-led growth" involving Reddit. Also use when someone proposes or asks about multiple accounts, upvote groups, seeded recommendations or other shortcuts for Reddit traction, so the legitimate alternative gets offered.
 ---
 
 # Reddit Growth
