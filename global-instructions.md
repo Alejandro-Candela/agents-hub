@@ -71,16 +71,9 @@ Work in small, reversible steps. Branch before the first commit when you're on `
 - **AFK Loops**: delegate unblocked issues to parallel agents via `ralph-loop` (`/plugin enable ralph-loop` first — off by default).
 - **Doc Rot**: delete or mark closed any temporary PRD or plan once it's been integrated.
 
-## Context & Cache Discipline
+## Context & Rule Placement
 
-Every turn re-sends the whole conversation; the API bills only what changed, by matching the unchanged _prefix_. The prefix is ordered system prompt → project context → conversation, and any change to an earlier layer recomputes everything after it. Mid-session model switches, effort changes, enabling fast mode, and MCP/plugin toggles that load tool definitions upfront all invalidate that prefix and re-read the entire session at uncached rates. The practical rule: make configuration decisions at the top of a session, then leave them alone.
-
-- Pick model and effort level before starting work. Toggle plugins and MCP servers then too, not mid-task.
-- `/compact` at natural task boundaries, never mid-task. Auto-compaction firing in the middle of work is the expensive case you're avoiding.
-- Abandoning a line of work: `/rewind`, not `/compact`. Rewind truncates back to a prefix that is already cached; compaction builds a new one.
-- Starting something unrelated: `/clear` beats letting history accumulate.
 - Editing this file mid-session changes nothing until `/clear`, `/compact`, or restart. Say that instead of claiming a new rule "now applies".
-- Watch `ctx: N% remaining` in the status line rather than guessing. Below ~25%, wrap up or `/smart-compact` with an explicit focus area.
 - **Where rules belong**: this file loads in full, in every project, in every session — so it holds only cross-project, non-obvious directives. Domain conventions go in `skills/` (load on demand). File-type or directory-specific rules go in `~/.claude/rules/` with `paths:` frontmatter, so they load only when a matching file is touched. Never grow this file with content that could live in either.
 
 ## Session & Context Management
@@ -90,20 +83,6 @@ Every turn re-sends the whole conversation; the API bills only what changed, by 
 - **Path-Scoped Rules**: in monorepos, respect local instruction files in subdirectories; the nearest one wins over the root.
 - **No contradictions**: two rules that conflict make behavior arbitrary. When adding a rule, check it doesn't fight an existing one; when one is obsolete, delete it rather than layering an exception on top.
 - **Codebase Legibility**: scope test and lint commands per subdirectory rather than running them repo-wide; keep `.ignore` and `permissions.deny` current so generated files, build artifacts, and vendored code never get read; run `/map-codebase` when the directory tree doesn't explain the architecture on its own.
-
-## Maintenance Cadence
-
-Review CLAUDE.md files, hooks, and skills every 3–6 months or after a major model release. Instructions written for one model version can actively fight a newer one — especially rules that compensate for reasoning or tooling limits that no longer exist. Corrections and learned patterns belong in auto memory, which persists them automatically; don't hand-maintain them here.
-
-## Prefer Aliases Over Version Strings
-
-Model choice is a pin either way — `"opus"` and `"claude-opus-5-5"` both override the account default. The difference is rot: an alias updates when Anthropic ships the next Opus; a version string keeps serving the retired one silently until an audit catches it. Always the alias.
-
-- Top-level `model` in `settings/claude-settings.json`: use `opus`, `sonnet`, `haiku`, `fable`, `best`. Add `[1m]` for the 1M-context variants.
-- Omit the key entirely only if the account default is what you want. On Anthropic-API accounts the picker's `Default (recommended)` can lag the `opus` alias by a major version, so an empty setting drops you a tier below `"model": "opus"`.
-- Agent, subagent, and skill frontmatter: same rule, or omit `model:` to inherit from the session. A component running off the session default costs one full uncached re-read that turn — worth it for real reasoning work, not for a formatting pass.
-- Never a dated snapshot (`claude-opus-5-5`, `claude-opus-4-6`, …) anywhere. Two frontmatter files hit that trap before an audit caught them.
-- Never `ANTHROPIC_MODEL` / `ANTHROPIC_DEFAULT_*_MODEL` env vars. They outrank every settings layer, don't surface in `/model`, and become invisible stale pins. This cost a debugging session here.
 
 ## Adviser Strategy
 
@@ -123,8 +102,7 @@ Vendored design skills live in `~/vendor-skills/`, deliberately outside every sk
 - **Recreate a design from a screenshot**: Read the image directly (no skill needed), build it under taste-skill's rules, then run `design-fidelity-review` against the screenshot.
 - **Code review of UI source**: `web-design-guidelines` skill. **Build vs. mockup**: `design-fidelity-review`.
 - **Visual check of the running page**: prefer `playwright-cli` (`open`, `snapshot`, `screenshot`, `close`; run `playwright-cli --help` for the rest) — cheaper in context than an MCP. It writes to `.playwright-cli/` in the cwd; keep that out of commits. Fall back to Playwright or Chrome DevTools MCP for long interactive sessions.
-- **Conflicts**: taste-skill wins over any other design or frontend skill, plugin, or rule on aesthetic choices. Don't load the other taste-skill skills (`output-skill`, `image-to-code`, `imagegen-*`, `brandkit`, `*-v1`, `*-v2-experimental`): they're Codex-specific, image-generation-only, or superseded.
-- Pinned at reviewed commits (taste-skill `f624f37`, awesome-design-md `3b60532`). Run `skill-safety-check` on the diff before any `git pull` there.
+- **Conflicts**: taste-skill wins over any other design or frontend skill, plugin, or rule on aesthetic choices. Don't load the other taste-skill skills (`output-skill`, `image-to-code`, `imagegen-*`, `brandkit`, `*-v1`, `*-v2-experimental`): they're Codex-specific, image-generation-only, or superseded. Run `skill-safety-check` on the diff before any `git pull` in `~/vendor-skills/`.
 
 ## Plugins
 

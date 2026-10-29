@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
-# PostToolUseFailure hook — reminds agent to invoke Adviser if stuck
+# PostToolUseFailure hook — reminds agent to invoke Adviser if stuck.
+# Ignores benign non-zero lookup exits (grep, rg, diff, test, which).
 
 set -euo pipefail
 
-msg="[post-error-adviser] Reminder: If you are stuck debugging the same issue multiple times, or going in circles, STOP executing tools and invoke the adviser subagent (Agent tool, subagent_type: adviser) for strategic guidance."
+input=$(cat)
+cmd=$(echo "$input" | jq -r '.tool_input.command // ""')
+
+if echo "$cmd" | grep -qE '^[[:space:]]*(grep|rg|find|diff|git[[:space:]]+diff|ls|which|command[[:space:]]+-v|test|\[)\b'; then
+  echo '{}'
+  exit 0
+fi
+
+msg="[post-error-adviser] If stuck after 2+ failed attempts on the same issue, stop and invoke the adviser subagent."
 
 jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"PostToolUseFailure",additionalContext:$m}}'

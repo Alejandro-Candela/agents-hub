@@ -25,34 +25,22 @@ else
   git_line="git: NO REPO — run \`git init\` manually if this is a project directory"
 fi
 
-# 2. RTK
-if command -v rtk >/dev/null 2>&1; then
-  rtk_ver=$(rtk --version 2>/dev/null | head -1 | tr -d '\n')
-  rtk_line="rtk: ${rtk_ver} (PreToolUse hook active)"
-else
-  rtk_line="rtk: NOT INSTALLED — run: brew install rtk && rtk init -g"
+# 2. Missing tool warnings only (silent when installed)
+warnings=""
+if ! command -v rtk >/dev/null 2>&1; then
+  warnings="${warnings}"$'\n'"rtk: NOT INSTALLED — run: brew install rtk && rtk init -g"
+fi
+if ! command -v graphify >/dev/null 2>&1; then
+  warnings="${warnings}"$'\n'"graphify: NOT INSTALLED — run: uv tool install graphifyy && graphify install"
 fi
 
-# 3. graphify — only worth suggesting once there's something to graph.
-# An empty or fresh-init repo has nothing for it to extract a graph from.
-if command -v graphify >/dev/null 2>&1; then
-  file_count=$(git -C "$cwd" ls-files 2>/dev/null | wc -l | tr -d ' ' || true)
-  if [ "$file_count" -gt 20 ]; then
-    graphify_line="graphify: installed (trigger with /graphify .)"
-  else
-    graphify_line="graphify: installed, not suggested yet (${file_count} tracked files)"
-  fi
-else
-  graphify_line="graphify: NOT INSTALLED — run: uv tool install graphifyy && graphify install"
-fi
-
-# 4. Codebase map & handoff check
+# 3. Codebase map & handoff check
 if [ -f "$cwd/codebase-map.md" ]; then
-  map_line="codebase-map: found at root"
+  map_line="codebase-map: found"
 else
   dir_count=$(find "$cwd" -maxdepth 1 -mindepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
   if [ "$dir_count" -gt 5 ]; then
-    map_line="codebase-map: MISSING — run /map-codebase for context on ${dir_count} top-level dirs"
+    map_line="codebase-map: MISSING — run /map-codebase (${dir_count} top-level dirs)"
   else
     map_line="codebase-map: not needed (${dir_count} dirs)"
   fi
@@ -67,11 +55,6 @@ fi
 
 date_str=$(date +%Y-%m-%d)
 
-msg="[session-init] ${date_str}
-${git_line}
-${rtk_line}
-${graphify_line}
-${map_line}
-${handoff_line}"
+msg="[session-init] ${date_str} | ${git_line} | ${map_line} | ${handoff_line}${warnings}"
 
 jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:$m}}'

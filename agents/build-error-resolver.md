@@ -42,19 +42,6 @@ For each error:
 3. Verify fix doesn't break other code — rerun tsc
 4. Iterate until build passes
 
-### 3. Common Fixes
-
-| Error | Fix |
-|-------|-----|
-| `implicitly has 'any' type` | Add type annotation |
-| `Object is possibly 'undefined'` | Optional chaining `?.` or null check |
-| `Property does not exist` | Add to interface or use optional `?` |
-| `Cannot find module` | Check tsconfig paths, install package, or fix import path |
-| `Type 'X' not assignable to 'Y'` | Parse/convert type or fix the type |
-| `Generic constraint` | Add `extends { ... }` |
-| `Hook called conditionally` | Move hooks to top level |
-| `'await' outside async` | Add `async` keyword |
-
 ## DO and DON'T
 
 **DO:**
@@ -72,14 +59,6 @@ For each error:
 - Add new features
 - Change logic flow (unless fixing error)
 - Optimize performance or style
-
-## Priority Levels
-
-| Level | Symptoms | Action |
-|-------|----------|--------|
-| CRITICAL | Build completely broken, no dev server | Fix immediately |
-| HIGH | Single file failing, new code type errors | Fix soon |
-| MEDIUM | Linter warnings, deprecated APIs | Fix when possible |
 
 ## Caches and lockfiles
 
