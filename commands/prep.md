@@ -17,15 +17,16 @@ Break the task into 2-4 independent exploration domains. Examples:
 - "Add monitoring" -> domains: current logging, metrics endpoints, Docker config, CI/CD
 
 ### 2. Dispatch Parallel Scouts
-For each domain, launch an independent Agent (subagent_type: Explore) with:
+For each domain, launch an independent read-only subagent (`explorer` or `Explore`) with:
 - A clear, specific exploration prompt
 - The relevant directory or file pattern to search
 - What to look for (patterns, conventions, dependencies)
+- Explicit instruction: return domain findings only — do NOT write code or draft independent implementation plans
 
 Launch ALL agents in a SINGLE message (parallel execution).
 
-### 3. Synthesize Results
-After all scouts report back, produce a **Preparation Brief**:
+### 3. Synthesize Results (Single Orchestrator)
+After all scouts report back, synthesize their findings into one unified **Preparation Brief**:
 
 ```
 ## Task: [one-line description]
@@ -38,16 +39,15 @@ After all scouts report back, produce a **Preparation Brief**:
 ### [Domain 2]
 - [Key findings, file paths]
 
-## Implementation Order
-1. [First thing to do, with file paths]
-2. [Second thing, with file paths]
+## Implementation Order & Parallelizable Slices
+1. [First step or parallel slice, with exact file paths and verification command]
+2. [Second step or parallel slice, noting whether slices share files or can run in parallel]
 
 ## Risks
 - [Gotchas, conflicts, things that could break]
 
-## Context to Load
-- @context/[relevant].md
-- [Any skills to invoke]
+## Rules & Skills to Load
+- [Relevant `.claude/rules/*.md` or skills to invoke]
 ```
 
 ### 4. Do NOT Implement

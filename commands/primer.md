@@ -14,9 +14,11 @@ Orient in the project at: $ARGUMENTS (or current directory if not specified).
    Run: `find . -maxdepth 2 -type f -not -path './.git/*' -not -path './node_modules/*' -not -path './.venv/*' -not -path './__pycache__/*' -not -path './.next/*' | head -80`
 
 2. **Read key files** (if they exist, skip silently if not):
+   - `handoff.md` (previous session state -- THIS IS CRITICAL, read it first if it exists)
+   - `ROADMAP.md` (current `Now` / `Next` priorities and recent completions)
+   - `codebase-map.md` (top-level directory map)
    - `CLAUDE.md` (project-level instructions)
    - `README.md` (project docs)
-   - `handoff.md` (previous session state -- THIS IS CRITICAL, read it first if it exists)
    - `pyproject.toml` or `package.json` (dependencies/stack)
    - `docker-compose.yml` or `docker-compose.yaml` (services)
    - `.env.example` (environment variables needed)
@@ -31,8 +33,8 @@ Orient in the project at: $ARGUMENTS (or current directory if not specified).
    **Project**: [name and one-line purpose]
    **Stack**: [languages, frameworks, infra]
    **Branch**: [current branch] | **Last commit**: [hash + message]
-   **Handoff**: [summary if handoff.md exists, otherwise "none"]
+   **Handoff / Roadmap**: [summary of `handoff.md` and `ROADMAP.md` if present, otherwise "none"]
    **Key entry points**: [bulleted list of main files]
-   **Suggested context**: [which .claude/context/*.md files are relevant]
+   **Suggested rules & skills**: [which `.claude/rules/*.md` files or skills are relevant]
 
 Do NOT start implementing anything. This is orientation only.

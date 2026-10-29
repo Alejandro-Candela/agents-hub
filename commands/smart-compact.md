@@ -16,8 +16,8 @@ Focus area (if provided): $ARGUMENTS
 2. **Decisions made**: architecture choices, patterns selected, rejected alternatives and WHY
 3. **Active file paths**: paths of files we are editing or need to edit next
 4. **Blockers and bugs**: issues encountered, their status, and any workarounds found
-5. **Git state**: current branch, recent commits, uncommitted changes
-6. **Context loaded**: which .claude/context/ files or skills are active and relevant
+5. **Git & subagent state**: current branch, active worktrees/background subagents, recent commits, uncommitted changes
+6. **Rules & skills loaded**: which `.claude/rules/` files or skills are active and relevant
 7. **User preferences**: any specific instructions given this session
 
 ## Drop Priority (SAFE TO FORGET)

@@ -12,6 +12,7 @@ Audit `$ARGUMENTS` (or current directory) for files that should be excluded from
 
 - Build/dist outputs: `dist/`, `build/`, `*.pyc`, `__pycache__/`, `.next/`
 - Package managers: `node_modules/`, `.venv/`, `.uv/`
+- Ephemeral harness & tool artifacts: `.claude/worktrees/`, `.playwright-cli/`
 - Generated files: any file with a header comment indicating auto-generation
 - Large binary assets not relevant to code tasks
 
