@@ -77,6 +77,28 @@ Messages should read like someone typing in Slack, not like an edited document. 
   >
   > Otra cosa: Siggi dijo en la reunión que tiene que funcionar en Windows 11 (puede que los tres presentadores estén en Windows)...Has probado tu demo ahí? Lo digo por el python3 y el .command
 
+### 7b. Typing texture: a few human slips, dosed by audience
+The message should look typed fast by a person, not proofread, while still reading perfectly in one pass. Slips are typing speed, never ignorance: a dropped accent or a lowercase start, never a real spelling or grammar error ("haber/a ver", "echo/hecho").
+
+| Audience | How many slips | Allowed |
+|---|---|---|
+| Peer / teammate | 2-4 per message | lowercase starts, dropped accents ("optimo", "aun", "esta"), "q" for "que", no final period, "..." once |
+| Boss, leadership, client | 0-1 per message | one dropped accent or one lowercase start; everything else clean |
+| When unsure | treat as boss | |
+
+- **Never** slip in names, numbers, dates, units, code, branch names, commands, IDs, or anything the reader may copy or that changes meaning. Those stay exact and in backticks.
+- **Structure stays clean**, whatever the texture: two or more asks get a numbered list, one idea per line, the point first.
+- **Arrows:** write `->`, never the `→` symbol (also inside backticks and lists).
+- Reference (good, Spanish, peer register):
+  > hola ana... el import ya funciona, carga los 3 ficheros y los tests pasan. esta en `feature/import`, sin push aun
+  >
+  > dos cosas para seguir:
+  >
+  > 1. te va bien q `load_orders(site, week)` reciba la semana tipo `"2026-W38"`?
+  > 2. el paso draft -> review llama a mi `check(rule)` y recibe los ids en conflicto. te encaja?
+- Reference (good, Spanish, boss register, one slip):
+  > Hola Thomas, el import ya esta listo y los tests pasan. Mañana lo dejo en una MR para revisión y te paso el enlace.
+
 ### 8. What to Avoid
 - "I suppose it" → sounds insecure. Replace with "my read is" or "I'd guess" or nothing.
 - Bullet lists of questions — pick the one that actually matters and ask that.
