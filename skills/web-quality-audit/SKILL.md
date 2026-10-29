@@ -1,6 +1,7 @@
 ---
 name: web-quality-audit
-description: Run an evidence-led web quality audit of a rendered page (Lighthouse, traces) covering performance, accessibility, SEO, best practices, and agentic browsing. Use when asked to "audit my site", "run lighthouse audit", "check page quality", or "measure web quality" on a URL. Not for exploratory bug hunting (use dogfood) or static review of UI source files (use web-design-guidelines).
+description: >-
+  Run an evidence-led web quality and Lighthouse audit of a page or site covering Performance, Core Web Vitals (LCP, INP, CLS), Accessibility (WCAG 2.2 / a11y), Technical SEO (meta tags, structured data, sitemaps), and Best Practices (HTTPS, CSP, security headers, console errors). Use when asked to "audit my site", "run lighthouse", "speed up my site", "improve Core Web Vitals / LCP / CLS / INP", "improve accessibility / WCAG", "improve technical SEO", or "check security headers". Routes to specialist category skills (`performance`, `core-web-vitals`, `accessibility`, `seo`, `best-practices`).
 license: MIT
 metadata:
   author: web-quality-skills
@@ -10,6 +11,13 @@ metadata:
 # Web quality audit
 
 Comprehensive quality review that combines live browser evidence with source inspection. Covers Performance, Accessibility, SEO, Best Practices, and Agentic Browsing without treating an aggregate score as proof of quality.
+
+> **Specialist category skills (load via `read_file` when diving deep into one category):**
+> - **Performance & loading**: [`../performance/SKILL.md`](../performance/SKILL.md) and [`../performance/references/MEASUREMENT.md`](../performance/references/MEASUREMENT.md)
+> - **Core Web Vitals (LCP, INP, CLS)**: [`../core-web-vitals/SKILL.md`](../core-web-vitals/SKILL.md)
+> - **Accessibility (WCAG 2.2)**: [`../accessibility/SKILL.md`](../accessibility/SKILL.md)
+> - **Technical SEO**: [`../seo/SKILL.md`](../seo/SKILL.md)
+> - **Best Practices & Security Headers**: [`../best-practices/SKILL.md`](../best-practices/SKILL.md) and [`../best-practices/references/SECURITY.md`](../best-practices/references/SECURITY.md)
 
 > **Lighthouse 13+.** The Performance category now uses shared **Performance Insights** across Lighthouse and the DevTools Performance panel ([announcement](https://developer.chrome.com/blog/moving-lighthouse-to-insights)). Follow current insight names and evidence. Do not require removed audit IDs or automatically recreate their recommendations; some were retired because they were noisy, inactionable, or easy to over-recommend.
 

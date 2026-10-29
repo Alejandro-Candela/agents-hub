@@ -4,6 +4,7 @@ description: >-
   API security specialist covering JWT, OAuth 2.0, RBAC, input validation, rate limiting, DDoS protection, and LLM/AI API endpoint security (key management, indirect prompt injection). Trigger on "add auth to this", "how do I rate-limit", "secure this endpoint", "API security review", or JWT/OAuth questions. Defer broad security audits to `vulnerability-scanner`, pre-build gates to `ai-system-build-gate`, and SQLi to `sql-injection-testing`.
 metadata:
   version: "1.1"
+disable-model-invocation: true
 ---
 
 # API Security Best Practices

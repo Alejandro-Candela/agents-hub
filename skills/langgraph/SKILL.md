@@ -1,596 +1,82 @@
 ---
-
 name: langgraph
-
-description: "Expert in LangGraph - the production-grade framework for building stateful, multi-actor AI applications. Covers graph construction, state management, cycles and branches, persistence with checkpointers, human-in-the-loop patterns, and the ReAct agent pattern. Used in production at LinkedIn, Uber, and 400+ companies. This is LangChain's recommended approach for building agents. Use when: langgraph, langchain agent, stateful agent, agent graph, react agent."
-
-source: vibeship-spawner-skills (Apache 2.0)
+description: >-
+  LangGraph architecture, implementation, and code review guide for stateful, multi-actor AI agents. Covers StateGraph design, TypedDict/Pydantic schemas, reducers (add_messages, operator.add), conditional edges vs Command, checkpointers (PostgresSaver, SqliteSaver), human-in-the-loop interrupts, streaming modes, multi-agent patterns (supervisor, handoff), and the 20-point anti-pattern review checklist.
 disable-model-invocation: true
 ---
 
+# LangGraph Architecture, Docs & Code Review
 
+## Official Documentation Index
 
-\# LangGraph
+When verifying current LangGraph Python/JS APIs, fetch the live documentation index first:
+- `https://docs.langchain.com/llms.txt` (or query `langgraph` via context7 MCP).
 
+---
 
+## Part 1: Architecture Decisions
 
-\*\*Role\*\*: LangGraph Agent Architect
+### When to Use LangGraph vs Alternatives
 
+| Scenario | Recommended | Why |
+|----------|-------------|-----|
+| Stateful multi-turn agents, loops, HITL interrupts, persistence | **LangGraph** | Explicit graph control flow, checkpointing, time-travel |
+| Single LLM call / structured output | Direct SDK / PydanticAI | Graph overhead not justified |
+| Simple linear chain | Direct async functions | Simpler control flow |
 
+### State Schema & Reducers
 
-You are an expert in building production-grade AI agents with LangGraph. You
+- Prefer `TypedDict` for lightweight state; use `Pydantic` when runtime validation at boundaries is required.
+- Keep state small (< 1 MB); store large documents/payloads in `BaseStore` and pass reference IDs in state.
 
-understand that agents need explicit structure - graphs make the flow visible
+| Use Case | Reducer | Example |
+|----------|---------|---------|
+| Chat messages | `add_messages` | `messages: Annotated[list, add_messages]` |
+| Append list | `operator.add` | `items: Annotated[list, operator.add]` |
+| Keep latest | None (LastValue) | `step: str` |
+| Bypass reducer | `Overwrite` | `Overwrite(new_list)` |
 
-and debuggable. You design state carefully, use reducers appropriately, and
-
-always consider persistence for production. You know when cycles are needed
-
-and how to prevent infinite loops.
-
-
-
-\## Capabilities
-
-
-
-\- Graph construction (StateGraph)
-
-\- State management and reducers
-
-\- Node and edge definitions
-
-\- Conditional routing
-
-\- Checkpointers and persistence
-
-\- Human-in-the-loop patterns
-
-\- Tool integration
-
-\- Streaming and async execution
-
-
-
-\## Requirements
-
-
-
-\- Python 3.9+
-
-\- langgraph package
-
-\- LLM API access (OpenAI, Anthropic, etc.)
-
-\- Understanding of graph concepts
-
-
-
-\## Patterns
-
-
-
-\### Basic Agent Graph
-
-
-
-Simple ReAct-style agent with tools
-
-
-
-\*\*When to use\*\*: Single agent with tool calling
-
-
+### Routing: Conditional Edges vs `Command`
 
 ```python
+# Conditional Edge — pure routing
+def router(state: State) -> Literal["tools", "__end__"]:
+    return "tools" if state["needs_tool"] else END
 
-from typing import Annotated, TypedDict
+builder.add_conditional_edges("agent", router)
 
-from langgraph.graph import StateGraph, START, END
+# Command — routing + state update in one step (declare destinations on add_node!)
+def node(state: State) -> Command[Literal["next", "__end__"]]:
+    return Command(goto="next", update={"step": state["step"] + 1})
 
-from langgraph.graph.message import add\_messages
-
-from langgraph.prebuilt import ToolNode
-
-from langchain\_openai import ChatOpenAI
-
-from langchain\_core.tools import tool
-
-
-
-\# 1. Define State
-
-class AgentState(TypedDict):
-
-&nbsp;   messages: Annotated\[list, add\_messages]
-
-&nbsp;   # add\_messages reducer appends, doesn't overwrite
-
-
-
-\# 2. Define Tools
-
-@tool
-
-def search(query: str) -> str:
-
-&nbsp;   """Search the web for information."""
-
-&nbsp;   # Implementation here
-
-&nbsp;   return f"Results for: {query}"
-
-
-
-@tool
-
-def calculator(expression: str) -> str:
-
-&nbsp;   """Evaluate a math expression."""
-
-&nbsp;   return str(eval(expression))
-
-
-
-tools = \[search, calculator]
-
-
-
-\# 3. Create LLM with tools
-
-llm = ChatOpenAI(model="gpt-4o").bind\_tools(tools)
-
-
-
-\# 4. Define Nodes
-
-def agent(state: AgentState) -> dict:
-
-&nbsp;   """The agent node - calls LLM."""
-
-&nbsp;   response = llm.invoke(state\["messages"])
-
-&nbsp;   return {"messages": \[response]}
-
-
-
-\# Tool node handles tool execution
-
-tool\_node = ToolNode(tools)
-
-
-
-\# 5. Define Routing
-
-def should\_continue(state: AgentState) -> str:
-
-&nbsp;   """Route based on whether tools were called."""
-
-&nbsp;   last\_message = state\["messages"]\[-1]
-
-&nbsp;   if last\_message.tool\_calls:
-
-&nbsp;       return "tools"
-
-&nbsp;   return END
-
-
-
-\# 6. Build Graph
-
-graph = StateGraph(AgentState)
-
-
-
-\# Add nodes
-
-graph.add\_node("agent", agent)
-
-graph.add\_node("tools", tool\_node)
-
-
-
-\# Add edges
-
-graph.add\_edge(START, "agent")
-
-graph.add\_conditional\_edges("agent", should\_continue, \["tools", END])
-
-graph.add\_edge("tools", "agent")  # Loop back
-
-
-
-\# Compile
-
-app = graph.compile()
-
-
-
-\# 7. Run
-
-result = app.invoke({
-
-&nbsp;   "messages": \[("user", "What is 25 \* 4?")]
-
-})
-
+builder.add_node("node", node, destinations=["next", END])
 ```
 
+### Persistence & Checkpointers
 
+- **`InMemorySaver`**: unit tests only (lost on restart).
+- **`SqliteSaver`**: local development / CLI tools.
+- **`PostgresSaver`**: production (`PostgresSaver.from_conn_string(conn_string)`).
+- **Subgraphs**: `compile(checkpointer=None)` inherits parent checkpointer; `checkpointer=True` gives independent namespace; `checkpointer=False` runs atomically without persistence.
 
-\### State with Reducers
+### Streaming & Human-in-the-Loop
 
+- **Stream modes**: `updates` (node deltas), `values` (full state), `messages` (LLM tokens), `custom` (`StreamWriter` events), `debug` (tasks + checkpoints). Pass `subgraphs=True` to include subgraph events.
+- **Interrupts**: Use `interrupt("prompt")` inside a node (requires a checkpointer + `configurable.thread_id`) and resume via `graph.invoke(Command(resume=value), config)`. Disable `parallel_tool_calls=False` on models bound to tools that trigger interrupts.
 
+---
 
-Complex state management with custom reducers
+## Part 2: Code Review & Anti-Pattern Checklist
 
+When writing or reviewing LangGraph code, verify these 10 critical invariants:
 
-
-\*\*When to use\*\*: Multiple agents updating shared state
-
-
-
-```python
-
-from typing import Annotated, TypedDict
-
-from operator import add
-
-from langgraph.graph import StateGraph
-
-
-
-\# Custom reducer for merging dictionaries
-
-def merge\_dicts(left: dict, right: dict) -> dict:
-
-&nbsp;   return {\*\*left, \*\*right}
-
-
-
-\# State with multiple reducers
-
-class ResearchState(TypedDict):
-
-&nbsp;   # Messages append (don't overwrite)
-
-&nbsp;   messages: Annotated\[list, add\_messages]
-
-
-
-&nbsp;   # Research findings merge
-
-&nbsp;   findings: Annotated\[dict, merge\_dicts]
-
-
-
-&nbsp;   # Sources accumulate
-
-&nbsp;   sources: Annotated\[list\[str], add]
-
-
-
-&nbsp;   # Current step (overwrites - no reducer)
-
-&nbsp;   current\_step: str
-
-
-
-&nbsp;   # Error count (custom reducer)
-
-&nbsp;   errors: Annotated\[int, lambda a, b: a + b]
-
-
-
-\# Nodes return partial state updates
-
-def researcher(state: ResearchState) -> dict:
-
-&nbsp;   # Only return fields being updated
-
-&nbsp;   return {
-
-&nbsp;       "findings": {"topic\_a": "New finding"},
-
-&nbsp;       "sources": \["source1.com"],
-
-&nbsp;       "current\_step": "researching"
-
-&nbsp;   }
-
-
-
-def writer(state: ResearchState) -> dict:
-
-&nbsp;   # Access accumulated state
-
-&nbsp;   all\_findings = state\["findings"]
-
-&nbsp;   all\_sources = state\["sources"]
-
-
-
-&nbsp;   return {
-
-&nbsp;       "messages": \[("assistant", f"Report based on {len(all\_sources)} sources")],
-
-&nbsp;       "current\_step": "writing"
-
-&nbsp;   }
-
-
-
-\# Build graph
-
-graph = StateGraph(ResearchState)
-
-graph.add\_node("researcher", researcher)
-
-graph.add\_node("writer", writer)
-
-\# ... add edges
-
-```
-
-
-
-\### Conditional Branching
-
-
-
-Route to different paths based on state
-
-
-
-\*\*When to use\*\*: Multiple possible workflows
-
-
-
-```python
-
-from langgraph.graph import StateGraph, START, END
-
-
-
-class RouterState(TypedDict):
-
-&nbsp;   query: str
-
-&nbsp;   query\_type: str
-
-&nbsp;   result: str
-
-
-
-def classifier(state: RouterState) -> dict:
-
-&nbsp;   """Classify the query type."""
-
-&nbsp;   query = state\["query"].lower()
-
-&nbsp;   if "code" in query or "program" in query:
-
-&nbsp;       return {"query\_type": "coding"}
-
-&nbsp;   elif "search" in query or "find" in query:
-
-&nbsp;       return {"query\_type": "search"}
-
-&nbsp;   else:
-
-&nbsp;       return {"query\_type": "chat"}
-
-
-
-def coding\_agent(state: RouterState) -> dict:
-
-&nbsp;   return {"result": "Here's your code..."}
-
-
-
-def search\_agent(state: RouterState) -> dict:
-
-&nbsp;   return {"result": "Search results..."}
-
-
-
-def chat\_agent(state: RouterState) -> dict:
-
-&nbsp;   return {"result": "Let me help..."}
-
-
-
-\# Routing function
-
-def route\_query(state: RouterState) -> str:
-
-&nbsp;   """Route to appropriate agent."""
-
-&nbsp;   query\_type = state\["query\_type"]
-
-&nbsp;   return query\_type  # Returns node name
-
-
-
-\# Build graph
-
-graph = StateGraph(RouterState)
-
-
-
-graph.add\_node("classifier", classifier)
-
-graph.add\_node("coding", coding\_agent)
-
-graph.add\_node("search", search\_agent)
-
-graph.add\_node("chat", chat\_agent)
-
-
-
-graph.add\_edge(START, "classifier")
-
-
-
-\# Conditional edges from classifier
-
-graph.add\_conditional\_edges(
-
-&nbsp;   "classifier",
-
-&nbsp;   route\_query,
-
-&nbsp;   {
-
-&nbsp;       "coding": "coding",
-
-&nbsp;       "search": "search",
-
-&nbsp;       "chat": "chat"
-
-&nbsp;   }
-
-)
-
-
-
-\# All agents lead to END
-
-graph.add\_edge("coding", END)
-
-graph.add\_edge("search", END)
-
-graph.add\_edge("chat", END)
-
-
-
-app = graph.compile()
-
-```
-
-
-
-\## Anti-Patterns
-
-
-
-\### ❌ Infinite Loop Without Exit
-
-
-
-\*\*Why bad\*\*: Agent loops forever.
-
-Burns tokens and costs.
-
-Eventually errors out.
-
-
-
-\*\*Instead\*\*: Always have exit conditions:
-
-\- Max iterations counter in state
-
-\- Clear END conditions in routing
-
-\- Timeout at application level
-
-
-
-def should\_continue(state):
-
-&nbsp;   if state\["iterations"] > 10:
-
-&nbsp;       return END
-
-&nbsp;   if state\["task\_complete"]:
-
-&nbsp;       return END
-
-&nbsp;   return "agent"
-
-
-
-\### ❌ Stateless Nodes
-
-
-
-\*\*Why bad\*\*: Loses LangGraph's benefits.
-
-State not persisted.
-
-Can't resume conversations.
-
-
-
-\*\*Instead\*\*: Always use state for data flow.
-
-Return state updates from nodes.
-
-Use reducers for accumulation.
-
-Let LangGraph manage state.
-
-
-
-\### ❌ Giant Monolithic State
-
-
-
-\*\*Why bad\*\*: Hard to reason about.
-
-Unnecessary data in context.
-
-Serialization overhead.
-
-
-
-\*\*Instead\*\*: Use input/output schemas for clean interfaces.
-
-Private state for internal data.
-
-Clear separation of concerns.
-
-
-
-\## Limitations
-
-
-
-\- Python-only (TypeScript in early stages)
-
-\- Learning curve for graph concepts
-
-\- State management complexity
-
-\- Debugging can be challenging
-
-
-
-\## Related Skills
-
-
-
-Works well with: `crewai`, `autonomous-agents`, `langfuse`, `structured-output`
-
-## Project Conventions
-
-Default structure:
-```
-src/
-  agent/
-    graph.py             # StateGraph definition, compile()
-    state.py             # TypedDict state schema
-    nodes/               # One file per node function
-    edges/                # Conditional edge functions
-    tools/                # Tool definitions (@tool decorated)
-    prompts/              # System prompts as strings or templates
-    checkpointer.py      # Persistence config (PostgresSaver, MemorySaver)
-```
-
-- Nodes are pure functions returning only the keys they update; never mutate state directly
-- Supervisor pattern for multi-agent: one graph orchestrates compiled sub-graphs as nodes, sharing the parent state schema; `Send()` for fan-out
-- Always set `thread_id` for conversation persistence; `PostgresSaver` in production, `MemorySaver` for dev/tests; `checkpoint_ns` for sub-graph isolation
-- Common pitfall: forgetting the `add_messages` reducer causes messages to be overwritten instead of appended
-
-
-
+1. **Never mutate state in-place**: nodes must return partial dicts (`return {"messages": [msg]}`), never `state["messages"].append(msg)`.
+2. **Every list/collection field that accumulates across nodes has a reducer**: `Annotated[list, add_messages]` or `Annotated[list, operator.add]` (including on Pydantic `BaseModel` states).
+3. **Return only changed fields**: never return `{**state, "counter": state["counter"] + 1}`, which unnecessarily re-writes unchanged keys.
+4. **Type-annotate routers with `Literal[..., "__end__"]`**: return the `END` constant, never unvalidated strings, and ensure `add_conditional_edges` maps every possible return value.
+5. **Declare `destinations=[...]` when a node returns `Command`**: otherwise graph visualization and static validation cannot see outgoing edges.
+6. **Checkpointer + `thread_id` whenever using `interrupt()`**: calling `interrupt()` without a compiled checkpointer or invoking without `{"configurable": {"thread_id": "..."}}` fails at runtime.
+7. **Every `AIMessage.tool_calls` entry is paired with a `ToolMessage`**: unpaired tool calls cause the next LLM invocation to fail.
+8. **Async nodes (`async def`) use `await graph.ainvoke()` / `graph.astream()` and non-blocking I/O (`httpx.AsyncClient`)**: never call `requests.get()` or `time.sleep()` inside an async node.
+9. **Never ship `InMemorySaver` to production**: use `PostgresSaver` and keep large blobs in `BaseStore` rather than checkpointed state.
+10. **Bound cyclic graphs**: configure `{"recursion_limit": N}` or track `RemainingSteps` in state so tool/agent loops cannot spin infinitely.

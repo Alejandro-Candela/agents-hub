@@ -4,6 +4,7 @@ description: >-
   SQL injection testing specialist for in-band, blind, time-based, and JSON field-name injection (Supabase/PostgreSQL JSONB, PostgREST, RAG search, session/prompt endpoints). Trigger on "test for SQL injection", "is this query safe", "can this be injected", "test SQLi", or Supabase query audits. Defer broad audits to `vulnerability-scanner` and pre-build gates to `ai-system-build-gate`.
 metadata:
   version: "1.2"
+disable-model-invocation: true
 ---
 
 # SQL Injection Testing

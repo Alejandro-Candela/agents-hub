@@ -47,11 +47,9 @@ Return a short report with:
 
 Use these handoffs when the finding exceeds retrieval-specific review:
 
-- `langfuse-expert` skill for tracing, offline/online evaluation design, and monitoring;
 - `ai-security` skill for untrusted retrieved content, prompt injection, sensitive data, or egress;
-- `qdrant-expert` / `elasticsearch-expert` skills for index sizing, filtering, hybrid search, and retrieval latency;
 - `model-serving-strategy` skill for embedding/reranker hosting decisions;
-- context7 when a vector database, embedding provider, reranker, or evaluation API must be verified against current documentation.
+- context7 MCP when a vector database (Qdrant, Elasticsearch, pgvector), observability/eval SDK (Langfuse, RAGAS), embedding provider, or reranker API must be verified against current documentation.
 
 ### Example: No reranking, no eval harness
 Input: User has a ChromaDB + Ollama RAG pipeline, top-5 chunks sent straight to the LLM, no eval script.

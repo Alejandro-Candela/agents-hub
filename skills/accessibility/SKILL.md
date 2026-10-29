@@ -5,6 +5,7 @@ license: MIT
 metadata:
   author: web-quality-skills
   version: "2.0"
+disable-model-invocation: true
 ---
 
 # Accessibility (a11y)
