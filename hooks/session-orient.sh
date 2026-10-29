@@ -43,10 +43,10 @@ if command -v graphify >/dev/null 2>&1; then
     graphify_line="graphify: installed, not suggested yet (${file_count} tracked files)"
   fi
 else
-  graphify_line="graphify: NOT INSTALLED — run: pip install graphifyy && graphify install"
+  graphify_line="graphify: NOT INSTALLED — run: uv tool install graphifyy && graphify install"
 fi
 
-# 4. Codebase map check
+# 4. Codebase map & handoff check
 if [ -f "$cwd/codebase-map.md" ]; then
   map_line="codebase-map: found at root"
 else
@@ -58,12 +58,20 @@ else
   fi
 fi
 
+if [ -f "$cwd/handoff.md" ]; then
+  handoff_date=$(grep -m1 '^\*\*Date\*\*:' "$cwd/handoff.md" 2>/dev/null | sed 's/\*\*Date\*\*:[[:space:]]*//' || echo "found")
+  handoff_line="handoff: handoff.md (${handoff_date}) — read or run /primer"
+else
+  handoff_line="handoff: none"
+fi
+
 date_str=$(date +%Y-%m-%d)
 
 msg="[session-init] ${date_str}
 ${git_line}
 ${rtk_line}
 ${graphify_line}
-${map_line}"
+${map_line}
+${handoff_line}"
 
 jq -n --arg m "$msg" '{hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:$m}}'

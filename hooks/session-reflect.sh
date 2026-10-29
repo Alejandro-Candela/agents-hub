@@ -17,7 +17,9 @@ msg="[session-reflect] Session ending. Before closing, scan this session for:
 4. MODEL-SPECIFIC WORKAROUNDS — Did any code or instruction exist only to work around a former model weakness?
    → Flag it. These become dead weight after model updates.
 
-Files to update: local CLAUDE.md, ~/agents-hub/global-instructions.md, ~/.claude/context/anti-patterns.md
+5. SESSION CLOSE-OUT — Did you run /handoff to reconcile handoff.md, ROADMAP.md, and affected docs before closing?
+
+Files to update: local CLAUDE.md, ~/freelance-projects/agents-hub/global-instructions.md, ~/.claude/rules/
 Do NOT create new files for this — edit existing ones surgically."
 
 jq -n --arg m "$msg" '{systemMessage:$m}'
