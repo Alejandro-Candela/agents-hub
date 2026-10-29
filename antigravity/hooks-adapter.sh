@@ -49,8 +49,8 @@ if [ "$EVENT" = "PreToolUse" ]; then
         fi
       fi
       ;;
-    write_to_file|replace_file_content|multi_replace_file_content)
-      file="$(echo "$INPUT" | jq -r '.toolCall.args.TargetFile // ""')"
+    write_to_file|replace_file_content|multi_replace_file_content|write_file|edit_file)
+      file="$(echo "$INPUT" | jq -r '.toolCall.args.TargetFile // .toolCall.args.Path // ""')"
       res="$(jq -n --arg f "$file" '{tool_input:{file_path:$f}}' | CLAUDE_PROJECT_DIR="$cwd" bash "$HOOKS/sensitive-file-guard.sh" 2>/dev/null || echo '{}')"
       decision="$(echo "$res" | jq -r '.hookSpecificOutput.permissionDecision // ""')"
       if [ "$decision" = "deny" ]; then
@@ -65,7 +65,7 @@ if [ "$EVENT" = "PreToolUse" ]; then
 fi
 
 if [ "$EVENT" = "PostToolUse" ]; then
-  file="$(echo "$INPUT" | jq -r '.toolCall.args.TargetFile // ""')"
+  file="$(echo "$INPUT" | jq -r '.toolCall.args.TargetFile // .toolCall.args.Path // ""')"
   if [ -n "$file" ]; then
     jq -n --arg f "$file" '{tool_input:{file_path:$f}}' | CLAUDE_PROJECT_DIR="$cwd" bash "$HOOKS/format-after-edit.sh" >/dev/null 2>&1 || true
   fi

@@ -110,6 +110,22 @@ describe("hooks-adapter.sh", () => {
     expect(json.reason).toContain(".env");
   });
 
+  test("denies writing to sensitive files via write_file and edit_file with Path", () => {
+    const jsonWrite = runAdapter("PreToolUse", {
+      toolCall: { name: "write_file", args: { Path: "/tmp/project/.env" } },
+      workspacePaths: [REPO],
+    });
+    expect(jsonWrite.decision).toBe("deny");
+    expect(jsonWrite.reason).toContain(".env");
+
+    const jsonEdit = runAdapter("PreToolUse", {
+      toolCall: { name: "edit_file", args: { Path: "/tmp/project/credentials.json" } },
+      workspacePaths: [REPO],
+    });
+    expect(jsonEdit.decision).toBe("deny");
+    expect(jsonEdit.reason).toContain("credentials.json");
+  });
+
   test("allows writing to normal files", () => {
     const json = runAdapter("PreToolUse", {
       toolCall: { name: "write_to_file", args: { TargetFile: "/tmp/project/index.ts" } },

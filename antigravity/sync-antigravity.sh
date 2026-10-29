@@ -132,7 +132,7 @@ cat > "$CFG/hooks.json" <<EOF
   "agents-hub-guards": {
     "PreToolUse": [
       {
-        "matcher": "run_command|write_to_file|replace_file_content|multi_replace_file_content",
+        "matcher": "run_command|write_to_file|replace_file_content|multi_replace_file_content|write_file|edit_file",
         "hooks": [
           {
             "type": "command",
@@ -144,7 +144,7 @@ cat > "$CFG/hooks.json" <<EOF
     ],
     "PostToolUse": [
       {
-        "matcher": "write_to_file|replace_file_content|multi_replace_file_content",
+        "matcher": "write_to_file|replace_file_content|multi_replace_file_content|write_file|edit_file",
         "hooks": [
           {
             "type": "command",
