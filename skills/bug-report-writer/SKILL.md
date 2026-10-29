@@ -1,20 +1,7 @@
 ---
 name: bug-report-writer
-description: >
-  Turns a loose complaint about a broken tool into a structured, Slack-ready
-  bug report in a six-section format (Description, Steps to
-  Reproduce, Expected Behavior, Actual Result, Additional Information, Request
-  for Solution). Interviews the reporter for what is missing first, so
-  developers get something reproducible instead of "it doesn't work". Use
-  whenever someone reports that a system is broken, erroring, hanging, or
-  behaving unexpectedly — an internal tool, n8n, Notion, Jira, Supabase, a
-  client system, any internal tool. Trigger on "write a bug report", "report
-  this bug", "file a bug", "something is broken", "X doesn't work", "I'm
-  getting an error in X", "the upload keeps failing", "Fehler melden", "das
-  funktioniert nicht" — and also when someone merely describes a malfunction
-  without ever saying "bug". Output is always English. Not for feature requests
-  (use apli-use-case-submitter), meeting action items (tasks-to-jira-tickets),
-  or creating the issue in Jira (jira-sync).
+description: >-
+  Turns a complaint about a broken tool into a structured 6-section bug report (Description, Steps to Reproduce, Expected Behavior, Actual Result, Additional Information, Request for Solution) after interviewing the reporter for missing repro details. Trigger on "write/file a bug report", "something is broken", "X doesn't work", "getting an error in X", "upload keeps failing", "Fehler melden", "das funktioniert nicht", or any malfunction report across internal/client tools (n8n, Notion, Jira, Supabase).
 metadata:
   version: "1.0"
   category: operations

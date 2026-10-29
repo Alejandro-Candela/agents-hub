@@ -1,12 +1,7 @@
 ---
 name: api-security-best-practices
-description: |-
-  API security **specialist** — covers JWT, OAuth 2.0, RBAC, input validation, rate limiting, DDoS protection, and LLM/AI API-specific security (protecting AI endpoints, LLM key management, indirect prompt injection via API). Use when the user explicitly asks about API auth/rate-limit/JWT/OAuth specifics, says 'add auth to this', 'how do I rate-limit', 'secure this endpoint', 'API security review', or pastes API code asking for an auth-layer review. Also consulted as the API deep-dive layer by `ai-system-build-gate` (pre-build) and `vulnerability-scanner` (post-build).
-
-  Does NOT apply to:
-  - **Generic 'is this secure' / 'review this for vulnerabilities'** — defer to `vulnerability-scanner` (existing code) or `ai-system-build-gate` (pre-build).
-  - **SQL injection specifically** — defer to `sql-injection-testing`.
-  - **Privacy/compliance (GDPR/CCPA/HIPAA)** — defer to `data-privacy-compliance`.
+description: >-
+  API security specialist covering JWT, OAuth 2.0, RBAC, input validation, rate limiting, DDoS protection, and LLM/AI API endpoint security (key management, indirect prompt injection). Trigger on "add auth to this", "how do I rate-limit", "secure this endpoint", "API security review", or JWT/OAuth questions. Defer broad security audits to `vulnerability-scanner`, pre-build gates to `ai-system-build-gate`, and SQLi to `sql-injection-testing`.
 metadata:
   version: "1.1"
 ---

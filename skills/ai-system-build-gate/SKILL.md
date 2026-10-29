@@ -1,11 +1,7 @@
 ---
 name: ai-system-build-gate
-description: |-
-  Mandatory architecture-time security gate — runs **before any implementation** (design phase, no code yet). Trigger whenever building, creating, scaffolding, or designing: database schemas, Supabase tables, APIs or endpoints, AI applications, chatbots, copilots, RAG pipelines, vector databases, n8n workflows touching a database or external API, AI agents, or any backend service handling user data or AI model interactions. Contains 11 critical gate questions derived from named 2025-2026 AI breaches. Must trigger even for partial builds, 'simple' endpoints, and client POCs — regulatory deadlines and client trust don't distinguish 'just a demo' from production, and a POC that succeeds often ships with its original wiring intact.
-
-  Does NOT apply to:
-  - **Existing code review / audit** — once code is written, that's a post-build audit, not this gate.
-  - **Regulatory/legal compliance** (EU AI Act, GDPR, licensing) — use `ai-compliance-audit` for that; this skill is security architecture, not legal classification. The two are complementary, not redundant — run both before a real client delivery.
+description: >-
+  Mandatory pre-implementation security architecture gate (11 design-phase questions). Trigger before building, scaffolding, or designing database schemas, Supabase tables, APIs/endpoints, AI apps, chatbots, copilots, RAG pipelines, vector stores, n8n workflows touching a DB/API, or AI agents — including POCs and demos. Not for post-build code audits (`vulnerability-scanner`) or legal/EU AI Act compliance (`ai-compliance-audit`).
 ---
 
 # AI System Build Gate

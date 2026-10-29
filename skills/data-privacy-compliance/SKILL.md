@@ -1,9 +1,7 @@
 ---
 name: data-privacy-compliance
-description: |-
-  Data privacy and compliance **specialist** — use whenever someone asks about GDPR, CCPA, HIPAA, privacy policies, data subject rights, consent management, DPIAs, or data protection. Also trigger when building or reviewing any system that stores personal data, chat logs, user profiles, or AI conversation history — especially on a Supabase/RAG stack. Must run when someone says 'is this GDPR compliant', 'can we store this', 'what are our obligations', 'do we need a DPIA', 'right to deletion', or 'privacy review'. Covers AI-specific obligations: conversation log retention, embeddings as PII, right-to-deletion in RAG systems, LLM provider DPAs, and DPIA requirements for AI applications. Based on 2026 regulatory standards.
-
-  Does NOT apply to generic security review — for broad code/system audits, defer to `vulnerability-scanner`; for pre-build architecture, defer to `ai-system-build-gate`. This skill is the privacy/compliance deep-dive consulted from those broader reviews.
+description: >-
+  Data privacy and compliance specialist for GDPR, CCPA, HIPAA, DPIAs, consent management, and data subject rights (right to deletion/access). Trigger on "is this GDPR compliant", "can we store this", "do we need a DPIA", "privacy review", or when building/reviewing systems storing personal data, chat logs, embeddings as PII, or RAG conversation history. For broad security audits use `vulnerability-scanner`; for EU AI Act/licensing use `ai-compliance-audit`.
 ---
 
 # Data Privacy Compliance
